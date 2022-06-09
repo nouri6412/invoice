@@ -40,7 +40,9 @@ class Admin_Woo_Invoice_Ajax_Form
             if (count($item_edit) > 0 && isset($item_edit[$field["title"]])) {
                 $field["value"] = $item_edit[$field["title"]];
             }
+            do_action('before_invoice_field_form_' . $model_name . '_' . $field['title'], $field, $model_name, $model_id);
             $output .= $this->field_form($field);
+            do_action('after_invoice_field_form_' . $model_name . '_' . $field['title'], $field, $model_name, $model_id);
         }
 
         $output .= sprintf('<div class="col-md-12">' . '<input name="submit_model" class="btn btn-primary" type="submit" value="ذخیره" />'
@@ -200,21 +202,20 @@ class Admin_Woo_Invoice_Ajax_Form
         global $wpdb;
         $values = $this->get_values($field);
         $table = $field["type"]["select"]["model"];
-        $title_value="";
-        $ret='';
+        $title_value = "";
+        $ret = '';
 
-        if($values["value"] > 0 || $values["value"] < 0)
-        {
-            $sql="select * from $table where  ".$field["type"]["select"]["key"]."=".$values["value"];
+        if ($values["value"] > 0 || $values["value"] < 0) {
+            $sql = "select * from $table where  " . $field["type"]["select"]["key"] . "=" . $values["value"];
             $query_string       = $wpdb->prepare($sql, array());
             $items       = $wpdb->get_results($query_string, ARRAY_A);
-            $title_value=$items[0][$field["type"]["select"]["label"]];
-           // $ret .= $sql;
+            $title_value = $items[0][$field["type"]["select"]["label"]];
+            // $ret .= $sql;
         }
 
         $where = '';
 
-        if (isset($field["type"]["select"]["where"])&& strlen(trim($field["type"]["select"]["where"]))>0) {
+        if (isset($field["type"]["select"]["where"]) && strlen(trim($field["type"]["select"]["where"])) > 0) {
             $where = " and " . $field["type"]["select"]["where"];
         }
 
@@ -223,8 +224,8 @@ class Admin_Woo_Invoice_Ajax_Form
         $ret .= sprintf('<input model-label="%s" model-table="%s" model-where="%s" onKeyUp="invoice_auto_select_item_key_down(jQuery(this))" autocomplete="off" target-id="%s" id="%s"  class="form-control" value="%s" onclick="invoice_auto_select_input(jQuery(this));" />', $field["type"]["select"]["label"], $table, $where, esc_html($field["title"]), esc_html($field["title"] . "_auto_complete"), esc_html($title_value));
         $ret .= sprintf('<input type="hidden" id="%s" name="%s" value="%s" />', esc_html($field["title"]), esc_html($field["title"]), esc_html($values["value"]));
 
-        $sql="select * from $table where 1=1 " . $where . " limit 100 ";
-        
+        $sql = "select * from $table where 1=1 " . $where . " limit 100 ";
+
         $query_string       = $wpdb->prepare($sql, array());
         $items       = $wpdb->get_results($query_string, ARRAY_A);
 
@@ -232,11 +233,10 @@ class Admin_Woo_Invoice_Ajax_Form
 
         foreach ($items  as $item) {
             $selected = "";
-            if ($values["value"] == $item["id"])
-            {
+            if ($values["value"] == $item["id"]) {
                 //$edit_id = $item["id"];
             }
-               
+
             // for ($x = 0; $x < 50; $x++) {
             //     $ret .= sprintf('<div onclick="invoice_auto_select_item(jQuery(this));" class="auto-select-item" %s value="%s">%s</div>', esc_attr($selected), esc_attr($item["id"]), esc_html($item[$field["type"]["select"]["label"]]));
             // }
@@ -248,7 +248,7 @@ class Admin_Woo_Invoice_Ajax_Form
         $ret .= sprintf('</div>');
 
 
-//$ret .= $sql;
+        //$ret .= $sql;
         return $ret;
     }
 
@@ -282,7 +282,7 @@ class Admin_Woo_Invoice_Ajax_Form
         if (isset($field["type"]["height"])) {
             $height = $field["type"]["height"] . 'px;';
         }
-       
+
 
         $ret = sprintf('<div class="%s form-group">', esc_attr($values["class"]));
         $ret .= sprintf('<label class="label-control">%s</label>', esc_html($values["label_title"]));

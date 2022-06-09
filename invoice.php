@@ -6,7 +6,7 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://hyperhes.com
+ * @link              https://hyperhse.com
  * @since             1.0.0
  * @package           ADMIN_WOO_INVOICE
  *
@@ -16,7 +16,7 @@
  * Description:       افزونه فاکتور ادمین ووکامرس
  * Version:           1.0.0
  * Author:            جلیل نوری
- * Author URI:        https://hyperhes.com
+ * Author URI:        https://hyperhse.com
  * Text Domain:       admin-woo
  * Domain Path:       /languages
  */
