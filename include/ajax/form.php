@@ -40,9 +40,9 @@ class Admin_Woo_Invoice_Ajax_Form
             if (count($item_edit) > 0 && isset($item_edit[$field["title"]])) {
                 $field["value"] = $item_edit[$field["title"]];
             }
-            do_action('before_invoice_field_form_' . $model_name . '_' . $field['title'], $field, $model_name, $model_id);
+            do_action('before_invoice_field_form_'.$model_name.'_' . $field['title'], $field);
             $output .= $this->field_form($field);
-            do_action('after_invoice_field_form_' . $model_name . '_' . $field['title'], $field, $model_name, $model_id);
+            do_action('after_invoice_field_form_'.$model_name.'_' . $field['title'], $field);
         }
 
         $output .= sprintf('<div class="col-md-12">' . '<input name="submit_model" class="btn btn-primary" type="submit" value="ذخیره" />'
