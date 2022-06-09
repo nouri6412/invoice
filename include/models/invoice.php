@@ -1,10 +1,10 @@
 <?php
-$this->models["insert_income"] = [];
-$this->models["insert_income"]["id"] = "6";
-$this->models["insert_income"]["name"] = "insert_income";
-$this->models["insert_income"]["label"] = "ثبت درآمد";
-$this->models["insert_income"]["primary_key"] = "id";
-$this->models["insert_income"]["fields"] = array(
+$this->models["invoice"] = [];
+$this->models["invoice"]["id"] = "2";
+$this->models["invoice"]["name"] = "invoice";
+$this->models["invoice"]["label"] = "پیش فاکتور";
+$this->models["invoice"]["primary_key"] = "id";
+$this->models["invoice"]["fields"] = array(
     "id" => array(
         "title" => "id",
         "label" => "شماره سیستمی ثبت",
@@ -15,16 +15,25 @@ $this->models["insert_income"]["fields"] = array(
     ),
     "title" => array(
         "title" => "title",
-        "label" => "درآمد",
+        "label" => "بانک",
         "sortable" => true,
         "in_form" => true,
         "is_title" => true,
         "in_table" => true,
-        "type" => array("type" => "select", "select" => ["model"=> $wpdb->prefix . "invoice_model","where" => "type_id=4", "key" => "id", "label" => "title"], "size" => 50, "class" => "col-md-6")
+        "type" => array("type" => "select", "select" => ["model"=> $wpdb->prefix . "invoice_model","where" => "type_id=1", "key" => "id", "label" => "title"], "size" => 50, "class" => "col-md-6")
+    ),
+    "contact" => array(
+        "title" => "contact",
+        "label" => "طرف حساب",
+        "sortable" => true,
+        "is_require" => true,
+        "in_form" => true,
+        "in_table" => true,
+        "type" => array("type" => "select","auto-select"=>true, "select" => ["model"=> $wpdb->prefix . "invoice_model","where" => "type_id=2", "key" => "id", "label" => "title"], "size" => 50, "class" => "col-md-6")
     ),
     "mablagh" => array(
         "title" => "mablagh",
-        "label" => "مبلغ درآمد",
+        "label" => "مبلغ پرداخت نقدی",
         "sortable" => true,
         "in_form" => true,
         "is_require" => true,
