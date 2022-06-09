@@ -15,7 +15,7 @@
  * Plugin URI:        https://hyperhes.com
  * Description:       افزونه فاکتور ادمین ووکامرس
  * Version:           1.0.0
- * Author:            ایپک
+ * Author:            جلیل نوری
  * Author URI:        https://hyperhes.com
  * Text Domain:       admin-woo
  * Domain Path:       /languages

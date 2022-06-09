@@ -230,7 +230,7 @@ class Admin_Woo_Invoice_Core
     {
 
 
-        add_menu_page('ایپک ( حسابداری )', 'ایپک ( حسابداری )', 'manage_options', 'admin-invoice-dashboard', array($this, "dashboard"), 'dashicons-money-alt');
+        add_menu_page('فاکتور ادمین', 'فاکتور ادمین', 'manage_options', 'admin-invoice-dashboard', array($this, "dashboard"), 'dashicons-money-alt');
         add_submenu_page('admin-invoice-dashboard', 'داشبورد حسابداری', 'داشبورد حسابداری', 'manage_options', 'admin-invoice-dashboard', array($this, "dashboard"));
 
         add_submenu_page('admin-invoice-dashboard', 'تنظیمات', 'تنظیمات', 'manage_options', 'admin-invoice-setting', array($this, "setting"));
