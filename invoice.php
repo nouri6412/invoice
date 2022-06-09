@@ -26,7 +26,7 @@ if (!defined('WPINC')) die;
 
 /* General Definition
 ******************************/
-define('ADMIN_WOO_INVOICE_VERSION', '2.0.7');
+define('ADMIN_WOO_INVOICE_VERSION', '1.0.0');
 
 define('ADMIN_WOO_INVOICE_BASE', plugin_dir_path(__FILE__));
 define('ADMIN_WOO_INVOICE_URI', plugin_dir_url(__FILE__));
