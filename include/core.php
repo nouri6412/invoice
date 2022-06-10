@@ -120,6 +120,40 @@ class Admin_Woo_Invoice_Core
 
         return $single;
     }
+    function scripts()
+    {
+        wp_enqueue_script(
+            'admin_woo_ajax_script',
+            ADMIN_WOO_INVOICE_URI . 'assets/js/admin.js',
+            array('jquery'),
+            1,
+            true
+        );
+
+        wp_localize_script('admin_woo_ajax_script', 'admin_woo_object', array(
+            'ajaxurl' => admin_url('admin-ajax.php'),
+        ));
+    }
+
+    function request_price()
+    {
+        $product_id = $_POST['product_id'];
+        $product = wc_get_product($product_id);
+        $html = '<ul>';
+        $regular_price = $product->get_regular_price();
+
+        $sale_price = $product->get_sale_price();
+
+        $price = $product->get_price();
+        $html .= '<li>'.$price.'</li>';
+        $html .= '</ul>';
+        echo json_encode([
+            'success'       => true,
+            'html'          => $html
+        ]);
+
+        die();
+    }
 }
 
 
@@ -129,6 +163,6 @@ $Admin_Woo_Invoice_Core = new Admin_Woo_Invoice_Core;
 add_filter('single_template', [$Admin_Woo_Invoice_Core, 'my_custom_template']);
 
 add_action('init', [$Admin_Woo_Invoice_Core, 'init']);
+add_action('admin_enqueue_scripts', array($Admin_Woo_Invoice_Core, "scripts"));
 
-
-
+add_action('wp_ajax_admin_woo_request_price', array($Admin_Woo_Invoice_Core, 'request_price'));
