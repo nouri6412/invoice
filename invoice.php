@@ -38,17 +38,7 @@ $ViewData = [];
 
 require ADMIN_WOO_INVOICE_Include . 'lib/jdf.php';
 require ADMIN_WOO_INVOICE_Include . 'lib/tools.php';
-require ADMIN_WOO_INVOICE_Include . 'sql_scripts.php';
-require ADMIN_WOO_INVOICE_Include . 'model.php';
-require ADMIN_WOO_INVOICE_Include . 'models.php';
-require ADMIN_WOO_INVOICE_Include . 'base_class.php';
-require ADMIN_WOO_INVOICE_Include . 'entity.php';
-require ADMIN_WOO_INVOICE_Include . 'shared.php';
-require ADMIN_WOO_INVOICE_Include . 'ajax.php';
-require ADMIN_WOO_INVOICE_Include . 'setting.php';
-require ADMIN_WOO_INVOICE_Include . 'core.php';
-require ADMIN_WOO_INVOICE_Include . 'home.php';
-require ADMIN_WOO_INVOICE_Include . 'woocommerce.php';
+
 
 
 foreach (glob(ADMIN_WOO_INVOICE_Include."hooks/*.php") as $filename)
@@ -56,16 +46,8 @@ foreach (glob(ADMIN_WOO_INVOICE_Include."hooks/*.php") as $filename)
     include $filename;
 }
 
- $Admin_Woo_Invoice_Core;
-function Admin_Woo_Invoice_Core()
-{
+require ADMIN_WOO_INVOICE_Include . 'core.php';
 
-}
-global $Admin_Woo_Invoice_Core;
-$Admin_Woo_Invoice_Core = new Admin_Woo_Invoice_Core();
-
-
-add_action("init","Admin_Woo_Invoice_Core");
 
 
 
