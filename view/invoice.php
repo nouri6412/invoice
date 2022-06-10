@@ -161,7 +161,7 @@
                                     <td><?php echo $it['kala']->post_title ?></td>
                                     <td><?php echo $it['count'] ?></td>
                                     <td>عدد</td>aww
-                                    <td><?php echo $it['price'] ?></td>
+                                    <td><?php echo number_format($it['price'])  ?></td>
                                     <td><?php $prc = $it['price'] * $it['count'];
                                         $sum1 = $sum1 + $prc;
                                         echo number_format($prc);  ?></td>
