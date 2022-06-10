@@ -11,17 +11,17 @@ class Admin_Woo_Invoice_Core
         );
 
         $labels = array(
-            'name' => _x('مشتری', 'plural'),
-            'singular_name' => _x('مشتری', 'singular'),
-            'menu_name' => _x('مشتری', 'admin menu'),
-            'name_admin_bar' => _x('مشتری', 'admin bar'),
-            'add_new' => _x('ثبت مشتری جدید', 'add new'),
-            'add_new_item' => "ثبت مشتری جدید",
-            'new_item' => "مشتری جدید",
-            'edit_item' => "ویرایش مشتری",
-            'view_item' => "مشاهده مشتری",
-            'all_items' => "همه مشتری ها",
-            'search_items' => "جستجوی مشتری",
+            'name' => _x('خریدار', 'plural'),
+            'singular_name' => _x('خریدار', 'singular'),
+            'menu_name' => _x('خریدار', 'admin menu'),
+            'name_admin_bar' => _x('خریدار', 'admin bar'),
+            'add_new' => _x('ثبت خریدار جدید', 'add new'),
+            'add_new_item' => "ثبت خریدار جدید",
+            'new_item' => "خریدار جدید",
+            'edit_item' => "ویرایش خریدار",
+            'view_item' => "مشاهده خریدار",
+            'all_items' => "همه خریدار ها",
+            'search_items' => "جستجوی خریدار",
             'not_found' => "یافت نشد"
         );
 
@@ -35,6 +35,42 @@ class Admin_Woo_Invoice_Core
             'hierarchical' => false,
         );
         register_post_type('invoice-contact', $args);
+
+        ////
+
+
+        $supports = array(
+            'title', // post title
+            'thumbnail', // featured images
+            'custom-fields', // custom fields
+            'post-formats', // post formats
+        );
+
+        $labels = array(
+            'name' => _x('فروشنده', 'plural'),
+            'singular_name' => _x('فروشنده', 'singular'),
+            'menu_name' => _x('فروشنده', 'admin menu'),
+            'name_admin_bar' => _x('فروشنده', 'admin bar'),
+            'add_new' => _x('ثبت فروشنده جدید', 'add new'),
+            'add_new_item' => "ثبت فروشنده جدید",
+            'new_item' => "فروشنده جدید",
+            'edit_item' => "ویرایش فروشنده",
+            'view_item' => "مشاهده فروشنده",
+            'all_items' => "همه فروشنده ها",
+            'search_items' => "جستجوی فروشنده",
+            'not_found' => "یافت نشد"
+        );
+
+        $args = array(
+            'supports' => $supports,
+            'labels' => $labels,
+            'public' => true,
+            'query_var' => true,
+            'rewrite' => array('slug' => 'invoice-seller'),
+            'has_archive' => true,
+            'hierarchical' => false,
+        );
+        register_post_type('invoice-seller', $args);
 
         ////
 
@@ -93,3 +129,6 @@ $Admin_Woo_Invoice_Core = new Admin_Woo_Invoice_Core;
 add_filter('single_template', [$Admin_Woo_Invoice_Core, 'my_custom_template']);
 
 add_action('init', [$Admin_Woo_Invoice_Core, 'init']);
+
+
+
