@@ -142,6 +142,12 @@
                     <tbody>
                         <?php $row = 0;
                         $items = get_field('items');
+                        $sum1 = 0;
+                        $sum2 = 0;
+                        $sum3 = 0;
+                        $sum4 = 0;
+                        $sum5 = 0;
+                        $sum6 = 0;
                         if (is_array($items)) {
                             foreach ($items as $item) {
                                 $row++;
@@ -156,14 +162,23 @@
                                     <td><?php echo $it['count'] ?></td>
                                     <td>عدد</td>aww
                                     <td><?php echo $it['price'] ?></td>
-                                    <td><?php echo $it['price'] * $it['count'] ?></td>
-                                    <td><?php echo $it['discount'] ?></td>
-                                    <td><?php echo ($it['price'] * $it['count']) - $it['discount'] ?></td>
+                                    <td><?php $prc = $it['price'] * $it['count'];
+                                        $sum1 = $sum1 + $prc;
+                                        echo number_format($prc);  ?></td>
+                                    <td><?php $prc = $it['discount'];
+                                        $sum2 = $sum2 + $prc;
+                                        echo number_format($prc) ?></td>
+                                    <td><?php $prc = ($it['price'] * $it['count']) - $it['discount'];
+                                        $sum3 = $sum3 + $prc;
+                                        echo number_format($prc); ?></td>
                                     <?php $tax = (($it['price'] * $it['count']) - $it['discount']) * get_field('tax');
                                     $tax = $tax / 100;
-                                    $tax = round($tax); ?>
-                                    <td><?php echo  $tax  ?></td>
-                                    <td><?php echo ($it['price'] * $it['count']) - $it['discount'] + $tax ?></td>
+                                    $tax = round($tax);
+                                    $sum4 = $sum4 + $tax; ?>
+                                    <td><?php echo  number_format($tax)  ?></td>
+                                    <td><?php $prc = ($it['price'] * $it['count']) - $it['discount'] + $tax;
+                                        $sum5 = $sum5 + $prc;
+                                        echo number_format($prc); ?></td>
                                 </tr>
                         <?php
                             }
@@ -171,12 +186,12 @@
                         ?>
                         <tr>
                             <th colspan="5" class="text-right">جمع کل</th>
-                            <th class="text-center">۱۵,۰۰۰</th>
-                            <th class="text-center">۱۵,۰۰۰</th>
-                            <th class="text-center">۱,۰۰۰</th>
-                            <th class="text-center">۱۴,۰۰۰</th>
-                            <th class="text-center">۵۰۰</th>
-                            <th class="text-center">۱۴,۵۰۰</th>
+                            <th class="text-center"></th>
+                            <th class="text-center"><?php echo number_format($sum1)  ?></th>
+                            <th class="text-center"><?php echo number_format($sum2)  ?></th>
+                            <th class="text-center"><?php echo number_format($sum3)  ?></th>
+                            <th class="text-center"><?php echo number_format($sum4)  ?></th>
+                            <th class="text-center"><?php echo number_format($sum5)  ?></th>
                         </tr>
                         <tr>
                             <th colspan="5" class="text-right">شرایط و نحوه فروش: <?php echo get_field('type'); ?></th>
