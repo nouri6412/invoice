@@ -51,6 +51,26 @@
     <?php
     while (have_posts()) :
         the_post();
+        $product_id = 11;
+        $product = wc_get_product($product_id);
+        $html='';
+        if ( $product->is_type( 'variable' ) ) {
+            $variation_id = $product->get_children();
+
+            foreach ( $variation_id as $id ) {
+                $_product       = new WC_Product_Variation( $id );
+                $variation_data = $_product->get_variation_attributes();
+        
+                foreach ( $variation_data as $key => $data ) {
+        
+                
+                        $html  .= $data.' - '.$_product->get_price();
+                   
+               
+                }
+            }
+        }
+        echo $html;
     ?>
         <div class="container-xl invoice" style="margin-top: 100px;">
             <div class="row">
@@ -160,7 +180,7 @@
                                     <td><?php echo $product->get_sku() ?></td>
                                     <td><?php echo $it['kala']->post_title ?></td>
                                     <td><?php echo $it['count'] ?></td>
-                                    <td>عدد</td>aww
+                                    <td>عدد</td>
                                     <td><?php echo number_format($it['price'])  ?></td>
                                     <td><?php $prc = $it['price'] * $it['count'];
                                         $sum1 = $sum1 + $prc;
