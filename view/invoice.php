@@ -150,7 +150,7 @@
 
                                 <tr class="text-center">
                                     <td><?php echo $row ?></td>
-                                    <?php $product = wc_get_product( $it['kala']->ID ); ?>
+                                    <?php $product = wc_get_product($it['kala']->ID); ?>
                                     <td><?php echo $product->get_sku() ?></td>
                                     <td><?php echo $it['kala']->post_title ?></td>
                                     <td><?php echo $it['count'] ?></td>
@@ -163,7 +163,7 @@
                                     $tax = $tax / 100;
                                     $tax = round($tax); ?>
                                     <td><?php echo  $tax  ?></td>
-                                    <td><?php echo ($it['price'] * $it['count']) - $it['discount']+ $tax ?></td>
+                                    <td><?php echo ($it['price'] * $it['count']) - $it['discount'] + $tax ?></td>
                                 </tr>
                         <?php
                             }
