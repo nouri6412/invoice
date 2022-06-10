@@ -134,22 +134,69 @@ class Admin_Woo_Invoice_Core
             'ajaxurl' => admin_url('admin-ajax.php'),
         ));
     }
+    function style()
+    {
+?>
+        <style>
+            .acf-input .acf-input-wrap {
+                position: relative;
+                overflow: initial;
+            }
+
+            .acf-input .acf-input-wrap .list-price{
+                position: absolute;
+    top: 30px;
+    border: 1px solid #b3b0b0;
+    width: 100%;
+    padding: 5px;
+    background: #fff;
+    z-index: 1000;
+            }
+
+            .acf-input .acf-input-wrap .list-price .item-price {
+                margin-bottom: 4px;
+    padding: 2px;
+    cursor: pointer;
+            }
+            .acf-input .acf-input-wrap .list-price .item-price:hover{
+                background-color: #eee;
+            }
+        </style>
+<?php
+    }
 
     function request_price()
     {
         $product_id = $_POST['product_id'];
         $product = wc_get_product($product_id);
-        $html = '<ul>';
-        $regular_price = $product->get_regular_price();
 
-        $sale_price = $product->get_sale_price();
+        // $regular_price = $product->get_regular_price();
 
-        $price = $product->get_price();
-        $html .= '<li>'.$price.'</li>';
-        $html .= '</ul>';
+        // $sale_price = $product->get_sale_price();
+
+        $json = [];
+
+        if ($product->is_type('variable')) {
+            $variation_id = $product->get_children();
+
+            foreach ($variation_id as $id) {
+                $_product       = new WC_Product_Variation($id);
+                $variation_data = $_product->get_variation_attributes();
+
+                foreach ($variation_data as $key => $data) {
+
+                    $json[] = ["title" => $data, "price" => $_product->get_price()];
+                }
+            }
+        } else {
+            $price = $product->get_price();
+            $json[] = ["title" => "عادی", "price" => $price];
+        }
+
+
         echo json_encode([
             'success'       => true,
-            'html'          => $html
+            'data'          => $json
         ]);
 
         die();
@@ -164,5 +211,7 @@ add_filter('single_template', [$Admin_Woo_Invoice_Core, 'my_custom_template']);
 
 add_action('init', [$Admin_Woo_Invoice_Core, 'init']);
 add_action('admin_enqueue_scripts', array($Admin_Woo_Invoice_Core, "scripts"));
+
+add_action('admin_footer', array($Admin_Woo_Invoice_Core, "style"));
 
 add_action('wp_ajax_admin_woo_request_price', array($Admin_Woo_Invoice_Core, 'request_price'));
