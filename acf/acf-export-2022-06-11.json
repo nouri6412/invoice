@@ -1,0 +1,420 @@
+[
+    {
+        "key": "group_62a413b5dcfe8",
+        "title": "پیش فاکتور",
+        "fields": [
+            {
+                "key": "field_62a413c2a2191",
+                "label": "فروشنده",
+                "name": "seller",
+                "type": "post_object",
+                "instructions": "",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "post_type": [
+                    "invoice-seller"
+                ],
+                "taxonomy": "",
+                "allow_null": 0,
+                "multiple": 0,
+                "return_format": "object",
+                "ui": 1
+            },
+            {
+                "key": "field_62a413fba2192",
+                "label": "خریدار",
+                "name": "contact",
+                "type": "post_object",
+                "instructions": "",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "post_type": [
+                    "invoice-contact"
+                ],
+                "taxonomy": "",
+                "allow_null": 0,
+                "multiple": 0,
+                "return_format": "object",
+                "ui": 1
+            },
+            {
+                "key": "field_62a41417a2193",
+                "label": "تاریخ",
+                "name": "date",
+                "type": "text",
+                "instructions": "",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_62a4145ea2194",
+                "label": "درصد مالیات",
+                "name": "tax",
+                "type": "number",
+                "instructions": "",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": 9,
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "min": 0,
+                "max": 99,
+                "step": ""
+            },
+            {
+                "key": "field_62a414a0a2195",
+                "label": "نحوه فروش",
+                "name": "type",
+                "type": "select",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "نقدی": "نقدی",
+                    "غیر نقدی": "غیر نقدی"
+                },
+                "default_value": false,
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 0,
+                "return_format": "value",
+                "ajax": 0,
+                "placeholder": ""
+            },
+            {
+                "key": "field_62a41515cd081",
+                "label": "مشخصات کالاها",
+                "name": "items",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "collapsed": "",
+                "min": 0,
+                "max": 0,
+                "layout": "table",
+                "button_label": "",
+                "sub_fields": [
+                    {
+                        "key": "field_62a41546cd082",
+                        "label": "کالا",
+                        "name": "item",
+                        "type": "group",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "layout": "table",
+                        "sub_fields": [
+                            {
+                                "key": "field_62a415a2cd084",
+                                "label": "کالا",
+                                "name": "kala",
+                                "type": "post_object",
+                                "instructions": "",
+                                "required": 1,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "post_type": [
+                                    "product"
+                                ],
+                                "taxonomy": "",
+                                "allow_null": 0,
+                                "multiple": 0,
+                                "return_format": "object",
+                                "ui": 1
+                            },
+                            {
+                                "key": "field_62a41623cd085",
+                                "label": "تعداد",
+                                "name": "count",
+                                "type": "number",
+                                "instructions": "",
+                                "required": 1,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": 1,
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "min": 0,
+                                "max": "",
+                                "step": ""
+                            },
+                            {
+                                "key": "field_62a4155acd083",
+                                "label": "قیمت واحد",
+                                "name": "price",
+                                "type": "number",
+                                "instructions": "",
+                                "required": 1,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": 0,
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "min": 0,
+                                "max": "",
+                                "step": ""
+                            },
+                            {
+                                "key": "field_62a4167acd086",
+                                "label": "مبلغ تخفیف",
+                                "name": "discount",
+                                "type": "number",
+                                "instructions": "",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": 0,
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "min": 0,
+                                "max": "",
+                                "step": ""
+                            },
+                            {
+                                "key": "field_62a416c4cd087",
+                                "label": "توضیحات",
+                                "name": "desc",
+                                "type": "text",
+                                "instructions": "",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "maxlength": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "field_62a416e4cd088",
+                "label": "توضیحات",
+                "name": "desc",
+                "type": "textarea",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "maxlength": "",
+                "rows": 3,
+                "new_lines": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "invoice-form"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": ""
+    },
+    {
+        "key": "group_62a4126976400",
+        "title": "طرف حساب",
+        "fields": [
+            {
+                "key": "field_62a4127bf9fa4",
+                "label": "شماره اقتصادی",
+                "name": "ech_number",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_62a412b6f9fa5",
+                "label": "شماره ثبت \/ شناسه ملی",
+                "name": "nash_code",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_62a412edf9fa6",
+                "label": "تلفن \/ نمابر",
+                "name": "tel",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_62a4130df9fa7",
+                "label": "کد پستی",
+                "name": "postal_code",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_62a4131af9fa8",
+                "label": "آدرس",
+                "name": "address",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "invoice-contact"
+                }
+            ],
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "invoice-seller"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": ""
+    }
+]
