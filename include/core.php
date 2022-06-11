@@ -143,22 +143,23 @@ class Admin_Woo_Invoice_Core
                 overflow: initial;
             }
 
-            .acf-input .acf-input-wrap .list-price{
+            .acf-input .acf-input-wrap .list-price {
                 position: absolute;
-    top: 30px;
-    border: 1px solid #b3b0b0;
-    width: 100%;
-    padding: 5px;
-    background: #fff;
-    z-index: 1000;
+                top: 30px;
+                border: 1px solid #b3b0b0;
+                width: 100%;
+                padding: 5px;
+                background: #fff;
+                z-index: 1000;
             }
 
             .acf-input .acf-input-wrap .list-price .item-price {
                 margin-bottom: 4px;
-    padding: 2px;
-    cursor: pointer;
+                padding: 2px;
+                cursor: pointer;
             }
-            .acf-input .acf-input-wrap .list-price .item-price:hover{
+
+            .acf-input .acf-input-wrap .list-price .item-price:hover {
                 background-color: #eee;
             }
         </style>
@@ -215,3 +216,55 @@ add_action('admin_enqueue_scripts', array($Admin_Woo_Invoice_Core, "scripts"));
 add_action('admin_footer', array($Admin_Woo_Invoice_Core, "style"));
 
 add_action('wp_ajax_admin_woo_request_price', array($Admin_Woo_Invoice_Core, 'request_price'));
+
+
+$result = add_role(
+    'guest_author_1',
+    'مسئول شعبه',
+    array(
+        'read'         => true,  // true allows this capability
+        'edit_posts'   => true,
+        'delete_posts' => false, // Use false to explicitly deny
+    )
+);
+
+$result = add_role(
+    'guest_author_2',
+    'مسئول انبار',
+    array(
+        'read'         => true,  // true allows this capability
+        'edit_posts'   => true,
+        'delete_posts' => false, // Use false to explicitly deny
+    )
+);
+
+$result = add_role(
+    'guest_author_3',
+    'مسئول تامین',
+    array(
+        'read'         => true,  // true allows this capability
+        'edit_posts'   => true,
+        'delete_posts' => false, // Use false to explicitly deny
+    )
+);
+
+$result = add_role(
+    'guest_author_4',
+    'مدیر محصول',
+    array(
+        'read'         => true,  // true allows this capability
+        'edit_posts'   => true,
+        'delete_posts' => false, // Use false to explicitly deny
+    )
+);
+
+$result = add_role(
+    'guest_author_5',
+    'مدیر فروش',
+    array(
+        'read'         => true,  // true allows this capability
+        'edit_posts'   => true,
+        'delete_posts' => false, // Use false to explicitly deny
+    )
+);
+

@@ -46,7 +46,12 @@
         }
     </style>
 </head>
-
+<?php  
+if (!is_user_logged_in())
+{
+return;
+}
+?>
 <body dir="rtl">
     <?php
     while (have_posts()) :
