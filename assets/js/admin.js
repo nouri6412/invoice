@@ -49,22 +49,26 @@ jQuery(document).ready(function () {
         });
     }
 
-    function cal_td_inputs_invoice(obj) {
+    function cal_td_inputs_invoice(obj=0,is_sum=1) {
 
-        var count = obj.children().eq(1).children().eq(0).children().eq(0).children().eq(0).val();
+        if(obj!=0)
+        {
+            var count = obj.children().eq(1).children().eq(0).children().eq(0).children().eq(0).val();
 
-        var price = obj.children().eq(2).children().eq(0).children().eq(0).children().eq(0).val();
-        obj.children().eq(3).children().eq(0).children().eq(0).children().eq(0).val(count * price);
-        var sum_price = count * price;
-        var discount = obj.children().eq(4).children().eq(0).children().eq(0).children().eq(0).val();
-        obj.children().eq(5).children().eq(0).children().eq(0).children().eq(0).val(sum_price - discount);
-        var sum = sum_price - discount;
-        var tax_persent = jQuery('#acf-field_62a4145ea2194').val();
-        var sum_tax = (sum * tax_persent) / 100;
-        var sum_tax = Math.round(sum_tax);
-        obj.children().eq(6).children().eq(0).children().eq(0).children().eq(0).val(sum_tax);
-        var sum_1 = sum - sum_tax;
-        obj.children().eq(7).children().eq(0).children().eq(0).children().eq(0).val(sum_1);
+            var price = obj.children().eq(2).children().eq(0).children().eq(0).children().eq(0).val();
+            obj.children().eq(3).children().eq(0).children().eq(0).children().eq(0).val(count * price);
+            var sum_price = count * price;
+            var discount = obj.children().eq(4).children().eq(0).children().eq(0).children().eq(0).val();
+            obj.children().eq(5).children().eq(0).children().eq(0).children().eq(0).val(sum_price - discount);
+            var sum = sum_price - discount;
+            var tax_persent = jQuery('#acf-field_62a4145ea2194').val();
+            var sum_tax = (sum * tax_persent) / 100;
+            var sum_tax = Math.round(sum_tax);
+            obj.children().eq(6).children().eq(0).children().eq(0).children().eq(0).val(sum_tax);
+            var sum_1 = sum - sum_tax;
+            obj.children().eq(7).children().eq(0).children().eq(0).children().eq(0).val(sum_1);
+        }
+
 
         if (jQuery('#sum-tr-invoice')) {
             jQuery('#sum-tr-invoice').remove();
@@ -204,6 +208,8 @@ jQuery(document).ready(function () {
 
         jQuery('.acf-repeater>table>tbody').append(html);
     }
+
+    cal_td_inputs_invoice(0);
 
     jQuery(document).on('change', '#acf-field_62a413c2a2191', function () {
         var obj = jQuery(this);
