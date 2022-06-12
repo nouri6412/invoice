@@ -211,6 +211,27 @@
                                 "step": ""
                             },
                             {
+                                "key": "field_62a5766ff4b96",
+                                "label": "مبلغ کل",
+                                "name": "kol_before",
+                                "type": "number",
+                                "instructions": "",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "min": "",
+                                "max": "",
+                                "step": ""
+                            },
+                            {
                                 "key": "field_62a4167acd086",
                                 "label": "مبلغ تخفیف",
                                 "name": "discount",
@@ -228,6 +249,69 @@
                                 "prepend": "",
                                 "append": "",
                                 "min": 0,
+                                "max": "",
+                                "step": ""
+                            },
+                            {
+                                "key": "field_62a576e8f4b97",
+                                "label": "مبلغ کل پس از تخفیف",
+                                "name": "kol_after_discount",
+                                "type": "number",
+                                "instructions": "",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "min": "",
+                                "max": "",
+                                "step": ""
+                            },
+                            {
+                                "key": "field_62a57716f4b98",
+                                "label": "جمع مالیات و عوارض",
+                                "name": "tax",
+                                "type": "number",
+                                "instructions": "",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "min": "",
+                                "max": "",
+                                "step": ""
+                            },
+                            {
+                                "key": "field_62a57729f4b99",
+                                "label": "جمع مبلغ کل به علاوه مالیات و عوارض",
+                                "name": "kol",
+                                "type": "number",
+                                "instructions": "",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "min": "",
                                 "max": "",
                                 "step": ""
                             },
