@@ -208,12 +208,12 @@ class Admin_Woo_Invoice_Core
         $ID = $_POST['seller_id'];
 
         $json = [];
-        $json["title"]=get_the_title($ID);
-        $json["ech_number"]=get_field('ech_number',$ID);
-        $json["postal_code"]=get_field('postal_code',$ID);
-        $json["nash_code"]=get_field('nash_code',$ID);
-        $json["tel"]=get_field('tel',$ID);
-        $json["address"]=get_field('address',$ID);
+        $json["title"] = get_the_title($ID);
+        $json["ech_number"] = get_field('ech_number', $ID);
+        $json["postal_code"] = get_field('postal_code', $ID);
+        $json["nash_code"] = get_field('nash_code', $ID);
+        $json["tel"] = get_field('tel', $ID);
+        $json["address"] = get_field('address', $ID);
 
         echo json_encode([
             'success'       => true,
@@ -288,3 +288,20 @@ $result = add_role(
     )
 );
 
+function custom_search_product_invoice($args, $field, $post_id)
+{
+    $search = array();
+    if (is_numeric($args["s"])) {
+        $search["relation"] = "OR";
+        $search[] =           array(
+            'key' => '_sku',
+            'value' => $args["s"],
+            'compare' => 'like'
+        );
+        $args["s"] = '';
+        $args["meta_query"] = $search;
+    }
+
+    return $args;
+}
+add_filter('acf/fields/post_object/query', 'custom_search_product_invoice', 10, 3);
