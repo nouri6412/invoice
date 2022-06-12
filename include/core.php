@@ -202,6 +202,26 @@ class Admin_Woo_Invoice_Core
 
         die();
     }
+
+    function request_seller()
+    {
+        $ID = $_POST['seller_id'];
+
+        $json = [];
+        $json["title"]=get_the_title($ID);
+        $json["ech_number"]=get_field('ech_number',$ID);
+        $json["postal_code"]=get_field('postal_code',$ID);
+        $json["nash_code"]=get_field('nash_code',$ID);
+        $json["tel"]=get_field('tel',$ID);
+        $json["address"]=get_field('address',$ID);
+
+        echo json_encode([
+            'success'       => true,
+            'data'          => $json
+        ]);
+
+        die();
+    }
 }
 
 
@@ -216,6 +236,7 @@ add_action('admin_enqueue_scripts', array($Admin_Woo_Invoice_Core, "scripts"));
 add_action('admin_footer', array($Admin_Woo_Invoice_Core, "style"));
 
 add_action('wp_ajax_admin_woo_request_price', array($Admin_Woo_Invoice_Core, 'request_price'));
+add_action('wp_ajax_admin_woo_request_seller', array($Admin_Woo_Invoice_Core, 'request_seller'));
 
 
 $result = add_role(

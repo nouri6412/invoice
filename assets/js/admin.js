@@ -1,7 +1,58 @@
 var selected_input_product = 0;
 jQuery(document).ready(function () {
-    console.log('ready');
-    
+
+    function selected_contact_invoic(obj) {
+        jQuery.ajax({
+            url: admin_woo_object.ajaxurl,
+            data: {
+                action: 'admin_woo_request_seller',
+                seller_id: obj.val()
+            },
+            dataType: 'json',
+            type: 'POST',
+            success: function (result) {
+                obj.parent().children('.desc-contact').remove();
+                var html = '';
+                html += '<div class="desc-contact" style="padding:2px">';
+
+                html += '<div style="padding:2px">';
+                html += 'شماره اقتصادی'+' : '+result.data.ech_number;
+                html += '</div>';
+
+                html += '<div style="padding:2px">';
+                html += 'شماره ثبت / شناسه ملی'+' : '+result.data.nash_code;
+                html += '</div>';
+
+                html += '<div style="padding:2px">';
+                html += 'کدپستی'+' : '+result.data.postal_code;
+                html += '</div>';
+
+                html += '<div style="padding:2px">';
+                html += 'تلفن'+' : '+result.data.tel;
+                html += '</div>';
+
+                
+                html += '<div style="padding:2px">';
+                html += 'آدرس'+' : '+result.data.address;
+                html += '</div>';
+
+                html += '</div>';
+
+                obj.parent().append(html);
+            }
+        });
+    }
+
+    jQuery(document).on('change', '#acf-field_62a413c2a2191', function () {
+        var obj = jQuery(this);
+        selected_contact_invoic(obj);
+    });
+
+    jQuery(document).on('change', '#acf-field_62a413fba2192', function () {
+        var obj = jQuery(this);
+        selected_contact_invoic(obj);
+    });
+
     jQuery(".acf-table").on('click', '.item-price', function () {
         var obj = jQuery(this);
 
@@ -12,7 +63,7 @@ jQuery(document).ready(function () {
         obj.parent().remove();
     });
     jQuery(".acf-table").on('change', 'select', function () {
-     
+
         if (jQuery(this)) {
             selected_input_product = 1;
             var product_id = jQuery(this).val();
