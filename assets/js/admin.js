@@ -65,7 +65,7 @@ jQuery(document).ready(function () {
             var sum_tax = (sum * tax_persent) / 100;
             var sum_tax = Math.round(sum_tax);
             obj.children().eq(6).children().eq(0).children().eq(0).children().eq(0).val(sum_tax);
-            var sum_1 = sum - sum_tax;
+            var sum_1 = sum + sum_tax;
             obj.children().eq(7).children().eq(0).children().eq(0).children().eq(0).val(sum_1);
         }
 
