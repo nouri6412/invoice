@@ -1,7 +1,7 @@
 var selected_input_product = 0;
 jQuery(document).ready(function () {
 
-    function selected_contact_invoic(obj) {
+    function selected_contact_invoic(obj, is_title = 0) {
         jQuery.ajax({
             url: admin_woo_object.ajaxurl,
             data: {
@@ -16,50 +16,216 @@ jQuery(document).ready(function () {
                 html += '<div class="desc-contact" style="padding:2px">';
 
                 html += '<div style="padding:2px">';
-                html += 'شماره اقتصادی'+' : '+result.data.ech_number;
+                html += 'شماره اقتصادی' + ' : ' + result.data.ech_number;
                 html += '</div>';
 
                 html += '<div style="padding:2px">';
-                html += 'شماره ثبت / شناسه ملی'+' : '+result.data.nash_code;
+                html += 'شماره ثبت / شناسه ملی' + ' : ' + result.data.nash_code;
                 html += '</div>';
 
                 html += '<div style="padding:2px">';
-                html += 'کدپستی'+' : '+result.data.postal_code;
+                html += 'کدپستی' + ' : ' + result.data.postal_code;
                 html += '</div>';
 
                 html += '<div style="padding:2px">';
-                html += 'تلفن'+' : '+result.data.tel;
+                html += 'تلفن' + ' : ' + result.data.tel;
                 html += '</div>';
 
-                
+
                 html += '<div style="padding:2px">';
-                html += 'آدرس'+' : '+result.data.address;
+                html += 'آدرس' + ' : ' + result.data.address;
                 html += '</div>';
 
                 html += '</div>';
+
+                if (is_title == 1) {
+                    jQuery('#title').val(result.data.title);
+                    jQuery('#title-prompt-text').addClass('screen-reader-text');
+
+                }
 
                 obj.parent().append(html);
             }
         });
     }
 
+    function cal_td_inputs_invoice(obj) {
+
+        var count = obj.children().eq(1).children().eq(0).children().eq(0).children().eq(0).val();
+
+        var price = obj.children().eq(2).children().eq(0).children().eq(0).children().eq(0).val();
+        obj.children().eq(3).children().eq(0).children().eq(0).children().eq(0).val(count * price);
+        var sum_price = count * price;
+        var discount = obj.children().eq(4).children().eq(0).children().eq(0).children().eq(0).val();
+        obj.children().eq(5).children().eq(0).children().eq(0).children().eq(0).val(sum_price - discount);
+        var sum = sum_price - discount;
+        var tax_persent = jQuery('#acf-field_62a4145ea2194').val();
+        var sum_tax = (sum * tax_persent) / 100;
+        var sum_tax = Math.round(sum_tax);
+        obj.children().eq(6).children().eq(0).children().eq(0).children().eq(0).val(sum_tax);
+        var sum_1 = sum - sum_tax;
+        obj.children().eq(7).children().eq(0).children().eq(0).children().eq(0).val(sum_1);
+
+        if (jQuery('#sum-tr-invoice')) {
+            jQuery('#sum-tr-invoice').remove();
+        }
+
+        var td3 = jQuery('.acf-input .acf-table tr td:nth-child(4) .acf-input .acf-input-wrap input');
+
+        var i = 0;
+        var sum_td = 0;
+        for (i = 0; i < td3.length; i++) {
+            if (Number.isInteger(parseInt(jQuery(td3[i]).val()))) {
+                sum_td += parseInt(jQuery(td3[i]).val());
+            }
+        }
+
+        td3 = jQuery('.acf-input .acf-table tr td:nth-child(5) .acf-input .acf-input-wrap input');
+
+     
+        var sum_td_5 = 0;
+        for (i = 0; i < td3.length; i++) {
+            if (Number.isInteger(parseInt(jQuery(td3[i]).val()))) {
+                sum_td_5 += parseInt(jQuery(td3[i]).val());
+            }
+        }
+
+        td3 = jQuery('.acf-input .acf-table tr td:nth-child(6) .acf-input .acf-input-wrap input');
+
+     
+        var sum_td_6 = 0;
+        for (i = 0; i < td3.length; i++) {
+            if (Number.isInteger(parseInt(jQuery(td3[i]).val()))) {
+                sum_td_6 += parseInt(jQuery(td3[i]).val());
+            }
+        }
+
+
+        td3 = jQuery('.acf-input .acf-table tr td:nth-child(7) .acf-input .acf-input-wrap input');
+
+     
+        var sum_td_7 = 0;
+        for (i = 0; i < td3.length; i++) {
+            if (Number.isInteger(parseInt(jQuery(td3[i]).val()))) {
+                sum_td_7 += parseInt(jQuery(td3[i]).val());
+            }
+        }
+
+        td3 = jQuery('.acf-input .acf-table tr td:nth-child(8) .acf-input .acf-input-wrap input');
+
+     
+        var sum_td_8 = 0;
+        for (i = 0; i < td3.length; i++) {
+            if (Number.isInteger(parseInt(jQuery(td3[i]).val()))) {
+                sum_td_8 += parseInt(jQuery(td3[i]).val());
+            }
+        }
+
+        const numberFormatter = Intl.NumberFormat('en-US');
+
+        var html = '<tr id="sum-tr-invoice">';
+
+        html += '<td>';
+        html += 'جمع';
+        html += '</td>';
+        html += '<td>';
+        html += '<div>';
+        html += '<table class="acf-table">';
+
+        html += '<tr>';
+
+        html += '<td>';
+        html += '</td>';
+
+        html += '<td>';
+        html += '</td>';
+
+        html += '<td>';
+        html += '</td>';
+
+        html += '<td>'+'مبلغ کل';
+        html += '</td>';
+
+        html += '<td>'+'مبلغ تخفیف';
+        html += '</td>';
+
+        html += '<td>'+'مبلغ کل پس از تخفیف';
+        html += '</td>';
+
+        html += '<td>'+'جمع مالیات و عوارض';
+        html += '</td>';
+
+        html += '<td>'+'جمع مبلغ کل به علاوه مالیات و عوارض';
+        html += '</td>';
+
+        html += '<td>';
+        html += '</td>';
+
+        html += '</tr>';
+
+
+
+        html += '<tr>';
+
+        html += '<td>';
+        html += '</td>';
+
+        html += '<td>';
+        html += '</td>';
+
+        html += '<td>';
+        html += '</td>';
+
+        html += '<td>'+numberFormatter.format(sum_td);
+        html += '</td>';
+
+        html += '<td>'+numberFormatter.format(sum_td_5);
+        html += '</td>';
+
+        html += '<td>'+numberFormatter.format(sum_td_6);
+        html += '</td>';
+
+        html += '<td>'+numberFormatter.format(sum_td_7);
+        html += '</td>';
+
+        html += '<td>'+numberFormatter.format(sum_td_8);
+        html += '</td>';
+
+        html += '<td>';
+        html += '</td>';
+
+        html += '</tr>';
+        html += '</table>';
+        html += '</div>';
+        html += '</td>';
+        html += '</tr>';
+
+ 
+
+        jQuery('.acf-repeater>table>tbody').append(html);
+    }
+
     jQuery(document).on('change', '#acf-field_62a413c2a2191', function () {
         var obj = jQuery(this);
-        selected_contact_invoic(obj);
+        selected_contact_invoic(obj, 0);
     });
 
     jQuery(document).on('change', '#acf-field_62a413fba2192', function () {
         var obj = jQuery(this);
-        selected_contact_invoic(obj);
+        selected_contact_invoic(obj, 1);
     });
 
     jQuery(".acf-table").on('click', '.item-price', function () {
         var obj = jQuery(this);
 
+        var price = obj.attr('data-price');
+        obj.parent().parent().children('input').eq(0).val(price);
 
-        obj.parent().parent().children('input').eq(0).val(obj.attr('data-price'));
-        obj.parent().parent().parent().parent().next().next().children().eq(0).children().eq(0).children().eq(0).val(obj.attr('data-title'));
+        var count = obj.parent().parent().parent().parent().prev().children().eq(0).children().eq(0).children().eq(0).val();
+        obj.parent().parent().parent().parent().next().children().eq(0).children().eq(0).children().eq(0).val(price * count);
 
+        obj.parent().parent().parent().parent().next().next().next().next().next().next().children().eq(0).children().eq(0).children().eq(0).val(obj.attr('data-title'));
+        console.log(obj.attr('data-title'));
         obj.parent().remove();
     });
     jQuery(".acf-table").on('change', 'select', function () {
@@ -79,7 +245,7 @@ jQuery(document).ready(function () {
                 type: 'POST',
                 success: function (result) {
                     obj.parent().parent().next().next().children().eq(0).children().eq(0).children('.list-price').remove();
-                    obj.parent().parent().next().next().next().next().children().eq(0).children().eq(0).children().eq(0).val(obj.attr('data-title'));
+                    obj.parent().parent().next().next().next().next().next().next().next().next().children().eq(0).children().eq(0).children().eq(0).val(obj.attr('data-title'));
 
                     if (result.data.length > 1) {
                         var i = 0;
@@ -96,6 +262,23 @@ jQuery(document).ready(function () {
                     }
                 }
             });
+        } else {
+            selected_input_product = 0;
+        }
+
+    });
+
+    jQuery(".acf-table").on('change', 'input', function () {
+
+        if (jQuery(this)) {
+            var obj = jQuery(this);
+            var index = obj.parent().parent().parent().index();
+
+            if (index == 1 || index == 2 || index == 4) {
+                cal_td_inputs_invoice(obj.parent().parent().parent().parent());
+
+            }
+
         } else {
             selected_input_product = 0;
         }

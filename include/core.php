@@ -225,7 +225,6 @@ class Admin_Woo_Invoice_Core
 }
 
 
-
 $Admin_Woo_Invoice_Core = new Admin_Woo_Invoice_Core;
 
 add_filter('single_template', [$Admin_Woo_Invoice_Core, 'my_custom_template']);
