@@ -245,6 +245,8 @@ jQuery(document).ready(function () {
        var row= jQuery('.table-kala .acf-clone .acf-row').eq(0);
        console.log(row.attr('class'));
        row.children('td').eq(0).children().eq(0).children().eq(0).children().eq(0).val(title);
+       row.children('td').eq(2).children().eq(0).children().eq(0).children().eq(0).val(price);
+       row.children('td').eq(8).children().eq(0).children().eq(0).children().eq(0).val(id);
         obj.parent().remove();
         jQuery('.acf-button').click();
     });
@@ -308,7 +310,6 @@ jQuery(document).ready(function () {
             console.log(index);
             if (index == 1 || index == 2 || index == 4) {
                 cal_td_inputs_invoice(obj.parent().parent().parent().parent());
-
             }
 
         } else {

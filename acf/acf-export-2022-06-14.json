@@ -113,6 +113,25 @@
                 "placeholder": ""
             },
             {
+                "key": "field_62a81b5b2f159",
+                "label": "جستجوی کالا",
+                "name": "search_kala",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "قسمتی از عنوان کالا یا sku را وارد نمائید",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
                 "key": "field_62a41515cd081",
                 "label": "مشخصات کالاها",
                 "name": "items",
@@ -122,7 +141,7 @@
                 "conditional_logic": 0,
                 "wrapper": {
                     "width": "",
-                    "class": "",
+                    "class": "table-kala",
                     "id": ""
                 },
                 "collapsed": "",
@@ -150,7 +169,7 @@
                                 "key": "field_62a415a2cd084",
                                 "label": "کالا",
                                 "name": "kala",
-                                "type": "post_object",
+                                "type": "text",
                                 "instructions": "",
                                 "required": 1,
                                 "conditional_logic": 0,
@@ -159,14 +178,11 @@
                                     "class": "",
                                     "id": ""
                                 },
-                                "post_type": [
-                                    "product"
-                                ],
-                                "taxonomy": "",
-                                "allow_null": 0,
-                                "multiple": 0,
-                                "return_format": "object",
-                                "ui": 1
+                                "default_value": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "maxlength": ""
                             },
                             {
                                 "key": "field_62a41623cd085",
@@ -316,23 +332,25 @@
                                 "step": ""
                             },
                             {
-                                "key": "field_62a416c4cd087",
-                                "label": "توضیحات",
-                                "name": "desc",
-                                "type": "text",
+                                "key": "field_62a81d76a9218",
+                                "label": "i",
+                                "name": "product_id",
+                                "type": "number",
                                 "instructions": "",
                                 "required": 0,
                                 "conditional_logic": 0,
                                 "wrapper": {
-                                    "width": "",
-                                    "class": "",
+                                    "width": "1",
+                                    "class": "hidden-td",
                                     "id": ""
                                 },
                                 "default_value": "",
                                 "placeholder": "",
                                 "prepend": "",
                                 "append": "",
-                                "maxlength": ""
+                                "min": "",
+                                "max": "",
+                                "step": ""
                             }
                         ]
                     }
@@ -368,7 +386,7 @@
             ]
         ],
         "menu_order": 0,
-        "position": "normal",
+        "position": "acf_after_title",
         "style": "default",
         "label_placement": "top",
         "instruction_placement": "label",
@@ -493,7 +511,7 @@
             ]
         ],
         "menu_order": 0,
-        "position": "normal",
+        "position": "acf_after_title",
         "style": "default",
         "label_placement": "top",
         "instruction_placement": "label",
