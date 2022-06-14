@@ -1,8 +1,20 @@
 var selected_input_product = 0;
 jQuery(document).ready(function () {
+
+    jQuery(window).keydown(function (event) {
+        if (event.keyCode == 13) {
+
+            if (jQuery(event.target).attr('id') == 'acf-field_62a81b5b2f159') {
+                event.preventDefault();
+                return false;
+            }
+
+        }
+    });
+
     const numberFormatter = Intl.NumberFormat('en-US');
-    jQuery('.table-kala table tr td:last-child').css('display', 'none');
-    jQuery('.table-kala table tr th:last-child').css('display', 'none');
+  //  jQuery('.table-kala .acf-input table tr td:last-child').css('display', 'none');
+   // jQuery('.table-kala .acf-input table tr th:last-child').css('display', 'none');
 
 
     function selected_contact_invoic(obj, is_title = 0) {
@@ -224,30 +236,27 @@ jQuery(document).ready(function () {
         selected_contact_invoic(obj, 1);
     });
 
-    jQuery(".acf-table").on('click', '.item-price', function () {
+    jQuery(document).on('click', '.item-price', function () {
         var obj = jQuery(this);
 
         var price = obj.attr('data-price');
-        obj.parent().parent().children('input').eq(0).val(price);
-
-        var count = obj.parent().parent().parent().parent().prev().children().eq(0).children().eq(0).children().eq(0).val();
-        obj.parent().parent().parent().parent().next().children().eq(0).children().eq(0).children().eq(0).val(price * count);
-
-        obj.parent().parent().parent().parent().next().next().next().next().next().next().children().eq(0).children().eq(0).children().eq(0).val(obj.attr('data-title'));
-        console.log(obj.attr('data-title'));
+        var title = obj.attr('data-title');
+        var id = obj.attr('data-id');
+       var row= jQuery('.table-kala .acf-clone .acf-row').eq(0);
+       console.log(row.attr('class'));
+       row.children('td').eq(0).children().eq(0).children().eq(0).children().eq(0).val(title);
         obj.parent().remove();
+        jQuery('.acf-button').click();
     });
-  var timeout_search_invoice=0;
+    var timeout_search_invoice = 0;
     jQuery(document).on('keyup', '#acf-field_62a81b5b2f159', function () {
-
         if (jQuery(this)) {
             timeout_search_invoice++;
-            var timeout_search_invoice_count=timeout_search_invoice;
+            var timeout_search_invoice_count = timeout_search_invoice;
             setTimeout(() => {
-                if(timeout_search_invoice_count!=timeout_search_invoice)
-                {
-console.log(timeout_search_invoice_count+' '+timeout_search_invoice);
-return;
+                if (timeout_search_invoice_count != timeout_search_invoice) {
+                    console.log(timeout_search_invoice_count + ' ' + timeout_search_invoice);
+                    return;
                 }
                 selected_input_product = 1;
                 var search_word = jQuery(this).val();
@@ -263,9 +272,9 @@ return;
                     dataType: 'json',
                     type: 'POST',
                     success: function (result) {
-    
+
                         if (result.is_sku == 1) {
-    
+
                         }
                         else {
                             var i = 0;
@@ -280,10 +289,10 @@ return;
                             html += '</div>';
                             obj.parent().append(html);
                         }
-    
+
                     }
                 });
-            }, 1000);
+            }, 500);
 
         } else {
             selected_input_product = 0;
@@ -307,6 +316,6 @@ return;
         }
 
     });
-    // jQuery('.acf-button').click();
+   
 
 });

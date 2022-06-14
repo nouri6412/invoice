@@ -44,6 +44,9 @@
         .invoice {
             font-size: 13px;
         }
+        .hidden-td{
+            display: none;
+        }
     </style>
 </head>
 <?php  
