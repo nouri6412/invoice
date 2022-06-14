@@ -296,6 +296,8 @@ jQuery(document).ready(function () {
         if (jQuery(this)) {
             timeout_search_invoice++;
             var timeout_search_invoice_count = timeout_search_invoice;
+            jQuery(this).parent().css('position','relative');
+            jQuery(this).parent().append('<img  class="invoice-loader-img" src="'+admin_woo_object.invoice_assets_plugin_url+'img/loader.gif" />')
             setTimeout(() => {
                 if (timeout_search_invoice_count != timeout_search_invoice) {
                    // console.log(timeout_search_invoice_count + ' ' + timeout_search_invoice);
@@ -306,7 +308,7 @@ jQuery(document).ready(function () {
                 var obj = jQuery(this);
                 if(searched_product_invoice==search_word)
                 {
-                    return;
+                   // return;
                 }
                 searched_product_invoice=search_word;
                 obj.parent().children('.list-price').remove();
@@ -321,6 +323,7 @@ jQuery(document).ready(function () {
                     type: 'POST',
                     success: function (result) {
                         obj.val('');
+                        jQuery('.invoice-loader-img').remove();
                         if (result.is_sku == 1) {
                             var price = result.data[0].price;
                             var title = result.data[0].title;

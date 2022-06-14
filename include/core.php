@@ -132,6 +132,7 @@ class Admin_Woo_Invoice_Core
 
         wp_localize_script('admin_woo_ajax_script', 'admin_woo_object', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
+            'invoice_assets_plugin_url' => ADMIN_WOO_INVOICE_URI . 'assets/'
         ));
     }
     function style()
@@ -184,6 +185,12 @@ class Admin_Woo_Invoice_Core
                 width: 0;
                 padding: 0 !important;
                 border: 0 !important;
+            }
+            .invoice-loader-img{
+                position: absolute;
+    left: 2px;
+    width: 21px;
+    top: 4px;
             }
         </style>
 <?php
