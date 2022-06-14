@@ -1,5 +1,9 @@
 var selected_input_product = 0;
 jQuery(document).ready(function () {
+    const numberFormatter = Intl.NumberFormat('en-US');
+    jQuery('.table-kala table tr td:last-child').css('display', 'none');
+    jQuery('.table-kala table tr th:last-child').css('display', 'none');
+
 
     function selected_contact_invoic(obj, is_title = 0) {
         jQuery.ajax({
@@ -49,10 +53,9 @@ jQuery(document).ready(function () {
         });
     }
 
-    function cal_td_inputs_invoice(obj=0,is_sum=1) {
+    function cal_td_inputs_invoice(obj = 0, is_sum = 1) {
 
-        if(obj!=0)
-        {
+        if (obj != 0) {
             var count = obj.children().eq(1).children().eq(0).children().eq(0).children().eq(0).val();
 
             var price = obj.children().eq(2).children().eq(0).children().eq(0).children().eq(0).val();
@@ -86,7 +89,7 @@ jQuery(document).ready(function () {
 
         td3 = jQuery('.acf-input .acf-table tr td:nth-child(5) .acf-input .acf-input-wrap input');
 
-     
+
         var sum_td_5 = 0;
         for (i = 0; i < td3.length; i++) {
             if (Number.isInteger(parseInt(jQuery(td3[i]).val()))) {
@@ -96,7 +99,7 @@ jQuery(document).ready(function () {
 
         td3 = jQuery('.acf-input .acf-table tr td:nth-child(6) .acf-input .acf-input-wrap input');
 
-     
+
         var sum_td_6 = 0;
         for (i = 0; i < td3.length; i++) {
             if (Number.isInteger(parseInt(jQuery(td3[i]).val()))) {
@@ -107,7 +110,7 @@ jQuery(document).ready(function () {
 
         td3 = jQuery('.acf-input .acf-table tr td:nth-child(7) .acf-input .acf-input-wrap input');
 
-     
+
         var sum_td_7 = 0;
         for (i = 0; i < td3.length; i++) {
             if (Number.isInteger(parseInt(jQuery(td3[i]).val()))) {
@@ -117,7 +120,7 @@ jQuery(document).ready(function () {
 
         td3 = jQuery('.acf-input .acf-table tr td:nth-child(8) .acf-input .acf-input-wrap input');
 
-     
+
         var sum_td_8 = 0;
         for (i = 0; i < td3.length; i++) {
             if (Number.isInteger(parseInt(jQuery(td3[i]).val()))) {
@@ -125,7 +128,7 @@ jQuery(document).ready(function () {
             }
         }
 
-        const numberFormatter = Intl.NumberFormat('en-US');
+
 
         var html = '<tr id="sum-tr-invoice">';
 
@@ -134,7 +137,7 @@ jQuery(document).ready(function () {
         html += '</td>';
         html += '<td>';
         html += '<div>';
-        html += '<table class="acf-table">';
+        html += '<table class="acf-table acf-table-sum">';
 
         html += '<tr>';
 
@@ -147,19 +150,19 @@ jQuery(document).ready(function () {
         html += '<td>';
         html += '</td>';
 
-        html += '<td>'+'مبلغ کل';
+        html += '<td>' + 'مبلغ کل';
         html += '</td>';
 
-        html += '<td>'+'مبلغ تخفیف';
+        html += '<td>' + 'مبلغ تخفیف';
         html += '</td>';
 
-        html += '<td>'+'مبلغ کل پس از تخفیف';
+        html += '<td>' + 'مبلغ کل پس از تخفیف';
         html += '</td>';
 
-        html += '<td>'+'جمع مالیات و عوارض';
+        html += '<td>' + 'جمع مالیات و عوارض';
         html += '</td>';
 
-        html += '<td>'+'جمع مبلغ کل به علاوه مالیات و عوارض';
+        html += '<td>' + 'جمع مبلغ کل به علاوه مالیات و عوارض';
         html += '</td>';
 
         html += '<td>';
@@ -180,19 +183,19 @@ jQuery(document).ready(function () {
         html += '<td>';
         html += '</td>';
 
-        html += '<td>'+numberFormatter.format(sum_td);
+        html += '<td>' + numberFormatter.format(sum_td);
         html += '</td>';
 
-        html += '<td>'+numberFormatter.format(sum_td_5);
+        html += '<td>' + numberFormatter.format(sum_td_5);
         html += '</td>';
 
-        html += '<td>'+numberFormatter.format(sum_td_6);
+        html += '<td>' + numberFormatter.format(sum_td_6);
         html += '</td>';
 
-        html += '<td>'+numberFormatter.format(sum_td_7);
+        html += '<td>' + numberFormatter.format(sum_td_7);
         html += '</td>';
 
-        html += '<td>'+numberFormatter.format(sum_td_8);
+        html += '<td>' + numberFormatter.format(sum_td_8);
         html += '</td>';
 
         html += '<td>';
@@ -204,7 +207,7 @@ jQuery(document).ready(function () {
         html += '</td>';
         html += '</tr>';
 
- 
+
 
         jQuery('.acf-repeater>table>tbody').append(html);
     }
@@ -234,40 +237,54 @@ jQuery(document).ready(function () {
         console.log(obj.attr('data-title'));
         obj.parent().remove();
     });
-    jQuery(".acf-table").on('change', 'select', function () {
+  var timeout_search_invoice=0;
+    jQuery(document).on('keyup', '#acf-field_62a81b5b2f159', function () {
 
         if (jQuery(this)) {
-            selected_input_product = 1;
-            var product_id = jQuery(this).val();
-            var obj = jQuery(this);
-            console.log(obj.val());
-            jQuery.ajax({
-                url: admin_woo_object.ajaxurl,
-                data: {
-                    action: 'admin_woo_request_price',
-                    product_id: product_id
-                },
-                dataType: 'json',
-                type: 'POST',
-                success: function (result) {
-                    obj.parent().parent().next().next().children().eq(0).children().eq(0).children('.list-price').remove();
-                    obj.parent().parent().next().next().next().next().next().next().next().next().children().eq(0).children().eq(0).children().eq(0).val(obj.attr('data-title'));
-
-                    if (result.data.length > 1) {
-                        var i = 0;
-                        var html = '<div class="list-price">';
-                        for (i = 0; i < result.data.length; i++) {
-                            html += '<div data-price="' + result.data[i].price + '" data-title="' + result.data[i].title + '" class="item-price">' + result.data[i].title + ' - ' + result.data[i].price + '</div>';
-                        }
-                        html += '</div>';
-                        obj.parent().parent().next().next().children().eq(0).children().eq(0).append(html);
-                    }
-                    else {
-                        obj.parent().parent().next().next().children().eq(0).children().eq(0).children().eq(0).val(result.data[0].price);
-
-                    }
+            timeout_search_invoice++;
+            var timeout_search_invoice_count=timeout_search_invoice;
+            setTimeout(() => {
+                if(timeout_search_invoice_count!=timeout_search_invoice)
+                {
+console.log(timeout_search_invoice_count+' '+timeout_search_invoice);
+return;
                 }
-            });
+                selected_input_product = 1;
+                var search_word = jQuery(this).val();
+                var obj = jQuery(this);
+                obj.parent().children('.list-price').remove();
+                console.log(obj.val());
+                jQuery.ajax({
+                    url: admin_woo_object.ajaxurl,
+                    data: {
+                        action: 'admin_woo_search_product',
+                        s: search_word
+                    },
+                    dataType: 'json',
+                    type: 'POST',
+                    success: function (result) {
+    
+                        if (result.is_sku == 1) {
+    
+                        }
+                        else {
+                            var i = 0;
+                            var html = '<div class="list-price">';
+                            for (i = 0; i < result.data.length; i++) {
+                                html += '<div data-id="' + result.data[i].id + '" data-price="' + result.data[i].price + '" data-title="' + result.data[i].title + '" class="item-price">';
+                                html += '<div class="item-price-img"><img src="' + result.data[i].img + '"/></div>';
+                                html += '<div class="item-price-title">' + result.data[i].title + '</div>';
+                                html += '<div class="item-price-price">' + numberFormatter.format(result.data[i].price) + '</div>';
+                                html += '</div>';
+                            }
+                            html += '</div>';
+                            obj.parent().append(html);
+                        }
+    
+                    }
+                });
+            }, 1000);
+
         } else {
             selected_input_product = 0;
         }
@@ -279,7 +296,7 @@ jQuery(document).ready(function () {
         if (jQuery(this)) {
             var obj = jQuery(this);
             var index = obj.parent().parent().parent().index();
-
+            console.log(index);
             if (index == 1 || index == 2 || index == 4) {
                 cal_td_inputs_invoice(obj.parent().parent().parent().parent());
 
@@ -290,4 +307,6 @@ jQuery(document).ready(function () {
         }
 
     });
+    // jQuery('.acf-button').click();
+
 });

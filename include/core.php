@@ -157,6 +157,23 @@ class Admin_Woo_Invoice_Core
                 margin-bottom: 4px;
                 padding: 2px;
                 cursor: pointer;
+                display: flex;
+            }
+
+            .acf-input .acf-input-wrap .list-price .item-price .item-price-img {}
+
+            .acf-input .acf-input-wrap .list-price .item-price .item-price-img img {
+                width: 60px;
+                height: 60px;
+                object-fit: cover;
+            }
+
+            .acf-input .acf-input-wrap .list-price .item-price .item-price-title {
+                padding: 8px;
+            }
+
+            .acf-input .acf-input-wrap .list-price .item-price .item-price-price {
+                padding: 8px;
             }
 
             .acf-input .acf-input-wrap .list-price .item-price:hover {
@@ -202,6 +219,63 @@ class Admin_Woo_Invoice_Core
 
         die();
     }
+    function search_product()
+    {
+        $s = $_POST['s'];
+        $s=trim($s);
+        $json = [];
+        if(strlen($s)>0)
+        {
+            $args = array(
+                'post_type' => 'product',
+                'post_status' => 'publish',
+                "s" => $s,
+                'posts_per_page' => 10
+            );
+            $the_query = new WP_Query($args);
+         
+    
+            while ($the_query->have_posts()) :
+                $the_query->the_post();
+                $product_id = get_the_ID();
+    
+                $product = wc_get_product($product_id);
+    
+    
+    
+                if ($product->is_type('variable')) {
+                    $variation_id = $product->get_children();
+    
+                    foreach ($variation_id as $id) {
+                        $_product       = new WC_Product_Variation($id);
+                        $variation_data = $_product->get_variation_attributes();
+    
+                        foreach ($variation_data as $key => $data) {
+    
+                            $json[] = ["title" => get_the_title() . ' ' . $data, "price" => $_product->get_price(), 'id' => $product_id, 'img' => get_the_post_thumbnail_url()];
+                        }
+                    }
+                } else {
+                    $price = $product->get_price();
+                    $json[] = ["title" => get_the_title(), "price" => $price, 'id' => $product_id, 'img' => get_the_post_thumbnail_url()];
+                }
+    
+            endwhile;
+        }
+
+$is_sku=0;
+        if(is_numeric($s) && count($json)==1)
+        {
+            $is_sku=1;
+        }
+        echo json_encode([
+            'success'       => true,
+            'is_sku'       => $is_sku,
+            'data'          => $json
+        ]);
+
+        die();
+    }
 
     function request_seller()
     {
@@ -235,6 +309,7 @@ add_action('admin_enqueue_scripts', array($Admin_Woo_Invoice_Core, "scripts"));
 add_action('admin_footer', array($Admin_Woo_Invoice_Core, "style"));
 
 add_action('wp_ajax_admin_woo_request_price', array($Admin_Woo_Invoice_Core, 'request_price'));
+add_action('wp_ajax_admin_woo_search_product', array($Admin_Woo_Invoice_Core, 'search_product'));
 add_action('wp_ajax_admin_woo_request_seller', array($Admin_Woo_Invoice_Core, 'request_seller'));
 
 
