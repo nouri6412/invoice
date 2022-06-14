@@ -179,10 +179,11 @@ class Admin_Woo_Invoice_Core
             .acf-input .acf-input-wrap .list-price .item-price:hover {
                 background-color: #eee;
             }
-            .acf-button{
+
+            .acf-button {
                 width: 0;
-                padding: 0;
-                border: 0;
+                padding: 0 !important;
+                border: 0 !important;
             }
         </style>
 <?php
@@ -227,36 +228,49 @@ class Admin_Woo_Invoice_Core
     function search_product()
     {
         $s = $_POST['s'];
-        $s=trim($s);
+        $s = trim($s);
         $json = [];
-        if(strlen($s)>0)
-        {
+        if (strlen($s) > 0) {
+
             $args = array(
                 'post_type' => 'product',
                 'post_status' => 'publish',
-                "s" => $s,
+                'meta_key' => '_sku',
+                'meta_value' => $s,
                 'posts_per_page' => 10
             );
             $the_query = new WP_Query($args);
-         
-    
+            $count = $the_query->post_count;
+
+            if ($count == 0) {
+                $args = array(
+                    'post_type' => 'product',
+                    'post_status' => 'publish',
+                    "s" => $s,
+                    'posts_per_page' => 10
+                );
+                $the_query = new WP_Query($args);
+            }
+
+
+
             while ($the_query->have_posts()) :
                 $the_query->the_post();
                 $product_id = get_the_ID();
-    
+
                 $product = wc_get_product($product_id);
-    
-    
-    
+
+
+
                 if ($product->is_type('variable')) {
                     $variation_id = $product->get_children();
-    
+
                     foreach ($variation_id as $id) {
                         $_product       = new WC_Product_Variation($id);
                         $variation_data = $_product->get_variation_attributes();
-    
+
                         foreach ($variation_data as $key => $data) {
-    
+
                             $json[] = ["title" => get_the_title() . ' ' . $data, "price" => $_product->get_price(), 'id' => $product_id, 'img' => get_the_post_thumbnail_url()];
                         }
                     }
@@ -264,14 +278,13 @@ class Admin_Woo_Invoice_Core
                     $price = $product->get_price();
                     $json[] = ["title" => get_the_title(), "price" => $price, 'id' => $product_id, 'img' => get_the_post_thumbnail_url()];
                 }
-    
+
             endwhile;
         }
 
-$is_sku=0;
-        if(is_numeric($s) && count($json)==1)
-        {
-            $is_sku=1;
+        $is_sku = 0;
+        if (is_numeric($s) && count($json) == 1) {
+            $is_sku = 1;
         }
         echo json_encode([
             'success'       => true,

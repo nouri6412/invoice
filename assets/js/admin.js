@@ -236,19 +236,21 @@ jQuery(document).ready(function () {
         selected_contact_invoic(obj, 1);
     });
 
-    jQuery(document).on('click', '.item-price', function () {
-        var obj = jQuery(this);
-
-        var price = obj.attr('data-price');
-        var title = obj.attr('data-title');
-        var id = obj.attr('data-id');
+    function item_price_select_invoice(price,title,id)
+    {
        var row= jQuery('.table-kala .acf-clone .acf-row').eq(0);
-       console.log(row.attr('class'));
        row.children('td').eq(0).children().eq(0).children().eq(0).children().eq(0).val(title);
        row.children('td').eq(2).children().eq(0).children().eq(0).children().eq(0).val(price).trigger('change');
        row.children('td').eq(8).children().eq(0).children().eq(0).children().eq(0).val(id);
+       jQuery('.acf-button').click();
+    }
+    jQuery(document).on('click', '.item-price', function () {
+        var obj = jQuery(this);
+        var price = obj.attr('data-price');
+        var title = obj.attr('data-title');
+        var id = obj.attr('data-id');
+        item_price_select_invoice(price,title,id);
         obj.parent().remove();
-        jQuery('.acf-button').click();
     });
     var timeout_search_invoice = 0;
     jQuery(document).on('keyup', '#acf-field_62a81b5b2f159', function () {
@@ -276,7 +278,10 @@ jQuery(document).ready(function () {
                     success: function (result) {
 
                         if (result.is_sku == 1) {
-
+                            var price = result.data[0].price;
+                            var title = result.data[0].title;
+                            var id = result.data[0].id;
+                            item_price_select_invoice(price,title,id);
                         }
                         else {
                             var i = 0;
