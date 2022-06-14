@@ -160,13 +160,14 @@ return;
                             foreach ($items as $item) {
                                 $row++;
                                 $it = $item['item'];
+                          
                         ?>
 
                                 <tr class="text-center">
                                     <td><?php echo $row ?></td>
-                                    <?php $product = wc_get_product($it['kala']->ID); ?>
+                                    <?php $product = wc_get_product($it['product_id']); ?>
                                     <td><?php echo $product->get_sku() ?></td>
-                                    <td><?php echo $it['kala']->post_title.' '.$it['desc'] ?></td>
+                                    <td><?php echo get_the_title( $it['product_id'] )?></td>
                                     <td><?php echo $it['count'] ?></td>
                                     <td>عدد</td>
                                     <td><?php echo number_format($it['price'])  ?></td>
