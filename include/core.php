@@ -179,6 +179,11 @@ class Admin_Woo_Invoice_Core
             .acf-input .acf-input-wrap .list-price .item-price:hover {
                 background-color: #eee;
             }
+            .acf-button{
+                width: 0;
+                padding: 0;
+                border: 0;
+            }
         </style>
 <?php
     }
