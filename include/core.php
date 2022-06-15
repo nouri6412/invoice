@@ -156,9 +156,10 @@ class Admin_Woo_Invoice_Core
 
             .acf-input .acf-input-wrap .list-price .item-price {
                 margin-bottom: 4px;
-                padding: 2px;
-                cursor: pointer;
-                display: flex;
+    cursor: pointer;
+    display: flex;
+    width: 50%;
+    float: right;
             }
 
             .acf-input .acf-input-wrap .list-price .item-price .item-price-img {}
@@ -244,7 +245,7 @@ class Admin_Woo_Invoice_Core
                 'post_status' => 'publish',
                 'meta_key' => '_sku',
                 'meta_value' => $s,
-                'posts_per_page' => 10
+                'posts_per_page' => 6
             );
             $the_query = new WP_Query($args);
             $count = $the_query->post_count;
@@ -254,7 +255,7 @@ class Admin_Woo_Invoice_Core
                     'post_type' => 'product',
                     'post_status' => 'publish',
                     "s" => $s,
-                    'posts_per_page' => 10
+                    'posts_per_page' => 6
                 );
                 $the_query = new WP_Query($args);
             }
@@ -290,7 +291,7 @@ class Admin_Woo_Invoice_Core
         }
 
         $is_sku = 0;
-        if (is_numeric($s) && count($json) == 1) {
+        if (is_numeric($s) && count($json) == 1  && strlen($s)>=7) {
             $is_sku = 1;
         }
         echo json_encode([
