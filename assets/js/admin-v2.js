@@ -429,16 +429,19 @@ jQuery(document).ready(function () {
         var el = 0;
 
         for (i = 0; i < ex.length; i++) {
-            console.log(jQuery(ex[i]).attr("class"));
+
             if (jQuery(ex[i]).attr("data-name")) {
                 if (jQuery(ex[i]).attr("data-name") == 'kala') {
-                   var  rowi=jQuery(ex[i]).parent();
+      
+                   let  rowi=jQuery(ex[i]).parent();
+             
                     var sku=jQuery(ex[i]).children().eq(0).children().eq(0).children('input').eq(0).attr('data-sku');
                  
                    if(sku)
                    {
                     var val=jQuery(ex[i]).children().eq(0).children().eq(0).children('input').eq(0).val();
                     if (sku.length>0 && val.length==0) {
+                     
                         jQuery.ajax({
                             url: admin_woo_object.ajaxurl,
                             data: {
