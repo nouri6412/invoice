@@ -156,10 +156,10 @@ class Admin_Woo_Invoice_Core
 
             .acf-input .acf-input-wrap .list-price .item-price {
                 margin-bottom: 4px;
-    cursor: pointer;
-    display: flex;
-    width: 50%;
-    float: right;
+                cursor: pointer;
+                display: flex;
+                width: 50%;
+                float: right;
             }
 
             .acf-input .acf-input-wrap .list-price .item-price .item-price-img {}
@@ -187,11 +187,16 @@ class Admin_Woo_Invoice_Core
                 padding: 0 !important;
                 border: 0 !important;
             }
-            .invoice-loader-img{
+
+            .invoice-loader-img {
                 position: absolute;
-    left: 2px;
-    width: 21px;
-    top: 4px;
+                left: 2px;
+                width: 21px;
+                top: 4px;
+            }
+
+            .title-product-list input {
+                width: 240px !important;
             }
         </style>
 <?php
@@ -291,7 +296,7 @@ class Admin_Woo_Invoice_Core
         }
 
         $is_sku = 0;
-        if (is_numeric($s) && count($json) == 1  && strlen($s)>=7) {
+        if (is_numeric($s) && count($json) == 1  && strlen($s) >= 7) {
             $is_sku = 1;
         }
         echo json_encode([

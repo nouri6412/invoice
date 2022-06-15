@@ -262,7 +262,6 @@ jQuery(document).ready(function () {
        {
         var row= jQuery('.table-kala .acf-clone .acf-row').eq(0);
         row.children('td').eq(0).children().eq(0).children().eq(0).children().eq(0).val(title);
-        row.children('td').eq(0).children().eq(0).children().eq(0).children().eq(0).css('width','230px');
         row.children('td').eq(0).children().eq(0).children().eq(0).children().eq(0).attr('disabled', 'true');
         row.children('td').eq(2).children().eq(0).children().eq(0).children().eq(0).val(price).trigger('change');
         row.children('td').eq(8).children().eq(0).children().eq(0).children().eq(0).val(id);
