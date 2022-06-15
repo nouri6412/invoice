@@ -248,15 +248,35 @@ class Admin_Woo_Invoice_Core
         $json = [];
         if (strlen($s) > 0) {
 
+            
+
             $args = array(
-                'post_type' => 'product',
+                'post_type' => 'product_variation',
                 'post_status' => 'publish',
                 'meta_key' => '_sku',
                 'meta_value' => $s,
-                'posts_per_page' => 6
+                'posts_per_page' => 1
             );
             $the_query = new WP_Query($args);
             $count = $the_query->post_count;
+
+            if ($count == 0) {
+                $args = array(
+                    'post_type' => 'product',
+                    'post_status' => 'publish',
+                    'meta_key' => '_sku',
+                    'meta_value' => $s,
+                    'posts_per_page' => 6
+                );
+                $the_query = new WP_Query($args);
+                $count = $the_query->post_count;
+            }
+            else
+            {
+                $is_sku = 1;
+            }
+
+
 
             if ($count == 0) {
                 $args = array(
@@ -298,10 +318,6 @@ class Admin_Woo_Invoice_Core
             endwhile;
         }
 
-        $is_sku = 0;
-        if (is_numeric($s) && count($json) == 1  && strlen($s) >= 7) {
-            $is_sku = 1;
-        }
         echo json_encode([
             'success'       => true,
             'is_sku'       => $is_sku,
