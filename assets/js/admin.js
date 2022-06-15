@@ -323,7 +323,7 @@ jQuery(document).ready(function () {
                     dataType: 'json',
                     type: 'POST',
                     success: function (result) {
-                        obj.val('');
+                        // obj.val('');
                         jQuery('.invoice-loader-img').remove();
                         if (result.is_sku == 1) {
                             var price = result.data[0].price;
