@@ -175,7 +175,7 @@
                                 "conditional_logic": 0,
                                 "wrapper": {
                                     "width": "",
-                                    "class": "",
+                                    "class": "title-product-list",
                                     "id": ""
                                 },
                                 "default_value": "",

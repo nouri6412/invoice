@@ -259,6 +259,7 @@ class Admin_Woo_Invoice_Core
             );
             $the_query = new WP_Query($args);
             $count = $the_query->post_count;
+            $sku="";
 
             if ($count == 0) {
                 $args = array(
@@ -274,6 +275,7 @@ class Admin_Woo_Invoice_Core
             else
             {
                 $is_sku = 1;
+                $sku=$s;
             }
 
 
@@ -307,12 +309,12 @@ class Admin_Woo_Invoice_Core
 
                         foreach ($variation_data as $key => $data) {
 
-                            $json[] = ["title" => get_the_title() . ' ' . $data, "price" => $_product->get_price(), 'id' => $product_id, 'img' => get_the_post_thumbnail_url()];
+                            $json[] = ["title" => get_the_title() . ' ' . $data,"sku"=>$sku, "price" => $_product->get_price(), 'id' => $product_id, 'img' => get_the_post_thumbnail_url()];
                         }
                     }
                 } else {
                     $price = $product->get_price();
-                    $json[] = ["title" => get_the_title(), "price" => $price, 'id' => $product_id, 'img' => get_the_post_thumbnail_url()];
+                    $json[] = ["title" => get_the_title(), "price" => $price,"sku"=>$sku, 'id' => $product_id, 'img' => get_the_post_thumbnail_url()];
                 }
 
             endwhile;
