@@ -422,6 +422,53 @@ jQuery(document).ready(function () {
 
     });
 
+    setInterval(function(){
+       
+        var ex = jQuery('.acf-table td');
+        var i = 0;
+        var el = 0;
+
+        for (i = 0; i < ex.length; i++) {
+            console.log(jQuery(ex[i]).attr("class"));
+            if (jQuery(ex[i]).attr("data-name")) {
+                if (jQuery(ex[i]).attr("data-name") == 'kala') {
+                   var  rowi=jQuery(ex[i]).parent();
+                    var sku=jQuery(ex[i]).children().eq(0).children().eq(0).children('input').eq(0).attr('data-sku');
+                 
+                   if(sku)
+                   {
+                    var val=jQuery(ex[i]).children().eq(0).children().eq(0).children('input').eq(0).val();
+                    if (sku.length>0 && val.length==0) {
+                        jQuery.ajax({
+                            url: admin_woo_object.ajaxurl,
+                            data: {
+                                action: 'admin_woo_search_product',
+                                s: sku
+                            },
+                            dataType: 'json',
+                            type: 'POST',
+                            success: function (result) {
+  
+                                if (result.is_sku == 1) {
+                                    var price = result.data[0].price;
+                                    var title = result.data[0].title;
+                                    var id = result.data[0].id;
+                    
+                                    rowi.children('td').eq(0).children().eq(0).children().eq(0).children('input').eq(0).val(title);
+                                    rowi.children('td').eq(2).children().eq(0).children().eq(0).children().eq(0).val(price).trigger('change');
+                                    rowi.children('td').eq(8).children().eq(0).children().eq(0).children().eq(0).val(id);
+                                }
+                            }
+                        }); 
+                    }
+                   }
+
+                }
+            }
+
+        }
+    }, 3000);
+
     jQuery(".acf-table").on('change', 'input', function () {
 
         if (jQuery(this)) {
