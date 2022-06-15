@@ -340,9 +340,10 @@ jQuery(document).ready(function () {
                     dataType: 'json',
                     type: 'POST',
                     success: function (result) {
-                        // obj.val('');
+                       
                         jQuery('.invoice-loader-img').remove();
                         if (result.is_sku == 1) {
+                              obj.val('');
                             var price = result.data[0].price;
                             var title = result.data[0].title;
                             var id = result.data[0].id;
