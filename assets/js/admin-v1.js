@@ -68,6 +68,22 @@ jQuery(document).ready(function () {
 
     function cal_td_inputs_invoice(obj = 0, is_sum = 1) {
 
+        var ex= jQuery('.acf-table td.title-product-list');
+        jQuery('.acf-table td.title-product-list .title-label').remove();
+        var i=0;
+ 
+        for(i=0;i<ex.length;i++)
+        {
+           var title= jQuery(ex[i]).children().eq(0).children().eq(0).children().eq(0).val();
+           jQuery(ex[i]).children().eq(0).children().eq(0).children().eq(0).css('display','none');
+          var label='<div class="title-label">';
+          label +=title;
+          label +='</div>';
+          jQuery(ex[i]).children().eq(0).children().eq(0).append(label);
+        }
+
+
+
         if (obj != 0) {
             var count = obj.children().eq(1).children().eq(0).children().eq(0).children().eq(0).val();
 
@@ -92,7 +108,7 @@ jQuery(document).ready(function () {
 
         var td3 = jQuery('.acf-input .acf-table tr td:nth-child(4) .acf-input .acf-input-wrap input');
 
-        var i = 0;
+ 
         var sum_td = 0;
         for (i = 0; i < td3.length; i++) {
             if (Number.isInteger(parseInt(jQuery(td3[i]).val()))) {
@@ -140,6 +156,8 @@ jQuery(document).ready(function () {
                 sum_td_8 += parseInt(jQuery(td3[i]).val());
             }
         }
+
+
 
 
 

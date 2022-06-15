@@ -124,7 +124,7 @@ class Admin_Woo_Invoice_Core
     {
         wp_enqueue_script(
             'admin_woo_ajax_script',
-            ADMIN_WOO_INVOICE_URI . 'assets/js/admin.js',
+            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v1.js',
             array('jquery'),
             1,
             true
@@ -197,6 +197,9 @@ class Admin_Woo_Invoice_Core
 
             .title-product-list input {
                 width: 240px !important;
+            }
+            .title-product-list .title-label {
+              
             }
         </style>
 <?php
