@@ -120,6 +120,50 @@ class Admin_Woo_Invoice_Core
 
         return $single;
     }
+    function script()
+    {
+?>
+        <div id="invoice-contact-modal" class="invoice-modal">
+            <div class="modal-box">
+                <div class="modal-box-header">
+                    <h2>ثبت خریدار جدید</h2>
+                </div>
+                <div class="modal-box-body">
+                    <div class="invoice-form">
+                        <div class="invoice-form-field">
+                            <label>عنوان</label>
+                            <input id="invoice-contact-title" />
+                        </div>
+                        <div class="invoice-form-field">
+                            <label>شماره اقتصادی</label>
+                            <input id="invoice-contact-ech-number" />
+                        </div>
+                        <div class="invoice-form-field">
+                            <label>شماره ثبت / شناسه ملی</label>
+                            <input id="invoice-contact-nash-code" />
+                        </div>
+                        <div class="invoice-form-field">
+                            <label>کد پستی</label>
+                            <input id="invoice-contact-postal-code" />
+                        </div>
+                        <div class="invoice-form-field">
+                            <label>تلفن</label>
+                            <input id="invoice-contact-tel" />
+                        </div>
+                        <div class="invoice-form-field wide-100">
+                            <label>آدرس</label>
+                            <input id="invoice-contact-address" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-box-footer">
+                    <button style="float:right" class="invoice-btn" href="#" onclick="save_form_invoice_contact_modal()">ذخیره</button>
+                    <button style="float:left" class="invoice-btn" href="#" onclick="close_invoice_contact_modal()">بستن</button>
+                </div>
+            </div>
+        </div>
+    <?php
+    }
     function scripts()
     {
         wp_enqueue_script(
@@ -137,7 +181,7 @@ class Admin_Woo_Invoice_Core
     }
     function style()
     {
-?>
+    ?>
         <style>
             .acf-input .acf-input-wrap {
                 position: relative;
@@ -198,11 +242,116 @@ class Admin_Woo_Invoice_Core
             .title-product-list input {
                 width: 240px !important;
             }
-            .title-product-list .title-label {
-              
+
+            .title-product-list .title-label {}
+
+            .invoice-modal {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                display: none;
+            }
+
+            .invoice-modal .modal-box {
+                width: 50%;
+                background-color: #fff;
+                border: 1px dolid #000;
+                box-shadow: 10px 10px 10px #b3b0b0;
+                margin: auto;
+                margin-top: 30px;
+                padding: 30px;
+            }
+
+            .invoice-modal .modal-box .modal-box-header {
+                padding: 10px 30px 10px 30px;
+            }
+
+            .invoice-modal .modal-box .modal-box-body {
+                padding: 10px 30px 10px 30px;
+            }
+
+            .invoice-modal .modal-box .modal-box-footer {
+                padding: 10px 30px 10px 30px;
+            }
+
+            .invoice-box-btn {}
+
+            .invoice-btn {
+                cursor: pointer;
+                text-decoration: none;
+                padding: 5px;
+            }
+
+            .invoice-form .invoice-form-field {
+                margin-top: 10px;
+            }
+
+            .invoice-form .invoice-form-field label {
+                display: block;
+                font-weight: bold;
+                margin: 0 0 3px;
+                padding: 0;
+            }
+
+            .invoice-form .invoice-form-field input {
+                width: 100%;
+                padding: 4px 8px;
+                margin: 0;
+                box-sizing: border-box;
+                font-size: 14px;
+                line-height: 1.4;
             }
         </style>
 <?php
+    }
+
+    function save_contact()
+    {
+        $message = '';
+        $user_id = get_current_user_id();
+
+        $title = $_POST["form_title"];
+        $form_eq_number = $_POST["form_eq_number"];
+        $form_post_code = $_POST["form_post_code"];
+        $form_nah_code = $_POST["form_nah_code"];
+        $form_tel = $_POST["form_tel"];
+        $form_address = $_POST["form_address"];
+
+        $args = array(
+            'post_title'    => $title,
+            'post_content'  => $message,
+            'post_status'   => 'publish',
+            'post_author'   => $user_id,
+            'post_type'     => 'invoice-contact',
+            'meta_input'    => array(
+                'ech_number'         => $form_eq_number,
+                'postal_code'         => $form_post_code,
+                'nash_code'         => $form_nah_code,
+                'tel'         => $form_tel,
+                'address'         => $form_address,
+            ),
+        );
+
+        $result = [];
+
+        $post_id = wp_insert_post($args);
+        if (!is_wp_error($post_id)) {
+            $state = 1;
+            $message = 'با موفقیت ثبت شد';
+        } else {
+
+            $state = 0;
+            $message = 'خطا در ثبت اطلاعات';
+        }
+
+
+        echo json_encode([
+            'state'       => $state,
+            'message'          => $message
+        ]);
+
+        die();
     }
 
     function request_price()
@@ -248,7 +397,7 @@ class Admin_Woo_Invoice_Core
         $json = [];
         if (strlen($s) > 0) {
 
-            
+
 
             $args = array(
                 'post_type' => 'product_variation',
@@ -259,7 +408,7 @@ class Admin_Woo_Invoice_Core
             );
             $the_query = new WP_Query($args);
             $count = $the_query->post_count;
-            $sku="";
+            $sku = "";
 
             if ($count == 0) {
                 $args = array(
@@ -271,11 +420,9 @@ class Admin_Woo_Invoice_Core
                 );
                 $the_query = new WP_Query($args);
                 $count = $the_query->post_count;
-            }
-            else
-            {
+            } else {
                 $is_sku = 1;
-                $sku=$s;
+                $sku = $s;
             }
 
 
@@ -309,12 +456,12 @@ class Admin_Woo_Invoice_Core
 
                         foreach ($variation_data as $key => $data) {
 
-                            $json[] = ["title" => get_the_title() . ' ' . $data,"sku"=>$sku, "price" => $_product->get_price(), 'id' => $product_id, 'img' => get_the_post_thumbnail_url()];
+                            $json[] = ["title" => get_the_title() . ' ' . $data, "sku" => $sku, "price" => $_product->get_price(), 'id' => $product_id, 'img' => get_the_post_thumbnail_url()];
                         }
                     }
                 } else {
                     $price = $product->get_price();
-                    $json[] = ["title" => get_the_title(), "price" => $price,"sku"=>$sku, 'id' => $product_id, 'img' => get_the_post_thumbnail_url()];
+                    $json[] = ["title" => get_the_title(), "price" => $price, "sku" => $sku, 'id' => $product_id, 'img' => get_the_post_thumbnail_url()];
                 }
 
             endwhile;
@@ -359,8 +506,10 @@ add_action('init', [$Admin_Woo_Invoice_Core, 'init']);
 add_action('admin_enqueue_scripts', array($Admin_Woo_Invoice_Core, "scripts"));
 
 add_action('admin_footer', array($Admin_Woo_Invoice_Core, "style"));
+add_action('admin_footer', array($Admin_Woo_Invoice_Core, "script"));
 
 add_action('wp_ajax_admin_woo_request_price', array($Admin_Woo_Invoice_Core, 'request_price'));
+add_action('wp_ajax_admin_woo_save_contact', array($Admin_Woo_Invoice_Core, 'save_contact'));
 add_action('wp_ajax_admin_woo_search_product', array($Admin_Woo_Invoice_Core, 'search_product'));
 add_action('wp_ajax_admin_woo_request_seller', array($Admin_Woo_Invoice_Core, 'request_seller'));
 

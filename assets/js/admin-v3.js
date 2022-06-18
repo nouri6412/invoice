@@ -1,7 +1,70 @@
 var selected_input_product = 0;
 var selected_input_product_scaner = 0;
 var searched_product_invoice = '';
+
+function show_invoice_contact_modal() {
+    jQuery('#invoice-contact-modal').css('display', 'block');
+}
+function close_invoice_contact_modal() {
+    jQuery('#invoice-contact-modal').css('display', 'none');
+}
+
+function save_form_invoice_contact_modal() {
+    var title = jQuery('#invoice-contact-title').val();
+    var eq_number = jQuery('#invoice-contact-ech-number').val();
+    var post_code = jQuery('#invoice-contact-postal-code').val();
+    var nah_code = jQuery('#invoice-contact-nash-code').val();
+    var tel = jQuery('#invoice-contact-tel').val();
+    var address = jQuery('#invoice-contact-address').val();
+
+    if (title.length == 0) {
+        alert('عنوان نباید خالی بماند');
+        return;
+    }
+
+    jQuery.ajax({
+        url: admin_woo_object.ajaxurl,
+        data: {
+            action: 'admin_woo_save_contact',
+            form_title: title,
+            form_eq_number: eq_number,
+            form_post_code: post_code,
+            form_nah_code: nah_code,
+            form_tel: tel,
+            form_address: address
+        },
+        dataType: 'json',
+        type: 'POST',
+        success: function (result) {
+            if(result.state==1)
+            {
+                alert('با موفقیت ثبت شد');
+                close_invoice_contact_modal();
+            }
+            else{
+                alert('خطا در ثبت اطلاعات');
+            }
+        }
+    });
+}
+
 jQuery(document).ready(function () {
+
+
+
+    function custom_invoice_init() {
+        if (jQuery('#acf-field_62a413fba2192')) {
+
+            var html = '';
+            html += '<div class="invoice-box-btn">';
+            html += '<a class="invoice-btn" onclick="show_invoice_contact_modal()" href="#">' + 'جدید';
+            html += '</a>';
+            html += '</div>';
+            jQuery('#acf-field_62a413fba2192').parent().parent().append(html);
+        }
+    }
+
+    custom_invoice_init();
 
     jQuery(window).keydown(function (event) {
         if (event.keyCode == 13) {
@@ -422,8 +485,8 @@ jQuery(document).ready(function () {
 
     });
 
-    setInterval(function(){
-       
+    setInterval(function () {
+
         var ex = jQuery('.acf-table td');
         var i = 0;
         var el = 0;
@@ -432,39 +495,38 @@ jQuery(document).ready(function () {
 
             if (jQuery(ex[i]).attr("data-name")) {
                 if (jQuery(ex[i]).attr("data-name") == 'kala') {
-      
-                   let  rowi=jQuery(ex[i]).parent();
-             
-                    var sku=jQuery(ex[i]).children().eq(0).children().eq(0).children('input').eq(0).attr('data-sku');
-                 
-                   if(sku)
-                   {
-                    var val=jQuery(ex[i]).children().eq(0).children().eq(0).children('input').eq(0).val();
-                    if (sku.length>0 && val.length==0) {
-                     
-                        jQuery.ajax({
-                            url: admin_woo_object.ajaxurl,
-                            data: {
-                                action: 'admin_woo_search_product',
-                                s: sku
-                            },
-                            dataType: 'json',
-                            type: 'POST',
-                            success: function (result) {
-  
-                                if (result.is_sku == 1) {
-                                    var price = result.data[0].price;
-                                    var title = result.data[0].title;
-                                    var id = result.data[0].id;
-                    
-                                    rowi.children('td').eq(0).children().eq(0).children().eq(0).children('input').eq(0).val(title);
-                                    rowi.children('td').eq(2).children().eq(0).children().eq(0).children().eq(0).val(price).trigger('change');
-                                    rowi.children('td').eq(8).children().eq(0).children().eq(0).children().eq(0).val(id);
+
+                    let rowi = jQuery(ex[i]).parent();
+
+                    var sku = jQuery(ex[i]).children().eq(0).children().eq(0).children('input').eq(0).attr('data-sku');
+
+                    if (sku) {
+                        var val = jQuery(ex[i]).children().eq(0).children().eq(0).children('input').eq(0).val();
+                        if (sku.length > 0 && val.length == 0) {
+
+                            jQuery.ajax({
+                                url: admin_woo_object.ajaxurl,
+                                data: {
+                                    action: 'admin_woo_search_product',
+                                    s: sku
+                                },
+                                dataType: 'json',
+                                type: 'POST',
+                                success: function (result) {
+
+                                    if (result.is_sku == 1) {
+                                        var price = result.data[0].price;
+                                        var title = result.data[0].title;
+                                        var id = result.data[0].id;
+
+                                        rowi.children('td').eq(0).children().eq(0).children().eq(0).children('input').eq(0).val(title);
+                                        rowi.children('td').eq(2).children().eq(0).children().eq(0).children().eq(0).val(price).trigger('change');
+                                        rowi.children('td').eq(8).children().eq(0).children().eq(0).children().eq(0).val(id);
+                                    }
                                 }
-                            }
-                        }); 
+                            });
+                        }
                     }
-                   }
 
                 }
             }
