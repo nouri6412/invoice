@@ -157,7 +157,7 @@ class Admin_Woo_Invoice_Core
                     </div>
                 </div>
                 <div class="modal-box-footer">
-                    <button style="float:right" class="invoice-btn" href="#" onclick="save_form_invoice_contact_modal()">ذخیره</button>
+                    <button id="invoice-contact-modal-save" style="float:right" class="invoice-btn" href="#" onclick="save_form_invoice_contact_modal()">ذخیره</button>
                     <button style="float:left" class="invoice-btn" href="#" onclick="close_invoice_contact_modal()">بستن</button>
                 </div>
             </div>
@@ -168,7 +168,7 @@ class Admin_Woo_Invoice_Core
     {
         wp_enqueue_script(
             'admin_woo_ajax_script',
-            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v4.js',
+            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v5.js',
             array('jquery'),
             1,
             true
@@ -581,3 +581,49 @@ function custom_search_product_invoice($args, $field, $post_id)
     return $args;
 }
 add_filter('acf/fields/post_object/query', 'custom_search_product_invoice', 10, 3);
+
+
+add_action( 'restrict_manage_posts', 'admin_posts_filter_restrict_manage_posts_by_author' );
+/**
+ * Create the drop down
+ *
+ * @return void
+ */
+function admin_posts_filter_restrict_manage_posts_by_author(){
+    if( current_user_can('guest_author_5') || current_user_can('administrator') )
+    {
+        if (isset($_GET['post_type']) && 'invoice-form' == $_GET['post_type']){
+            wp_dropdown_users( array(
+                'show_option_all' => 'نمایش همه',
+                'name' => 'bcust_id',
+                'selected' => $_GET['bcust_id']
+            ));
+        }
+    }
+}
+
+add_filter( 'parse_query', 'modify_query_to_filter_by_author' );
+/**
+ * Filter by author
+ * @param  (wp_query object) $query
+ *
+ * @return Void
+ */
+function modify_query_to_filter_by_author( $query ){
+	global $pagenow;
+	if ( isset($_GET['post_type']) 
+	     && 'invoice-form' == $_GET['post_type'] 
+	     && is_admin() && 
+	     $pagenow == 'edit.php' 
+	     && $_GET['bcust_id'] != '') {
+            if(isset($_GET['bcust_id']))
+            {
+                $query->query_vars['author'] = $_GET['bcust_id'];
+            }
+            else
+            {
+                $user_id = get_current_user_id();
+                $query->query_vars['author'] =$user_id;
+            }
+	}
+}

@@ -3,6 +3,7 @@ var selected_input_product_scaner = 0;
 var searched_product_invoice = '';
 
 function show_invoice_contact_modal() {
+    jQuery('#invoice-contact-modal-save').css('display', 'block');
     jQuery('#invoice-contact-modal').css('display', 'block');
 }
 function close_invoice_contact_modal() {
@@ -10,6 +11,7 @@ function close_invoice_contact_modal() {
 }
 
 function save_form_invoice_contact_modal() {
+
     var title = jQuery('#invoice-contact-title').val();
     var eq_number = jQuery('#invoice-contact-ech-number').val();
     var post_code = jQuery('#invoice-contact-postal-code').val();
@@ -21,7 +23,7 @@ function save_form_invoice_contact_modal() {
         alert('عنوان نباید خالی بماند');
         return;
     }
-
+    jQuery('#invoice-contact-modal-save').css('display', 'none');
     jQuery.ajax({
         url: admin_woo_object.ajaxurl,
         data: {
@@ -36,6 +38,7 @@ function save_form_invoice_contact_modal() {
         dataType: 'json',
         type: 'POST',
         success: function (result) {
+            jQuery('#invoice-contact-modal-save').css('display', 'block');
             if(result.state==1)
             {
                 alert('با موفقیت ثبت شد');
@@ -62,6 +65,8 @@ jQuery(document).ready(function () {
             html += '</div>';
             jQuery('#acf-field_62a413fba2192').parent().parent().append(html);
         }
+
+        jQuery("[data-name='contact']").eq(0).children('.acf-input').eq(0).children('.select2').eq(0).children('.selection').eq(0).trigger('click');
     }
 
     custom_invoice_init();
@@ -313,9 +318,13 @@ jQuery(document).ready(function () {
         selected_contact_invoic(obj, 0);
     });
 
-    jQuery(document).on('change', '#acf-field_62a413fba2192', function () {
-        var obj = jQuery(this);
+    function select_auto_contact_invoice(){
+        var obj = jQuery('#acf-field_62a413fba2192');
         selected_contact_invoic(obj, 1);
+    }
+
+    jQuery(document).on('change', '#acf-field_62a413fba2192', function () {
+        select_auto_contact_invoice();
     });
 
     function item_scaner_invoice($sku = '') {
