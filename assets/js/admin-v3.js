@@ -541,6 +541,19 @@ jQuery(document).ready(function () {
             var index = obj.parent().parent().parent().index();
             //   console.log(index);
             if (index == 1 || index == 2 || index == 4) {
+                if(index==1)
+                {
+                    if (Number.isInteger(parseInt(obj.val()))) {
+                        if(parseInt(obj.val())<1)
+                        {
+                            obj.val(1);
+                        }
+                    }
+                    else
+                    {
+                        obj.val(1);
+                    }                   
+                }
                 cal_td_inputs_invoice(obj.parent().parent().parent().parent());
             }
 
