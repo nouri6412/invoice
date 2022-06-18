@@ -168,7 +168,7 @@ class Admin_Woo_Invoice_Core
     {
         wp_enqueue_script(
             'admin_woo_ajax_script',
-            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v3.js',
+            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v4.js',
             array('jquery'),
             1,
             true
