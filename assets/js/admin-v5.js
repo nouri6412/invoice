@@ -66,7 +66,7 @@ jQuery(document).ready(function () {
             jQuery('#acf-field_62a413fba2192').parent().parent().append(html);
         }
 
-        jQuery("[data-name='contact']").eq(0).children('.acf-input').eq(0).children('.select2').eq(0).children('.selection').eq(0).trigger('click');
+       // jQuery("[data-name='contact']").eq(0).children('.acf-input').eq(0).children('.select2').eq(0).children('.selection').eq(0).trigger('click');
     }
 
     custom_invoice_init();
