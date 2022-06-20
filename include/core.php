@@ -220,9 +220,11 @@ class Admin_Woo_Invoice_Core
 
 
 
-            $date = mbm_invoice\tools::to_shamsi(
-                get_the_date('Y-m-d')
-            );
+            // $date = mbm_invoice\tools::to_shamsi(
+            //     get_the_date('Y-m-d')
+            // );
+
+            $date =get_the_date('Y-m-d');
 
 
             $pr=1;
