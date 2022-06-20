@@ -108,6 +108,19 @@ class Admin_Woo_Invoice_Core
         register_post_type('invoice-form', $args);
     }
 
+    function menu()
+    {
+        add_menu_page('گزارشات  فاکتور', 'گزارشات  فاکتور', 'manage_options', 'invoice-report-dashboard', array($this, "report"), 'dashicons-money-alt');
+        add_submenu_page('invoice-report-dashboard', 'گزارش پیش فاکتور', 'گزارش پیش فاکتور', 'manage_options', 'invoice-report-dashboard', array($this, "report"));
+    }
+    function report()
+    {
+?>
+        <button id="generate_chart_invoice">گزارش</button>
+        <div id="pwpc-chart-area"></div>
+    <?php
+    }
+
     function my_custom_template($single)
     {
 
@@ -122,7 +135,7 @@ class Admin_Woo_Invoice_Core
     }
     function script()
     {
-?>
+    ?>
         <div id="invoice-contact-modal" class="invoice-modal">
             <div class="modal-box">
                 <div class="modal-box-header">
@@ -166,6 +179,28 @@ class Admin_Woo_Invoice_Core
     }
     function scripts()
     {
+
+        wp_enqueue_style(
+            'pantherius_wp_charts_style',
+            ADMIN_WOO_INVOICE_URI . 'assets/css/pantherius_wp_charts.css'
+        );
+
+        wp_enqueue_script(
+            'jquery-chartjs',
+            ADMIN_WOO_INVOICE_URI . 'assets/js/Chart.min.js',
+            array('jquery'),
+            '2.3.0',
+            true
+        );
+
+        wp_enqueue_script(
+            'pantherius_wp_charts_script',
+            ADMIN_WOO_INVOICE_URI . 'assets/js/pantherius_wp_charts.js',
+            array('jquery', 'jquery-chartjs'),
+            '2.3.0',
+            true
+        );
+
         wp_enqueue_script(
             'admin_woo_ajax_script',
             ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v5.js',
@@ -505,6 +540,8 @@ add_filter('single_template', [$Admin_Woo_Invoice_Core, 'my_custom_template']);
 add_action('init', [$Admin_Woo_Invoice_Core, 'init']);
 add_action('admin_enqueue_scripts', array($Admin_Woo_Invoice_Core, "scripts"));
 
+add_action("admin_menu", array($Admin_Woo_Invoice_Core, "menu"));
+
 add_action('admin_footer', array($Admin_Woo_Invoice_Core, "style"));
 add_action('admin_footer', array($Admin_Woo_Invoice_Core, "script"));
 
@@ -512,6 +549,7 @@ add_action('wp_ajax_admin_woo_request_price', array($Admin_Woo_Invoice_Core, 're
 add_action('wp_ajax_admin_woo_save_contact', array($Admin_Woo_Invoice_Core, 'save_contact'));
 add_action('wp_ajax_admin_woo_search_product', array($Admin_Woo_Invoice_Core, 'search_product'));
 add_action('wp_ajax_admin_woo_request_seller', array($Admin_Woo_Invoice_Core, 'request_seller'));
+
 
 
 $result = add_role(
@@ -583,17 +621,17 @@ function custom_search_product_invoice($args, $field, $post_id)
 add_filter('acf/fields/post_object/query', 'custom_search_product_invoice', 10, 3);
 
 
-add_action( 'restrict_manage_posts', 'admin_posts_filter_restrict_manage_posts_by_author' );
+add_action('restrict_manage_posts', 'admin_posts_filter_restrict_manage_posts_by_author');
 /**
  * Create the drop down
  *
  * @return void
  */
-function admin_posts_filter_restrict_manage_posts_by_author(){
-    if( current_user_can('guest_author_5') || current_user_can('administrator') )
-    {
-        if (isset($_GET['post_type']) && 'invoice-form' == $_GET['post_type']){
-            wp_dropdown_users( array(
+function admin_posts_filter_restrict_manage_posts_by_author()
+{
+    if (current_user_can('guest_author_5') || current_user_can('administrator')) {
+        if (isset($_GET['post_type']) && 'invoice-form' == $_GET['post_type']) {
+            wp_dropdown_users(array(
                 'show_option_all' => 'نمایش همه',
                 'name' => 'bcust_id',
                 'selected' => $_GET['bcust_id']
@@ -602,28 +640,28 @@ function admin_posts_filter_restrict_manage_posts_by_author(){
     }
 }
 
-add_filter( 'parse_query', 'modify_query_to_filter_by_author' );
+add_filter('parse_query', 'modify_query_to_filter_by_author');
 /**
  * Filter by author
  * @param  (wp_query object) $query
  *
  * @return Void
  */
-function modify_query_to_filter_by_author( $query ){
-	global $pagenow;
-	if ( isset($_GET['post_type']) 
-	     && 'invoice-form' == $_GET['post_type'] 
-	     && is_admin() && 
-	     $pagenow == 'edit.php' 
-	     && $_GET['bcust_id'] != '') {
-            if(isset($_GET['bcust_id']))
-            {
-                $query->query_vars['author'] = $_GET['bcust_id'];
-            }
-            else
-            {
-                $user_id = get_current_user_id();
-                $query->query_vars['author'] =$user_id;
-            }
-	}
+function modify_query_to_filter_by_author($query)
+{
+    global $pagenow;
+    if (
+        isset($_GET['post_type'])
+        && 'invoice-form' == $_GET['post_type']
+        && is_admin() &&
+        $pagenow == 'edit.php'
+        && $_GET['bcust_id'] != ''
+    ) {
+        if (isset($_GET['bcust_id'])) {
+            $query->query_vars['author'] = $_GET['bcust_id'];
+        } else {
+            $user_id = get_current_user_id();
+            $query->query_vars['author'] = $user_id;
+        }
+    }
 }

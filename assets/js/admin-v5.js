@@ -572,5 +572,36 @@ jQuery(document).ready(function () {
 
     });
 
+	jQuery( "body" ).on( "click", "#generate_chart_invoice", function() {
+		dts = {};
+        var param=[];
+        var datas=[];
+		param[ 'style' ] ='linechart';
+
+        param[ 'max' ] = "";
+		param[ 'min' ] = "0";
+	    param[ 'legend' ] = "false";
+        param[ 'bgcolor' ] = "";
+
+		datas[ 'style' ] = param;
+
+		titles_array = ['title 1','title 2','title 3','title 4'];
+		values_array = [5,8,5,9];
+			jQuery.each( titles_array, function( key, value ) {
+				dts[ key ] = {
+					answer: value,
+					count: values_array[ key ]
+				}
+		})
+		datas[ 'datas' ]= {
+			0: dts
+		}
+	var	uniqueid = Math.floor(Math.random() * 26) + Date.now();
+		jQuery( "#pwpc-chart-area" ).html( '<div id="pwp-charts-' + uniqueid + '" class="admin-chart"><canvas style="width: 500px; height: 100%;"></canvas></div>' );
+		jQuery( "#pwp-charts-" + uniqueid ).pmsresults({ "style": datas.style, "datas": datas.datas });
+		jQuery( [document.documentElement, document.body] ).animate({
+			scrollTop: jQuery("#pwp-charts-" + uniqueid + "").offset().top - 350
+		}, 1000);
+	});
 
 });
