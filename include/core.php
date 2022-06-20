@@ -140,12 +140,12 @@ class Admin_Woo_Invoice_Core
 
             .invoice-wrap .postbox .invoice-field {
                 margin-bottom: 15px;
-    width: 30%;
-    padding: 10px;
+                width: 30%;
+                padding: 10px;
             }
 
             .invoice-wrap .postbox .invoice-field button {
-              margin-top: 18px;
+                margin-top: 18px;
             }
 
             .invoice-wrap .postbox .invoice-field label {
@@ -161,6 +161,9 @@ class Admin_Woo_Invoice_Core
         </style>
         <div class="invoice-wrap">
             <h2>گزارش پیش فاکتور</h2>
+            <?php
+            //  echo  mbm_invoice\tools::to_shamsi(date('Y-m-d'));
+            ?>
             <div class="postbox">
                 <div class="filter-box">
                     <div class="invoice-field">
@@ -172,12 +175,12 @@ class Admin_Woo_Invoice_Core
                     </div>
                     <div class="invoice-field">
                         <label>تعداد روز</label>
-                        <input type="number" />
+                        <input id="report-count" name="report-count" value="7" type="number" />
                     </div>
                     <div class="invoice-field">
-                    <button class="button button-primary" id="generate_chart_invoice">گزارش</button>
+                        <button class="button button-primary" id="generate_chart_invoice">گزارش</button>
                     </div>
-            
+
                 </div>
 
                 <div class="content-box"></div>
@@ -186,6 +189,65 @@ class Admin_Woo_Invoice_Core
         </div>
 
     <?php
+    }
+
+    function get_report()
+    {
+        $type = $_POST["type"];
+        $count = $_POST["count"];
+        $user = $_POST["user"];
+        $args = array(
+            'post_type' => 'invoice-form',
+            'post_status' => 'publish',
+            'orderby'   => 'date',
+            'order'   => 'ASC',
+
+            // 'meta_key' => '_sku',
+            // 'meta_value' => '',
+        );
+        $the_query = new WP_Query($args);
+        $count_post = $the_query->post_count;
+
+        $titles = [];
+        $values = [];
+
+        $data = [];
+
+        $index = 0;
+
+        while ($the_query->have_posts()) :
+            $the_query->the_post();
+
+
+
+            $date = mbm_invoice\tools::to_shamsi(
+                get_the_date('Y-m-d')
+            );
+
+            if (isset($data[$date])) {
+                $data[$date] = $data[$date] + 1;
+            } else {
+                $data[$date] = 1;
+                $index++;
+            }
+
+            if ($index >= $count) {
+                break;
+            }
+
+        endwhile;
+
+        foreach ($data as $key => $val) {
+            $titles[] = $key;
+            $values[] = $val;
+        }
+
+        echo json_encode([
+            'titles'       => $titles,
+            'values'          => $values
+        ]);
+
+        die();
     }
 
     function my_custom_template($single)
@@ -616,6 +678,9 @@ add_action('wp_ajax_admin_woo_request_price', array($Admin_Woo_Invoice_Core, 're
 add_action('wp_ajax_admin_woo_save_contact', array($Admin_Woo_Invoice_Core, 'save_contact'));
 add_action('wp_ajax_admin_woo_search_product', array($Admin_Woo_Invoice_Core, 'search_product'));
 add_action('wp_ajax_admin_woo_request_seller', array($Admin_Woo_Invoice_Core, 'request_seller'));
+add_action('wp_ajax_admin_woo_get_report', array($Admin_Woo_Invoice_Core, 'get_report'));
+
+
 
 
 

@@ -585,23 +585,41 @@ jQuery(document).ready(function () {
 
 		datas[ 'style' ] = param;
 
-		titles_array = ['title 1','title 2','title 3','title 4'];
-		values_array = [5,8,5,9];
-			jQuery.each( titles_array, function( key, value ) {
-				dts[ key ] = {
-					answer: value,
-					count: values_array[ key ]
-				}
-		})
-		datas[ 'datas' ]= {
-			0: dts
-		}
-	var	uniqueid = Math.floor(Math.random() * 26) + Date.now();
-		jQuery( "#pwpc-chart-area" ).html( '<div id="pwp-charts-' + uniqueid + '" class="admin-chart"><canvas style="width: 500px; height: 100%;"></canvas></div>' );
-		jQuery( "#pwp-charts-" + uniqueid ).pmsresults({ "style": datas.style, "datas": datas.datas });
-		jQuery( [document.documentElement, document.body] ).animate({
-			scrollTop: jQuery("#pwp-charts-" + uniqueid + "").offset().top - 350
-		}, 1000);
+        jQuery("#pwpc-chart-area").append('<img style="position: relative;"  class="invoice-loader-img" src="' + admin_woo_object.invoice_assets_plugin_url + 'img/loader.gif" />');
+
+        jQuery.ajax({
+            url: admin_woo_object.ajaxurl,
+            data: {
+                action: 'admin_woo_get_report',
+                type: jQuery('#report-type').val(),
+                count:jQuery('#report-count').val(),
+                user:1
+            },
+            dataType: 'json',
+            type: 'POST',
+            success: function (result) {
+                jQuery('.invoice-loader-img').remove();
+                titles_array = result.titles;
+                values_array = result.values;
+                    jQuery.each( titles_array, function( key, value ) {
+                        dts[ key ] = {
+                            answer: value,
+                            count: values_array[ key ]
+                        }
+                })
+                datas[ 'datas' ]= {
+                    0: dts
+                }
+            var	uniqueid = Math.floor(Math.random() * 26) + Date.now();
+                jQuery( "#pwpc-chart-area" ).html( '<div id="pwp-charts-' + uniqueid + '" class="admin-chart"><canvas style="width: 500px; height: 100%;"></canvas></div>' );
+                jQuery( "#pwp-charts-" + uniqueid ).pmsresults({ "style": datas.style, "datas": datas.datas });
+                jQuery( [document.documentElement, document.body] ).animate({
+                    scrollTop: jQuery("#pwp-charts-" + uniqueid + "").offset().top - 350
+                }, 1000);
+            }
+        });
+
+
 	});
 
 });
