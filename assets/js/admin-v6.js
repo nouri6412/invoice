@@ -5,6 +5,8 @@ var searched_product_invoice = '';
 function show_invoice_contact_modal() {
     jQuery('#invoice-contact-modal-save').css('display', 'block');
     jQuery('#invoice-contact-modal').css('display', 'block');
+
+
 }
 function close_invoice_contact_modal() {
     jQuery('#invoice-contact-modal').css('display', 'none');
@@ -39,12 +41,11 @@ function save_form_invoice_contact_modal() {
         type: 'POST',
         success: function (result) {
             jQuery('#invoice-contact-modal-save').css('display', 'block');
-            if(result.state==1)
-            {
+            if (result.state == 1) {
                 alert('با موفقیت ثبت شد');
                 close_invoice_contact_modal();
             }
-            else{
+            else {
                 alert('خطا در ثبت اطلاعات');
             }
         }
@@ -64,9 +65,12 @@ jQuery(document).ready(function () {
             html += '</a>';
             html += '</div>';
             jQuery('#acf-field_62a413fba2192').parent().parent().append(html);
+            if (jQuery('#acf-field_62b060cc8d0ef')) {
+                jQuery('#acf-field_62b060cc8d0ef').attr('disabled', 'true');
+            }
         }
 
-       // jQuery("[data-name='contact']").eq(0).children('.acf-input').eq(0).children('.select2').eq(0).children('.selection').eq(0).trigger('click');
+        // jQuery("[data-name='contact']").eq(0).children('.acf-input').eq(0).children('.select2').eq(0).children('.selection').eq(0).trigger('click');
     }
 
     custom_invoice_init();
@@ -167,6 +171,7 @@ jQuery(document).ready(function () {
             obj.children().eq(6).children().eq(0).children().eq(0).children().eq(0).val(sum_tax);
             var sum_1 = sum + sum_tax;
             obj.children().eq(7).children().eq(0).children().eq(0).children().eq(0).val(sum_1);
+
         }
 
 
@@ -297,6 +302,8 @@ jQuery(document).ready(function () {
         html += '<td>' + numberFormatter.format(sum_td_8);
         html += '</td>';
 
+        jQuery('#acf-field_62b060cc8d0ef').val(sum_td_8);
+
         html += '<td>';
         html += '</td>';
 
@@ -318,7 +325,7 @@ jQuery(document).ready(function () {
         selected_contact_invoic(obj, 0);
     });
 
-    function select_auto_contact_invoice(){
+    function select_auto_contact_invoice() {
         var obj = jQuery('#acf-field_62a413fba2192');
         selected_contact_invoic(obj, 1);
     }
@@ -550,18 +557,15 @@ jQuery(document).ready(function () {
             var index = obj.parent().parent().parent().index();
             //   console.log(index);
             if (index == 1 || index == 2 || index == 4) {
-                if(index==1)
-                {
+                if (index == 1) {
                     if (Number.isInteger(parseInt(obj.val()))) {
-                        if(parseInt(obj.val())<1)
-                        {
+                        if (parseInt(obj.val()) < 1) {
                             obj.val(1);
                         }
                     }
-                    else
-                    {
+                    else {
                         obj.val(1);
-                    }                   
+                    }
                 }
                 cal_td_inputs_invoice(obj.parent().parent().parent().parent());
             }
@@ -572,18 +576,18 @@ jQuery(document).ready(function () {
 
     });
 
-	jQuery( "body" ).on( "click", "#generate_chart_invoice", function() {
-		dts = {};
-        var param=[];
-        var datas=[];
-		param[ 'style' ] ='linechart';
+    jQuery("body").on("click", "#generate_chart_invoice", function () {
+        dts = {};
+        var param = [];
+        var datas = [];
+        param['style'] = 'linechart';
 
-        param[ 'max' ] = "";
-		param[ 'min' ] = "0";
-	    param[ 'legend' ] = "false";
-        param[ 'bgcolor' ] = "";
+        param['max'] = "";
+        param['min'] = "0";
+        param['legend'] = "false";
+        param['bgcolor'] = "";
 
-		datas[ 'style' ] = param;
+        datas['style'] = param;
 
         jQuery("#pwpc-chart-area").append('<img style="position: relative;"  class="invoice-loader-img" src="' + admin_woo_object.invoice_assets_plugin_url + 'img/loader.gif" />');
 
@@ -592,8 +596,8 @@ jQuery(document).ready(function () {
             data: {
                 action: 'admin_woo_get_report',
                 type: jQuery('#report-type').val(),
-                count:jQuery('#report-count').val(),
-                user:1
+                count: jQuery('#report-count').val(),
+                user: 1
             },
             dataType: 'json',
             type: 'POST',
@@ -601,25 +605,25 @@ jQuery(document).ready(function () {
                 jQuery('.invoice-loader-img').remove();
                 titles_array = result.titles;
                 values_array = result.values;
-                    jQuery.each( titles_array, function( key, value ) {
-                        dts[ key ] = {
-                            answer: value,
-                            count: values_array[ key ]
-                        }
+                jQuery.each(titles_array, function (key, value) {
+                    dts[key] = {
+                        answer: value,
+                        count: values_array[key]
+                    }
                 })
-                datas[ 'datas' ]= {
+                datas['datas'] = {
                     0: dts
                 }
-            var	uniqueid = Math.floor(Math.random() * 26) + Date.now();
-                jQuery( "#pwpc-chart-area" ).html( '<div id="pwp-charts-' + uniqueid + '" class="admin-chart"><canvas style="width: 500px; height: 100%;"></canvas></div>' );
-                jQuery( "#pwp-charts-" + uniqueid ).pmsresults({ "style": datas.style, "datas": datas.datas });
-                jQuery( [document.documentElement, document.body] ).animate({
+                var uniqueid = Math.floor(Math.random() * 26) + Date.now();
+                jQuery("#pwpc-chart-area").html('<div id="pwp-charts-' + uniqueid + '" class="admin-chart"><canvas style="width: 500px; height: 100%;"></canvas></div>');
+                jQuery("#pwp-charts-" + uniqueid).pmsresults({ "style": datas.style, "datas": datas.datas });
+                jQuery([document.documentElement, document.body]).animate({
                     scrollTop: jQuery("#pwp-charts-" + uniqueid + "").offset().top - 350
                 }, 1000);
             }
         });
 
 
-	});
+    });
 
 });

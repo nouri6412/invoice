@@ -374,6 +374,27 @@
                 "maxlength": "",
                 "rows": 3,
                 "new_lines": ""
+            },
+            {
+                "key": "field_62b060cc8d0ef",
+                "label": "جمع مبلغ",
+                "name": "price_kol",
+                "type": "number",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": 0,
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "min": "",
+                "max": "",
+                "step": ""
             }
         ],
         "location": [

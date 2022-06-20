@@ -224,10 +224,23 @@ class Admin_Woo_Invoice_Core
                 get_the_date('Y-m-d')
             );
 
+
+            $pr=1;
+
+            if($type==2)
+            {
+                $pr=  get_post_meta(get_the_ID(), 'price_kol', true);  
+            }
+
+            if(!is_numeric($pr))
+            {
+$pr=0;
+            }
+
             if (isset($data[$date])) {
-                $data[$date] = $data[$date] + 1;
+                $data[$date] = $data[$date] + $pr;
             } else {
-                $data[$date] = 1;
+                $data[$date] = $pr;
                 $index++;
             }
 
@@ -332,7 +345,7 @@ class Admin_Woo_Invoice_Core
 
         wp_enqueue_script(
             'admin_woo_ajax_script',
-            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v5.js',
+            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v6.js',
             array('jquery'),
             1,
             true
