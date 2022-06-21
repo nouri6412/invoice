@@ -67,7 +67,7 @@ return;
                     <h4 class="font-weight-bold">صورتحساب فروش کالا و خدمات</h4>
                 </div>
                 <div class="col-3 text-right">
-                    <p><?php echo 'تاریخ سفارش' . ' ' . ':' . get_the_ID() ?></p>
+                    <p><?php echo 'شماره سفارش' . ' ' . ':' . get_the_ID() ?></p>
                     <p><?php echo 'تاریخ سفارش' . ' ' . ':' . get_field('date') ?></p>
                 </div>
             </div>

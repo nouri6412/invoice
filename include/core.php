@@ -273,6 +273,14 @@ class Admin_Woo_Invoice_Core
             return ADMIN_WOO_INVOICE_View . 'invoice.php';
         }
 
+        if ($post->post_type == 'invoice-contact') {
+            return ADMIN_WOO_INVOICE_View . 'contact.php';
+        }
+
+        if ($post->post_type == 'invoice-seller') {
+            return ADMIN_WOO_INVOICE_View . 'contact.php';
+        }
+
         return $single;
     }
     function script()
