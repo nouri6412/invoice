@@ -73,24 +73,24 @@ if (!is_user_logged_in()) {
             </div>
             <div class="row">
                 <div class="col-12">
-                    <p>نام شخص حقیق / حقوقی: <?php echo get_the_title(); ?></p>
+                    <label>نام شخص حقیق / حقوقی: <?php echo get_the_title(); ?></label>
                 </div>
                 <div class="col-12">
-                    <p>آدرس کامل: <?php echo get_field("address", get_the_ID()) ?> </p>
+                    <label>آدرس کامل: <?php echo get_field("address", get_the_ID()) ?> </label>
                 </div>
                 <div class="col-12">
-                    <p><?php echo 'شماره اقتصادی' . ' : ' . get_field("ech_number",get_the_ID()) ?></p>
+                    <label><?php echo 'شماره اقتصادی' . ' : ' . get_field("ech_number",get_the_ID()) ?></label>
 
                 </div>
                 <div class="col-12">
-                    <p><?php echo 'کد پستی' . ' : ' . get_field("postal_code",get_the_ID()) ?></p>
+                    <label><?php echo 'کد پستی' . ' : ' . get_field("postal_code",get_the_ID()) ?></label>
 
                 </div>
                 <div class="col-12">
-                    <p><?php echo 'شماره ثبت / شناسه ملی' . ' : ' . get_field("nash_code", get_the_ID()) ?></p>
+                    <label><?php echo 'شماره ثبت / شناسه ملی' . ' : ' . get_field("nash_code", get_the_ID()) ?></label>
                 </div>
                 <div class="col-12">
-                    <p><?php echo 'تلفن / نمابر' . ' : ' . get_field("tel", get_the_ID()) ?></p>
+                    <label><?php echo 'تلفن / نمابر' . ' : ' . get_field("tel", get_the_ID()) ?></label>
                 </div>
             </div>
         </div>
