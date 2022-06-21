@@ -843,31 +843,30 @@ function modify_query_to_filter_by_author($query)
 }
 
 
-add_filter( 'manage_invoice-form_posts_columns', 'smashing_filter_posts_columns' );
-function smashing_filter_posts_columns( $columns ) {
+add_filter('manage_invoice-form_posts_columns', 'smashing_filter_posts_columns');
+function smashing_filter_posts_columns($columns)
+{
 
-    $cols=[];
-    foreach($columns as $key=>$col)
-    {
-        if($key=="date")
-        {
+    $cols = [];
+    foreach ($columns as $key => $col) {
+        if ($key == "date") {
             $cols['contact'] = 'خریدار';
             $cols['note'] = 'یادداشت';
         }
-        $cols[$key]=$col;
+        $cols[$key] = $col;
     }
 
-  return $cols;
+    return $cols;
 }
 
 
 add_action('manage_invoice-form_posts_custom_column', function ($column_key, $post_id) {
     if ($column_key == 'contact') {
-        $contact = get_field('contact',$post_id);
-       echo $contact->post_title;
+        $contact = get_field('contact', $post_id);
+        echo '<a target="_blank" href="invoice-contact?p='.$contact->ID.'">'.$contact->post_title.'</a>';
     }
     if ($column_key == 'note') {
         $note = get_post_meta($post_id, 'note', true);
-       echo $note;
+        echo $note;
     }
 }, 10, 2);
