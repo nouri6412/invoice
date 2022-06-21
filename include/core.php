@@ -335,6 +335,13 @@ class Admin_Woo_Invoice_Core
             ADMIN_WOO_INVOICE_URI . 'assets/css/pantherius_wp_charts.css'
         );
 
+        wp_enqueue_style(
+            'admin_woo-styles_date',
+            ADMIN_WOO_INVOICE_URI . 'assets/css/DatePicker.css',
+            array(),
+            1.0
+        );
+
         wp_enqueue_script(
             'jquery-chartjs',
             ADMIN_WOO_INVOICE_URI . 'assets/js/Chart.min.js',
@@ -352,8 +359,24 @@ class Admin_Woo_Invoice_Core
         );
 
         wp_enqueue_script(
+            'admin_woo_script_date',
+            ADMIN_WOO_INVOICE_URI . 'assets/js/DatePicker.js',
+            array('jquery'),
+            1,
+            true
+        );
+
+        wp_enqueue_script(
+            'admin_woo_script_jalali',
+            ADMIN_WOO_INVOICE_URI . 'assets/js/jalali.js',
+            array('jquery'),
+            1,
+            true
+        );
+
+        wp_enqueue_script(
             'admin_woo_ajax_script',
-            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v6.js',
+            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v7.js',
             array('jquery'),
             1,
             true
