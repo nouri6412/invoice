@@ -224,19 +224,17 @@ class Admin_Woo_Invoice_Core
             //     get_the_date('Y-m-d')
             // );
 
-            $date =get_the_date('Y-m-d');
+            $date = get_the_date('Y-m-d');
 
 
-            $pr=1;
+            $pr = 1;
 
-            if($type==2)
-            {
-                $pr=  get_post_meta(get_the_ID(), 'price_kol', true);  
+            if ($type == 2) {
+                $pr =  get_post_meta(get_the_ID(), 'price_kol', true);
             }
 
-            if(!is_numeric($pr))
-            {
-$pr=0;
+            if (!is_numeric($pr)) {
+                $pr = 0;
             }
 
             if (isset($data[$date])) {
