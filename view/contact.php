@@ -51,6 +51,9 @@
         .hidden-td {
             display: none;
         }
+        .invoice .red{
+    color: red;
+}
     </style>
 </head>
 <?php
@@ -74,6 +77,12 @@ if (!is_user_logged_in()) {
             <div class="row">
                 <div class="col-12">
                     <label>نام شخص حقیق / حقوقی: <?php echo get_the_title(); ?></label>
+                </div>
+                <div class="col-12">
+                    <label class="red">وضعیت: <?php echo get_field("status", get_the_ID()) ?> </label>
+                </div>
+                <div class="col-12">
+                    <label class="red">درجه: <?php echo get_field("rate", get_the_ID()) ?> </label>
                 </div>
                 <div class="col-12">
                     <label>آدرس کامل: <?php echo get_field("address", get_the_ID()) ?> </label>
