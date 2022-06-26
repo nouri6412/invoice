@@ -44,6 +44,11 @@
         .invoice {
             font-size: 13px;
         }
+
+.invoice .red{
+    color: red;
+}
+
         .hidden-td{
             display: none;
         }
