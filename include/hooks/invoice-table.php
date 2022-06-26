@@ -12,10 +12,9 @@ function admin_posts_filter_restrict_manage_posts_by_author()
     if (current_user_can('guest_author_5') || current_user_can('administrator')) {
         if (isset($_GET['post_type']) && 'invoice-form' == $_GET['post_type']) {
 
-            $id=0;
-            if(isset($_GET['bcust_id']))
-            {
-                $id=$_GET['bcust_id'];
+            $id = 0;
+            if (isset($_GET['bcust_id'])) {
+                $id = $_GET['bcust_id'];
             }
             wp_dropdown_users(array(
                 'show_option_all' => 'نمایش همه',
@@ -42,7 +41,7 @@ function modify_query_to_filter_by_author($query)
         && is_admin() &&
         $pagenow == 'edit.php'
     ) {
-        if (isset($_GET['bcust_id'])&&$_GET['bcust_id'] != '') {
+        if (isset($_GET['bcust_id']) && $_GET['bcust_id'] != '') {
             $query->query_vars['author'] = $_GET['bcust_id'];
         } else {
             $user_id = get_current_user_id();
@@ -72,6 +71,7 @@ function smashing_filter_main_posts_columns($columns)
     foreach ($columns as $key => $col) {
         if ($key == "date") {
             $cols['contact'] = 'خریدار';
+            $cols['pre_fomr'] = 'پیش فاکتور';
             $cols['note'] = 'یادداشت';
         }
         $cols[$key] = $col;
@@ -89,6 +89,7 @@ function smashing_filter_posts_columns($columns)
     foreach ($columns as $key => $col) {
         if ($key == "date") {
             $cols['contact'] = 'خریدار';
+            $cols['to_invoice'] = 'تبدیل به فاکتور';
             $cols['note'] = 'یادداشت';
         }
         $cols[$key] = $col;
@@ -100,16 +101,19 @@ function smashing_filter_posts_columns($columns)
 add_action('manage_invoice-form-main_posts_custom_column', function ($column_key, $post_id) {
     if ($column_key == 'contact') {
         $contact = get_field('contact', $post_id);
-    
-        if(isset($contact->ID))
-        {
-            echo '<a target="_blank" href="invoice-contact?p=' .$contact->ID . '">' . $contact->post_title . '</a>';
 
+        if (isset($contact->ID)) {
+            echo '<a target="_blank" href="invoice-contact?p=' . $contact->ID . '">' . $contact->post_title . '</a>';
+        } else {
+            echo '<a target="_blank" href="invoice-contact?p=' . $contact . '">' . get_the_title($contact) . '</a>';
         }
-        else
-        {
-            echo '<a target="_blank" href="invoice-contact?p=' .$contact . '">' . get_the_title($contact) . '</a>';
-
+    }
+    if ($column_key == 'pre_form') {
+        $pre_form = get_post_meta($post_id, 'pre_form', true);
+        if (is_numeric($pre_form)) {
+            echo '<a target="_blank" href="' . admin_url() . 'post.php?post=' . $pre_form . '&action=edit">نمایش</a>';
+        } else {
+            echo  'ندارد';
         }
     }
     if ($column_key == 'note') {
@@ -121,20 +125,19 @@ add_action('manage_invoice-form-main_posts_custom_column', function ($column_key
 add_action('manage_invoice-form_posts_custom_column', function ($column_key, $post_id) {
     if ($column_key == 'contact') {
         $contact = get_field('contact', $post_id);
-    
-        if(isset($contact->ID))
-        {
-            echo '<a target="_blank" href="invoice-contact?p=' .$contact->ID . '">' . $contact->post_title . '</a>';
 
-        }
-        else
-        {
-            echo '<a target="_blank" href="invoice-contact?p=' .$contact . '">' . get_the_title($contact) . '</a>';
-
+        if (isset($contact->ID)) {
+            echo '<a target="_blank" href="invoice-contact?p=' . $contact->ID . '">' . $contact->post_title . '</a>';
+        } else {
+            echo '<a target="_blank" href="invoice-contact?p=' . $contact . '">' . get_the_title($contact) . '</a>';
         }
     }
     if ($column_key == 'note') {
         $note = get_post_meta($post_id, 'note', true);
         echo $note;
+    }
+    if ($column_key == 'to_invoice') {
+        echo '<a href="admin.php?page=invoice-convert&post_id=' . $post_id . '">تبدیل</a>';
+
     }
 }, 10, 2);

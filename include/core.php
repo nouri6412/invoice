@@ -152,10 +152,18 @@ class Admin_Woo_Invoice_Core
         add_menu_page('گزارشات  فاکتور', 'گزارشات  فاکتور', 'manage_options', 'invoice-report-dashboard', array($this, "dashboard"), 'dashicons-money-alt');
         add_submenu_page('invoice-report-dashboard', 'گزارش پیش فاکتور', 'گزارش پیش فاکتور', 'manage_options', 'invoice-report-form', array($this, "pre_invoice_report"));
         add_submenu_page('invoice-report-dashboard', 'گزارش  فاکتور', 'گزارش  فاکتور', 'manage_options', 'invoice-report-form-main', array($this, "invoice_report"));
+        add_submenu_page('invoice-convert-1', 'تبدیل فاکتور', 'تبدیل  فاکتور', 'manage_options', 'invoice-convert', array($this, "invoice_convert"));
     }
     function dashboard()
     {
         # code...
+    }
+    function invoice_convert()
+    {
+        $post_id = 0;
+        if (isset($_POST["post_id"])) {
+            $post_id = $_POST["post_id"];
+        }
     }
     function pre_invoice_report()
     {
@@ -328,7 +336,7 @@ class Admin_Woo_Invoice_Core
         global $post;
 
         /* Checks for single template by post type */
-        if ($post->post_type == 'invoice-form'||$post->post_type == 'invoice-form-main') {
+        if ($post->post_type == 'invoice-form' || $post->post_type == 'invoice-form-main') {
             return ADMIN_WOO_INVOICE_View . 'invoice.php';
         }
 
@@ -836,7 +844,3 @@ $result = add_role(
         'delete_posts' => false, // Use false to explicitly deny
     )
 );
-
-
-
-
