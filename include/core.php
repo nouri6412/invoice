@@ -328,7 +328,7 @@ class Admin_Woo_Invoice_Core
         global $post;
 
         /* Checks for single template by post type */
-        if ($post->post_type == 'invoice-form') {
+        if ($post->post_type == 'invoice-form'||$post->post_type == 'invoice-form-main') {
             return ADMIN_WOO_INVOICE_View . 'invoice.php';
         }
 

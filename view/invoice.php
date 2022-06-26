@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="<?php echo ADMIN_WOO_INVOICE_URI; ?>assets/css/admin.css" />
 
 
-    <title>فاکتور فروش</title>
+    <title>فاکتور </title>
     <style>
         .invoice {
             font-family: 'Vazir';
