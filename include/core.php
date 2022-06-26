@@ -106,16 +106,73 @@ class Admin_Woo_Invoice_Core
             'hierarchical' => false,
         );
         register_post_type('invoice-form', $args);
+
+
+        ///////
+
+
+        ////
+
+        $supports = array(
+            'title', // post title
+            'thumbnail', // featured images
+            'custom-fields', // custom fields
+            'post-formats', // post formats
+        );
+
+        $labels = array(
+            'name' => _x(' فاکتور', 'plural'),
+            'singular_name' => _x(' فاکتور', 'singular'),
+            'menu_name' => _x(' فاکتور', 'admin menu'),
+            'name_admin_bar' => _x(' فاکتور', 'admin bar'),
+            'add_new' => _x('ثبت  فاکتور جدید', 'add new'),
+            'add_new_item' => "ثبت  فاکتور جدید",
+            'new_item' => " فاکتور جدید",
+            'edit_item' => "ویرایش  فاکتور",
+            'view_item' => "مشاهده  فاکتور",
+            'all_items' => "همه  فاکتور ها",
+            'search_items' => "جستجوی فاکتور",
+            'not_found' => "یافت نشد"
+        );
+
+        $args = array(
+            'supports' => $supports,
+            'labels' => $labels,
+            'public' => true,
+            'query_var' => true,
+            'rewrite' => array('slug' => 'invoice-form-main'),
+            'has_archive' => true,
+            'hierarchical' => false,
+        );
+        register_post_type('invoice-form-main', $args);
     }
 
     function menu()
     {
-        add_menu_page('گزارشات  فاکتور', 'گزارشات  فاکتور', 'manage_options', 'invoice-report-dashboard', array($this, "report"), 'dashicons-money-alt');
-        add_submenu_page('invoice-report-dashboard', 'گزارش پیش فاکتور', 'گزارش پیش فاکتور', 'manage_options', 'invoice-report-dashboard', array($this, "report"));
+        add_menu_page('گزارشات  فاکتور', 'گزارشات  فاکتور', 'manage_options', 'invoice-report-dashboard', array($this, "dashboard"), 'dashicons-money-alt');
+        add_submenu_page('invoice-report-dashboard', 'گزارش پیش فاکتور', 'گزارش پیش فاکتور', 'manage_options', 'invoice-report-form', array($this, "pre_invoice_report"));
+        add_submenu_page('invoice-report-dashboard', 'گزارش  فاکتور', 'گزارش  فاکتور', 'manage_options', 'invoice-report-form-main', array($this, "invoice_report"));
     }
-    function report()
+    function dashboard()
     {
+        # code...
+    }
+    function pre_invoice_report()
+    {
+        $this->report("invoice-form");
+    }
+    function invoice_report()
+    {
+        $this->report("invoice-form-main");
+    }
+    function report($invoice_type)
+    {
+        $title = "پیش";
+        if ($invoice_type == "invoice-form-main") {
+            $title = "";
+        }
 ?>
+
         <style>
             .invoice-wrap {
                 padding: 20px;
@@ -160,7 +217,7 @@ class Admin_Woo_Invoice_Core
             }
         </style>
         <div class="invoice-wrap">
-            <h2>گزارش پیش فاکتور</h2>
+            <h2>گزارش <?php echo $title ?> فاکتور</h2>
             <?php
             //  echo  mbm_invoice\tools::to_shamsi(date('Y-m-d'));
             ?>
@@ -168,9 +225,10 @@ class Admin_Woo_Invoice_Core
                 <div class="filter-box">
                     <div class="invoice-field">
                         <label for="report-type">نوع گزارش</label>
+                        <input id="invoice-type" name="invoice-type" value="<?php echo $invoice_type; ?>" type="hidden" />
                         <select id="report-type" name="report-type">
-                            <option value="1">تعداد پیش فاکتور</option>
-                            <option value="2">مبلغ پیش فاکتور</option>
+                            <option value="1">تعداد <?php echo $title ?> فاکتور</option>
+                            <option value="2">مبلغ <?php echo $title ?> فاکتور</option>
                         </select>
                     </div>
                     <div class="invoice-field">
@@ -195,9 +253,10 @@ class Admin_Woo_Invoice_Core
     {
         $type = $_POST["type"];
         $count = $_POST["count"];
+        $invoice_type = $_POST["invoice_type"];
         $user = $_POST["user"];
         $args = array(
-            'post_type' => 'invoice-form',
+            'post_type' => $invoice_type,
             'post_status' => 'publish',
             'orderby'   => 'date',
             'order'   => 'ASC',
@@ -806,7 +865,7 @@ add_action('restrict_manage_posts', 'admin_posts_filter_restrict_manage_posts_by
 function admin_posts_filter_restrict_manage_posts_by_author()
 {
     if (current_user_can('guest_author_5') || current_user_can('administrator')) {
-        if (isset($_GET['post_type']) && 'invoice-form' == $_GET['post_type']) {
+        if (isset($_GET['post_type']) && ('invoice-form' == $_GET['post_type'] || 'invoice-form-main' == $_GET['post_type'])) {
             wp_dropdown_users(array(
                 'show_option_all' => 'نمایش همه',
                 'name' => 'bcust_id',
@@ -828,7 +887,7 @@ function modify_query_to_filter_by_author($query)
     global $pagenow;
     if (
         isset($_GET['post_type'])
-        && 'invoice-form' == $_GET['post_type']
+        && ('invoice-form' == $_GET['post_type'] || 'invoice-form-main' == $_GET['post_type'])
         && is_admin() &&
         $pagenow == 'edit.php'
         && $_GET['bcust_id'] != ''
@@ -844,6 +903,7 @@ function modify_query_to_filter_by_author($query)
 
 
 add_filter('manage_invoice-form_posts_columns', 'smashing_filter_posts_columns');
+add_filter('manage_invoice-form-main_posts_columns', 'smashing_filter_posts_columns');
 function smashing_filter_posts_columns($columns)
 {
 
@@ -859,14 +919,17 @@ function smashing_filter_posts_columns($columns)
     return $cols;
 }
 
+add_action('manage_invoice-form_posts_custom_column', "smashing_filter_posts_columns_content", 10, 2);
+add_action('manage_invoice-form-main_posts_custom_column', "smashing_filter_posts_columns_content", 10, 2);
 
-add_action('manage_invoice-form_posts_custom_column', function ($column_key, $post_id) {
+function smashing_filter_posts_columns_content($column_key, $post_id)
+{
     if ($column_key == 'contact') {
         $contact = get_field('contact', $post_id);
-        echo '<a target="_blank" href="invoice-contact?p='.$contact->ID.'">'.$contact->post_title.'</a>';
+        echo '<a target="_blank" href="invoice-contact?p=' . $contact->ID . '">' . $contact->post_title . '</a>';
     }
     if ($column_key == 'note') {
         $note = get_post_meta($post_id, 'note', true);
         echo $note;
     }
-}, 10, 2);
+}
