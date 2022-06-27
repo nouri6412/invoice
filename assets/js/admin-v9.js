@@ -316,7 +316,7 @@ jQuery(document).ready(function () {
 
 
 
-        jQuery('.acf-repeater>table>tbody').append(html);
+        jQuery('.table-kala .acf-repeater>table>tbody').append(html);
     }
 
     cal_td_inputs_invoice(0);

@@ -471,7 +471,7 @@ class Admin_Woo_Invoice_Core
 
         wp_enqueue_script(
             'admin_woo_ajax_script',
-            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v8.js',
+            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v9.js',
             array('jquery'),
             1,
             true
@@ -529,7 +529,7 @@ class Admin_Woo_Invoice_Core
                 background-color: #eee;
             }
 
-            .acf-button {
+            .table-kala .acf-button {
                 width: 0;
                 padding: 0 !important;
                 border: 0 !important;

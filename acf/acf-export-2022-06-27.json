@@ -414,6 +414,46 @@
                 "maxlength": "",
                 "rows": 3,
                 "new_lines": ""
+            },
+            {
+                "key": "field_62b92cb475e9a",
+                "label": "فایل ضمیمه",
+                "name": "invoice_files",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "collapsed": "",
+                "min": 0,
+                "max": 0,
+                "layout": "row",
+                "button_label": "",
+                "sub_fields": [
+                    {
+                        "key": "field_62b92ce875e9b",
+                        "label": "فایل",
+                        "name": "my-files",
+                        "type": "file",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "return_format": "url",
+                        "library": "all",
+                        "min_size": "",
+                        "max_size": "",
+                        "mime_types": ""
+                    }
+                ]
             }
         ],
         "location": [
