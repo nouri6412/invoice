@@ -58,11 +58,13 @@ class Admin_Woo_Invoice_Fetch
                     </form>
                 </div>
 
-                <button onclick="exportTableToExcel('torob-table')">تبدیل به اکسل</button>
+                <button onclick="exportTableToExcelCustom()">تبدیل به اکسل</button>
                 <?php
                 if (isset($_POST["invoice_fetch"])) {
                     $arr = explode('-', $_POST["invoice_fetch"]);
                     $html = '<table  id="torob-table" style="display:none">';
+                    global $detail;
+                    $detail = [];
                     foreach ($arr as $word) {
                         $html .= '<tr>';
                         $html .= '<td>';
@@ -70,11 +72,31 @@ class Admin_Woo_Invoice_Fetch
                         $html .= '</td>';
                         $html .= '</tr>';
                         $html .= '<tr>';
-                        $html .= '<td>';
                         $str = file_get_contents('https://one-api.ir/torob/?token=950071:62b828c9f410d7.97991171&action=search&q=' . trim($word));
                         $json = json_decode($str, true);
-                        $html .= $this->table($json);
+                        // print_r($json);
+                        // var_dump($json);
+                        $html .= $this->table($json["result"], $word);
+                        $html .= '</tr>';
+                    }
+                    $html .= '</table>';
+
+                    $html .= '<table  id="torob-table-detail" style="display:none">';
+                   // var_dump($detail);
+                    foreach ($detail as $row) {
+                        $html .= '<tr>';
+                        $html .= '<td>';
+                        $html .= $row["word"];
                         $html .= '</td>';
+                        $html .= '</tr>';
+                        $html .= '<tr>';
+                        $url='https://one-api.ir/torob/?token=950071:62b828c9f410d7.97991171&action=get&search_id=' . $row["search_id"] . '&prk=' . $row["prk"] . '';
+                      //  echo $url.'<br>';
+                        $str = file_get_contents($url);
+                     //  echo $str;
+                        $json = json_decode($str, true);
+                        // var_dump($json);
+                        //   $html .= $this->table($json);
                         $html .= '</tr>';
                     }
                     $html .= '</table>';
@@ -90,26 +112,35 @@ class Admin_Woo_Invoice_Fetch
         <script src="<?php echo ADMIN_WOO_INVOICE_URI; ?>assets/js/excel.js"></script>
 <?php
     }
-    function table($table)
+    function table($table,$word="")
     {
-        $html = '<table>';
-        foreach ($table as $key => $tr) {
+     global $detail;
+        $html = "";
 
-            if (is_array($tr)) {
+        $index=0;
+        foreach ($table as $key => $tr)
+        {
+            $index++;
+            if($index==1)
+            {
+                $html .= '<tr>';
                 foreach ($tr as $key1 => $tr1) {
-                    $html .= '<tr>';
-                    if (is_array($tr1)) {
-                        $html .= '<td>' . $this->table($tr1) . '</td>';
-                    } else {
-                        $html .= '<td>' . $tr1 . '</td>';
-                    }
-                    $html .= '</tr>';
+                    $html .= '<th>' . $key1 . '-' . '</th>';
                 }
-            } else {
-                $html .= '<td>' . $tr . '</td>';
+                $html .= '</tr>';
             }
+
+    
+            $html .= '<tr>';
+            foreach ($tr as $key1 => $tr1) {
+                if ($key1 == "search_id") {
+                    $detail[] = ["search_id" => $tr1, "prk" => $tr["prk"], "word" => $word];
+                }
+                $html .= '<td>' . $tr1 . '-' . '</td>';
+            }
+            $html .= '</tr>';
         }
-        $html .= '</table>';
+
         return $html;
     }
 }

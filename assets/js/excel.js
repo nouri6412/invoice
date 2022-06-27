@@ -29,3 +29,8 @@ function exportTableToExcel(tableID, filename = '') {
 
     return (sa);
 }
+function exportTableToExcelCustom()
+{
+    exportTableToExcel('torob-table');
+    exportTableToExcel('torob-table-detail');
+}
