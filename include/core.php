@@ -152,11 +152,18 @@ class Admin_Woo_Invoice_Core
         add_menu_page('گزارشات  فاکتور', 'گزارشات  فاکتور', 'manage_options', 'invoice-report-dashboard', array($this, "dashboard"), 'dashicons-money-alt');
         add_submenu_page('invoice-report-dashboard', 'گزارش پیش فاکتور', 'گزارش پیش فاکتور', 'manage_options', 'invoice-report-form', array($this, "pre_invoice_report"));
         add_submenu_page('invoice-report-dashboard', 'گزارش  فاکتور', 'گزارش  فاکتور', 'manage_options', 'invoice-report-form-main', array($this, "invoice_report"));
+        add_submenu_page('invoice-report-dashboard', 'api', 'api', 'manage_options', 'invoice-fetch-totob', array($this, "fetch_torob"));
         add_submenu_page('invoice-convert-1', 'تبدیل فاکتور', 'تبدیل  فاکتور', 'manage_options', 'invoice-convert', array($this, "invoice_convert"));
+
     }
     function dashboard()
     {
         # code...
+    }
+    function fetch_torob()
+    {
+     $Admin_Woo_Invoice_Fetch=new Admin_Woo_Invoice_Fetch;
+     $Admin_Woo_Invoice_Fetch->torob();
     }
     function invoice_convert()
     {
