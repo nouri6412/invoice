@@ -10,7 +10,7 @@ add_action('restrict_manage_posts', 'admin_posts_filter_restrict_manage_posts_by
 function admin_posts_filter_restrict_manage_posts_by_author()
 {
     if (current_user_can('guest_author_5') || current_user_can('administrator')) {
-        if (isset($_GET['post_type']) && 'invoice-form' == $_GET['post_type']) {
+        if (isset($_GET['post_type']) && ('invoice-form' == $_GET['post_type'] || 'invoice-form-main' == $_GET['post_type'])) {
 
             $id = 0;
             if (isset($_GET['bcust_id'])) {
@@ -37,7 +37,7 @@ function modify_query_to_filter_by_author($query)
     global $pagenow;
     if (
         isset($_GET['post_type'])
-        && 'invoice-form' == $_GET['post_type']
+        && ('invoice-form' == $_GET['post_type'] || 'invoice-form-main' == $_GET['post_type'])
         && is_admin() &&
         $pagenow == 'edit.php'
     ) {
