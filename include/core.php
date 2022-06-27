@@ -161,8 +161,36 @@ class Admin_Woo_Invoice_Core
     function invoice_convert()
     {
         $post_id = 0;
-        if (isset($_POST["post_id"])) {
-            $post_id = $_POST["post_id"];
+        if (isset($_GET["post_id"])) {
+            $post_id = $_GET["post_id"];
+        }
+        if ($post_id > 0) {
+            $user_id = get_current_user_id();
+            $args = array(
+                'post_title'    => get_the_title($post_id),
+                'post_status'   => 'publish',
+                'post_author'   => $user_id,
+                'post_type'     => 'invoice-form-main',
+                'meta_input'    => array(
+                    'pre_form'         => $post_id
+                ),
+            );
+
+            $result = [];
+
+            $insert_id = wp_insert_post($args);
+            if (!is_wp_error($insert_id)) {
+                global $wpdb;
+                $table     = $wpdb->prefix . "postmeta";
+
+                $query_string       = $wpdb->prepare("insert into $table( post_id, meta_key, meta_value) select  %d, meta_key, meta_value from  $table  where post_id=%d ", array($insert_id,$post_id));
+                $query_result       = $wpdb->query($query_string);
+                wp_redirect(admin_url() . 'post.php?post=' . $insert_id . '&action=edit');
+                exit;
+            } else {
+
+                $message = '<h2 style="color:red;">خطا در ثبت اطلاعات</h2>';
+            }
         }
     }
     function pre_invoice_report()
@@ -443,7 +471,7 @@ class Admin_Woo_Invoice_Core
 
         wp_enqueue_script(
             'admin_woo_ajax_script',
-            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v7.js',
+            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v8.js',
             array('jquery'),
             1,
             true

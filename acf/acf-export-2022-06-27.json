@@ -422,7 +422,9 @@
                     "param": "post_type",
                     "operator": "==",
                     "value": "invoice-form"
-                },
+                }
+            ],
+            [
                 {
                     "param": "post_type",
                     "operator": "==",

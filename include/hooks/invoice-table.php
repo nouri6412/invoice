@@ -71,7 +71,7 @@ function smashing_filter_main_posts_columns($columns)
     foreach ($columns as $key => $col) {
         if ($key == "date") {
             $cols['contact'] = 'خریدار';
-            $cols['pre_fomr'] = 'پیش فاکتور';
+            $cols['pre_form'] = 'پیش فاکتور';
             $cols['note'] = 'یادداشت';
         }
         $cols[$key] = $col;
@@ -111,7 +111,7 @@ add_action('manage_invoice-form-main_posts_custom_column', function ($column_key
     if ($column_key == 'pre_form') {
         $pre_form = get_post_meta($post_id, 'pre_form', true);
         if (is_numeric($pre_form)) {
-            echo '<a target="_blank" href="' . admin_url() . 'post.php?post=' . $pre_form . '&action=edit">نمایش</a>';
+            echo '<a target="_blank" href="' . admin_url() . 'post.php?post=' . $pre_form . '&action=edit">'.'پیش فاکتور'.' '.$pre_form.'</a>';
         } else {
             echo  'ندارد';
         }
@@ -137,7 +137,7 @@ add_action('manage_invoice-form_posts_custom_column', function ($column_key, $po
         echo $note;
     }
     if ($column_key == 'to_invoice') {
-        echo '<a href="admin.php?page=invoice-convert&post_id=' . $post_id . '">تبدیل</a>';
+        echo '<a href="admin.php?page=invoice-convert&post_id=' . $post_id . '">تبدیل به فاکتور</a>';
 
     }
 }, 10, 2);
