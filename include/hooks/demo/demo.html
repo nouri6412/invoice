@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="xlsx.full.min.js"></script>
+    <script src="jspdf.umd.min.js"></script>
+    <script src="jspdf.plugin.autotable.min.js"></script>
+    <link href="tabulator_site.css" rel="stylesheet">
+    <script src="tabulator.min.js"></script>
+    <title></title>
+
+</head>
+
+<body>
+    <div>
+        <button id="download-csv">Download CSV</button>
+        <button id="download-json">Download JSON</button>
+        <button id="download-xlsx">Download XLSX</button>
+        <button id="download-pdf">Download PDF</button>
+        <button id="download-html">Download HTML</button>
+    </div>
+
+    <div id="example-table"></div>
+    <script>
+        var tabledata = [
+            { id: 1, name: "Oli Bob", progress: 12, location: "United Kingdom", gender: "male", rating: 1, col: "red", dob: "14/04/1984", car: 1, lucky_no: 5, lorem: "Lorem ipsum dolor sit amet, elit consectetur adipisicing " },
+            { id: 2, name: "Mary May", progress: 1, location: "Germany", gender: "female", rating: 2, col: "blue", dob: "14/05/1982", car: true, lucky_no: 10, lorem: "Lorem ipsum dolor sit amet, elit consectetur adipisicing " },
+            { id: 3, name: "Christine Lobowski", progress: 42, location: "France", gender: "female", rating: 0, col: "green", dob: "22/05/1982", car: "true", lucky_no: 12, lorem: "Lorem ipsum dolor sit amet, elit consectetur adipisicing " },
+            { id: 4, name: "Brendon Philips", progress: 100, location: "USA", gender: "male", rating: 1, col: "orange", dob: "01/08/1980", lucky_no: 18, lorem: "Lorem ipsum dolor sit amet, elit consectetur adipisicing " },
+            { id: 5, name: "Margret Marmajuke", progress: 16, location: "Canada", gender: "female", rating: 5, col: "yellow", dob: "31/01/1999", lucky_no: 33, lorem: "Lorem ipsum dolor sit amet, elit consectetur adipisicing " },
+            { id: 6, name: "Frank Harbours", progress: 38, location: "Russia", gender: "male", rating: 4, col: "red", dob: "12/05/1966", car: 1, lucky_no: 2, lorem: "Lorem ipsum dolor sit amet, elit consectetur adipisicing " },
+            { id: 7, name: "Jamie Newhart", progress: 23, location: "India", gender: "male", rating: 3, col: "green", dob: "14/05/1985", car: true, lucky_no: 63, lorem: "Lorem ipsum dolor sit amet, elit consectetur adipisicing " },
+            { id: 8, name: "Gemma Jane", progress: 60, location: "China", gender: "female", rating: 0, col: "red", dob: "22/05/1982", car: "true", lucky_no: 72, lorem: "Lorem ipsum dolor sit amet, elit consectetur adipisicing " },
+            { id: 9, name: "Emily Sykes", progress: 42, location: "South Korea", gender: "female", rating: 1, col: "maroon", dob: "11/11/1970", lucky_no: 44, lorem: "Lorem ipsum dolor sit amet, elit consectetur adipisicing " },
+            { id: 10, name: "James Newman", progress: 73, location: "Japan", gender: "male", rating: 5, col: "red", dob: "22/03/1998", lucky_no: 9, lorem: "Lorem ipsum dolor sit amet, elit consectetur adipisicing " },
+        ];
+        var table = new Tabulator("#example-table", {
+            height: "311px",
+            data:tabledata,
+            columns: [
+                { title: "Name", field: "name", width: 200 },
+                { title: "Progress", field: "progress", width: 100, sorter: "number" },
+                { title: "Gender", field: "gender" },
+                { title: "Rating", field: "rating", width: 80 },
+                { title: "Favourite Color", field: "col" },
+                { title: "Date Of Birth", field: "dob", hozAlign: "center", sorter: "date" },
+                { title: "Driver", field: "car", hozAlign: "center", formatter: "tickCross" },
+            ],
+        });
+
+        //trigger download of data.csv file
+        document.getElementById("download-csv").addEventListener("click", function () {
+            table.download("csv", "data.csv");
+        });
+
+        //trigger download of data.json file
+        document.getElementById("download-json").addEventListener("click", function () {
+            table.download("json", "data.json");
+        });
+
+        //trigger download of data.xlsx file
+        document.getElementById("download-xlsx").addEventListener("click", function () {
+            table.download("xlsx", "data.xlsx", { sheetName: "My Data" });
+        });
+
+        //trigger download of data.pdf file
+        document.getElementById("download-pdf").addEventListener("click", function () {
+            table.download("pdf", "data.pdf", {
+                orientation: "portrait", //set page orientation to portrait
+                title: "Example Report", //add title to report
+            });
+        });
+
+        //trigger download of data.html file
+        document.getElementById("download-html").addEventListener("click", function () {
+            table.download("html", "data.html", { style: true });
+        });
+    </script>
+</body>
+
+</html>

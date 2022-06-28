@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="xlsx.full.min.js"></script>
+    <script src="jspdf.umd.min.js"></script>
+    <script src="jspdf.plugin.autotable.min.js"></script>
+    <title></title>
+
+</head>
+
+<body>
+    <div>
+        <button id="download-csv">Download CSV</button>
+        <button id="download-json">Download JSON</button>
+        <button id="download-xlsx">Download XLSX</button>
+        <button id="download-pdf">Download PDF</button>
+        <button id="download-html">Download HTML</button>
+    </div>
+
+    <div id="example-table"></div>
+    <script>
+        var table = new Tabulator("#example-table", {
+            height: "311px",
+            columns: [
+                { title: "Name", field: "name", width: 200 },
+                { title: "Progress", field: "progress", width: 100, sorter: "number" },
+                { title: "Gender", field: "gender" },
+                { title: "Rating", field: "rating", width: 80 },
+                { title: "Favourite Color", field: "col" },
+                { title: "Date Of Birth", field: "dob", hozAlign: "center", sorter: "date" },
+                { title: "Driver", field: "car", hozAlign: "center", formatter: "tickCross" },
+            ],
+        });
+
+        //trigger download of data.csv file
+        document.getElementById("download-csv").addEventListener("click", function () {
+            table.download("csv", "data.csv");
+        });
+
+        //trigger download of data.json file
+        document.getElementById("download-json").addEventListener("click", function () {
+            table.download("json", "data.json");
+        });
+
+        //trigger download of data.xlsx file
+        document.getElementById("download-xlsx").addEventListener("click", function () {
+            table.download("xlsx", "data.xlsx", { sheetName: "My Data" });
+        });
+
+        //trigger download of data.pdf file
+        document.getElementById("download-pdf").addEventListener("click", function () {
+            table.download("pdf", "data.pdf", {
+                orientation: "portrait", //set page orientation to portrait
+                title: "Example Report", //add title to report
+            });
+        });
+
+        //trigger download of data.html file
+        document.getElementById("download-html").addEventListener("click", function () {
+            table.download("html", "data.html", { style: true });
+        });
+    </script>
+</body>
+
+</html>
