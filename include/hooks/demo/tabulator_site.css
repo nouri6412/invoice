@@ -1,6 +1,5 @@
 .tabulator {
   position: relative;
-  border: 1px solid #222;
   background-color: #fff;
   font-size: 14px;
   text-align: left;
@@ -29,8 +28,7 @@
   box-sizing: border-box;
   width: 100%;
   border-bottom: 1px solid #3FB449;
-  background-color: #222;
-  color: #fff;
+  color: #000;
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
@@ -49,7 +47,6 @@
   position: relative;
   box-sizing: border-box;
   border-right: 1px solid #aaa;
-  background: #222;
   text-align: left;
   vertical-align: bottom;
   overflow: hidden;
@@ -58,7 +55,6 @@
 .tabulator .tabulator-header .tabulator-col.tabulator-moving {
   position: absolute;
   border: 1px solid #3FB449;
-  background: #090909;
   pointer-events: none;
 }
 
@@ -154,7 +150,7 @@
 
 .tabulator .tabulator-header .tabulator-col.tabulator-sortable:hover {
   cursor: pointer;
-  background-color: #090909;
+
 }
 
 .tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort="none"] .tabulator-col-content .tabulator-col-sorter {
@@ -312,8 +308,7 @@
 
 .tabulator .tabulator-footer {
   border-top: 1px solid #3FB449;
-  background-color: #222;
-  color: #222;
+  color: #000;
   font-weight: bold;
   white-space: nowrap;
   user-select: none;
@@ -406,8 +401,6 @@
 
 .tabulator .tabulator-footer .tabulator-page:not(.disabled):hover {
   cursor: pointer;
-  background: rgba(0, 0, 0, 0.2);
-  color: #fff;
 }
 
 .tabulator .tabulator-col-resize-handle {
@@ -640,7 +633,6 @@
 
 .tabulator-row .tabulator-cell .tabulator-data-tree-control:hover {
   cursor: pointer;
-  background: rgba(0, 0, 0, 0.2);
 }
 
 .tabulator-row .tabulator-cell .tabulator-data-tree-control .tabulator-data-tree-control-collapse {
@@ -733,7 +725,6 @@
 
 .tabulator-row.tabulator-group:hover {
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .tabulator-row.tabulator-group.tabulator-group-visible .tabulator-arrow {
@@ -1009,7 +1000,6 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
 
 .tabulator-print-table .tabulator-print-table-group:hover {
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .tabulator-print-table .tabulator-print-table-group.tabulator-group-visible .tabulator-arrow {
@@ -1077,7 +1067,6 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
 
 .tabulator-print-table .tabulator-data-tree-control:hover {
   cursor: pointer;
-  background: rgba(0, 0, 0, 0.2);
 }
 
 .tabulator-print-table .tabulator-data-tree-control .tabulator-data-tree-control-collapse {
@@ -1118,7 +1107,6 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
 
 .tabulator {
   border: none;
-  border-bottom: 5px solid #222;
 }
 
 .tabulator[tabulator-layout="fitColumns"] .tabulator-row .tabulator-cell:last-of-type {
@@ -1130,7 +1118,7 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
 }
 
 .tabulator .tabulator-header .tabulator-col {
-  background-color: #222;
+
 }
 
 .tabulator .tabulator-header .tabulator-col .tabulator-col-content {
@@ -1211,12 +1199,11 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
   border-right: 1px solid #aaa;
   border-top: 1px solid #000;
   border-bottom: 2px solid #3FB449;
-  background: #222;
   color: #fff;
 }
 
 .tabulator-row.tabulator-group:hover {
-  background-color: #090909;
+
 }
 
 .tabulator-row.tabulator-group span {
@@ -1229,12 +1216,11 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
 
 .tabulator-print-table .tabulator-print-table-group {
   border-bottom: 2px solid #3FB449;
-  background: #222;
   color: #fff;
 }
 
 .tabulator-print-table .tabulator-print-table-group:hover {
-  background-color: #090909;
+
 }
 
 .tabulator-print-table .tabulator-print-table-group span {
