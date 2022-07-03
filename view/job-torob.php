@@ -69,5 +69,10 @@ if ($type == "step1") {
                 $query_result       = $wpdb->query($sql);
             //}
         }
+        else
+        {
+            $sql1 = "update  $table set fetch_date=NULL where  fetch_result='null'";
+            $query_result       = $wpdb->query($sql1);
+        }
     }
 }
