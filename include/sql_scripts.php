@@ -25,6 +25,7 @@ class Admin_Woo_Invoice_Sql_Scripts
     `search_id` varchar(500) CHARACTER SET utf8 NOT NULL,
     `prk` varchar(500) CHARACTER SET utf8 NOT NULL,
     `result_search` text CHARACTER SET utf8 NOT NULL,
+    `fetch_result` text CHARACTER SET utf8,
     `fetch_date` DATETIME NULL,
     PRIMARY KEY (`id`)
   )ENGINE=InnoDB $charset_collate; ";
