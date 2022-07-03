@@ -39,6 +39,10 @@ $ViewData = [];
 require ADMIN_WOO_INVOICE_Include . 'lib/jdf.php';
 require ADMIN_WOO_INVOICE_Include . 'lib/tools.php';
 
+require ADMIN_WOO_INVOICE_Include . 'sql_scripts.php';
+  
+
+
 
 
 foreach (glob(ADMIN_WOO_INVOICE_Include."hooks/*.php") as $filename)

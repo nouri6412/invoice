@@ -1,6 +1,10 @@
 <?php
 class Admin_Woo_Invoice_Core
 {
+    public function __construct()
+    {
+        register_activation_hook(ADMIN_WOO_INVOICE_FILE, array($this, "install"));
+    }
     function init()
     {
         $supports = array(
@@ -145,6 +149,7 @@ class Admin_Woo_Invoice_Core
             'hierarchical' => false,
         );
         register_post_type('invoice-form-main', $args);
+
     }
 
     function menu()
@@ -154,7 +159,6 @@ class Admin_Woo_Invoice_Core
         add_submenu_page('invoice-report-dashboard', 'گزارش  فاکتور', 'گزارش  فاکتور', 'manage_options', 'invoice-report-form-main', array($this, "invoice_report"));
         add_submenu_page('invoice-report-dashboard', 'api', 'api', 'manage_options', 'invoice-fetch-totob', array($this, "fetch_torob"));
         add_submenu_page('invoice-convert-1', 'تبدیل فاکتور', 'تبدیل  فاکتور', 'manage_options', 'invoice-convert', array($this, "invoice_convert"));
-
     }
     function dashboard()
     {
@@ -162,8 +166,8 @@ class Admin_Woo_Invoice_Core
     }
     function fetch_torob()
     {
-     $Admin_Woo_Invoice_Fetch=new Admin_Woo_Invoice_Fetch;
-     $Admin_Woo_Invoice_Fetch->torob();
+        $Admin_Woo_Invoice_Fetch = new Admin_Woo_Invoice_Fetch;
+        $Admin_Woo_Invoice_Fetch->torob();
     }
     function invoice_convert()
     {
@@ -190,7 +194,7 @@ class Admin_Woo_Invoice_Core
                 global $wpdb;
                 $table     = $wpdb->prefix . "postmeta";
 
-                $query_string       = $wpdb->prepare("insert into $table( post_id, meta_key, meta_value) select  %d, meta_key, meta_value from  $table  where post_id=%d ", array($insert_id,$post_id));
+                $query_string       = $wpdb->prepare("insert into $table( post_id, meta_key, meta_value) select  %d, meta_key, meta_value from  $table  where post_id=%d ", array($insert_id, $post_id));
                 $query_result       = $wpdb->query($query_string);
                 wp_redirect(admin_url() . 'post.php?post=' . $insert_id . '&action=edit');
                 exit;
@@ -381,6 +385,18 @@ class Admin_Woo_Invoice_Core
 
         if ($post->post_type == 'invoice-seller') {
             return ADMIN_WOO_INVOICE_View . 'contact.php';
+        }
+
+
+        return $single;
+    }
+    function my_custom_page_template($single)
+    {
+
+        global $post;
+
+        if ($post->post_name == "job-fetch-torob") {
+            return ADMIN_WOO_INVOICE_View . 'job-torob.php';
         }
 
         return $single;
@@ -805,12 +821,20 @@ class Admin_Woo_Invoice_Core
 
         die();
     }
+
+    public function install()
+    {
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        $sql = new Admin_Woo_Invoice_Sql_Scripts;
+        dbDelta($sql->get_install_script());
+    }
 }
 
 
 $Admin_Woo_Invoice_Core = new Admin_Woo_Invoice_Core;
 
 add_filter('single_template', [$Admin_Woo_Invoice_Core, 'my_custom_template']);
+add_filter('page_template', [$Admin_Woo_Invoice_Core, 'my_custom_page_template']);
 
 add_action('init', [$Admin_Woo_Invoice_Core, 'init']);
 add_action('admin_enqueue_scripts', array($Admin_Woo_Invoice_Core, "scripts"));
@@ -825,7 +849,6 @@ add_action('wp_ajax_admin_woo_save_contact', array($Admin_Woo_Invoice_Core, 'sav
 add_action('wp_ajax_admin_woo_search_product', array($Admin_Woo_Invoice_Core, 'search_product'));
 add_action('wp_ajax_admin_woo_request_seller', array($Admin_Woo_Invoice_Core, 'request_seller'));
 add_action('wp_ajax_admin_woo_get_report', array($Admin_Woo_Invoice_Core, 'get_report'));
-
 
 
 
