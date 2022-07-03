@@ -27,10 +27,14 @@ if ($type == "step1") {
           
             $sql = "update  $table set result_search='" . $str_fetch . "', fetch_date='" . date('Y-m-d H:i:s') . "' where id = '".$results[0]['id']."' ";
             $query_result       = $wpdb->query($sql);
-        
+
+            $table = $wpdb->prefix . "search_product_torob";
             foreach ($json["result"] as $item) {
-             
-                $table = $wpdb->prefix . "search_product_torob";
+
+                $sql1 = "delete  from $table where  word_search='".$item["name1"]."'";
+                $query_result       = $wpdb->query($sql1);
+
+              
                 $sql = "insert into  $table (word_id,word_search,result_search,fetch_date) values('".$results[0]['id']."','".$item["name1"]."','" . json_encode($item) . "','" . date('Y-m-d H:i:s') . "') ";
                 $query_result       = $wpdb->query($sql);
              //   echo   $sql . '<br>';
