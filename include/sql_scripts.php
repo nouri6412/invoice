@@ -22,6 +22,8 @@ class Admin_Woo_Invoice_Sql_Scripts
     `id` BIGINT(18) NOT NULL AUTO_INCREMENT,
     `word_id` BIGINT(18) NOT NULL ,
     `word_search` varchar(500) CHARACTER SET utf8 NOT NULL,
+    `search_id` varchar(500) CHARACTER SET utf8 NOT NULL,
+    `prk` varchar(500) CHARACTER SET utf8 NOT NULL,
     `result_search` text CHARACTER SET utf8 NOT NULL,
     `fetch_date` DATETIME NULL,
     PRIMARY KEY (`id`)

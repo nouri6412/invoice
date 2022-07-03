@@ -35,7 +35,7 @@ if ($type == "step1") {
                 $query_result       = $wpdb->query($sql1);
 
               
-                $sql = "insert into  $table (word_id,word_search,result_search,fetch_date) values('".$results[0]['id']."','".$item["name1"]."','" . json_encode($item) . "','" . date('Y-m-d H:i:s') . "') ";
+                $sql = "insert into  $table (word_id,word_search,search_id,prk,result_search,fetch_date) values('".$results[0]['id']."','".$item["name1"]."','".$item["search_id"]."','".$item["prk"]."','" . json_encode($item) . "','" . date('Y-m-d H:i:s') . "') ";
                 $query_result       = $wpdb->query($sql);
              //   echo   $sql . '<br>';
                // break;
