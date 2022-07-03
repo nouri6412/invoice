@@ -67,6 +67,7 @@ if ($type == "step1") {
 
                 $sql = "update  $table set fetch_result='" . json_encode($json["result"]) . "', fetch_date='" . date('Y-m-d H:i:s') . "' where id = '" . $results[0]['id'] . "' ";
                 $query_result       = $wpdb->query($sql);
+                sleep(3);
             //}
         }
         else
