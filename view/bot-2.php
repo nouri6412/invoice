@@ -24,7 +24,7 @@ else
     fclose($myfile); 
 }
 
-if ($ex1 > 10)
+if ($ex1 > 3)
 {
     $myfile = fopen($filename, "w") or die("Unable to open file!");
     fwrite($myfile,'0');

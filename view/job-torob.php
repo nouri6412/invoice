@@ -43,28 +43,29 @@ if ($type == "step1") {
         }
     }
 } else if ($type == "step2") {
-    $word = '';
+    for ($x = 0; $x < 5; $x++) {
+        $word = '';
 
-    $table = $wpdb->prefix . "search_product_torob";
-    $date = date('Y-m-d H:i:s', strtotime(date("Y-m-d") . ' - 7 days'));
-     $sql = "SELECT * from $table where fetch_date is null or fetch_date < '" . $date . "' order by fetch_date limit 1 ";
-   // $sql = "SELECT * from $table order by fetch_date limit 1 ";
+        $table = $wpdb->prefix . "search_product_torob";
+        $date = date('Y-m-d H:i:s', strtotime(date("Y-m-d") . ' - 7 days'));
+        $sql = "SELECT * from $table where fetch_date is null or fetch_date < '" . $date . "' order by fetch_date limit 1 ";
+        // $sql = "SELECT * from $table order by fetch_date limit 1 ";
 
-    $results = $wpdb->get_results($sql, 'ARRAY_A');
+        $results = $wpdb->get_results($sql, 'ARRAY_A');
 
-    if (count($results) > 0) {
-        $product_id = $results[0]['id'];
-        $prk = $results[0]['prk'];
-        $search_id = $results[0]['search_id'];
-        $results[0]['word_search'];
-        $str_fetch = file_get_contents('https://one-api.ir/torob/?token=' . $token . '&action=get&search_id=' . $search_id . '&prk=' . $prk);
-        $json = json_decode($str_fetch, true);
+        if (count($results) > 0) {
+            $product_id = $results[0]['id'];
+            $prk = $results[0]['prk'];
+            $search_id = $results[0]['search_id'];
+            $results[0]['word_search'];
+            $str_fetch = file_get_contents('https://one-api.ir/torob/?token=' . $token . '&action=get&search_id=' . $search_id . '&prk=' . $prk);
+            $json = json_decode($str_fetch, true);
 
-        if (is_array($json) && isset($json["status"]) && $json["status"] == 200) {
+            if (is_array($json) && isset($json["status"]) && $json["status"] == 200) {
 
-            $sql = "update  $table set fetch_result='" . json_encode($json["result"]) . "', fetch_date='" . date('Y-m-d H:i:s') . "' where id = '" . $results[0]['id'] . "' ";
-            $query_result       = $wpdb->query($sql);
-
+                $sql = "update  $table set fetch_result='" . json_encode($json["result"]) . "', fetch_date='" . date('Y-m-d H:i:s') . "' where id = '" . $results[0]['id'] . "' ";
+                $query_result       = $wpdb->query($sql);
+            }
         }
     }
 }
