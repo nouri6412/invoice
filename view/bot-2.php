@@ -2,7 +2,7 @@
 
 set_time_limit(60);
 
-$filename="bot2.txt";
+$filename=__DIR__."/bot2.txt";
 $myfile = fopen($filename, "r") or die("Unable to open file!");
 $ex1 = fgets($myfile);
 fclose($myfile);
