@@ -29,8 +29,12 @@ if ($type == "step1") {
             $query_result       = $wpdb->query($sql);
 
             $table = $wpdb->prefix . "search_product_torob";
+            $index = 0;
             foreach ($json["result"] as $item) {
-
+                $index++;
+                if ($index > 300) {
+                    break;
+                }
                 $sql1 = "delete  from $table where  word_search='" . $item["name1"] . "'";
                 $query_result       = $wpdb->query($sql1);
 
@@ -58,20 +62,18 @@ if ($type == "step1") {
             $prk = $results[0]['prk'];
             $search_id = $results[0]['search_id'];
             $results[0]['word_search'];
-            $query='https://one-api.ir/torob/?token=' . $token . '&action=get&search_id=' . $search_id . '&prk=' . $prk;
-          echo $query.'<br>';
+            $query = 'https://one-api.ir/torob/?token=' . $token . '&action=get&search_id=' . $search_id . '&prk=' . $prk;
+            echo $query . '<br>';
             $str_fetch = file_get_contents($query);
             $json = json_decode($str_fetch, true);
-         //var_dump($json);
-           // if (is_array($json) && isset($json["status"]) && $json["status"] == 200) {
+            //var_dump($json);
+            // if (is_array($json) && isset($json["status"]) && $json["status"] == 200) {
 
-                $sql = "update  $table set fetch_result='" . json_encode($json["result"]) . "', fetch_date='" . date('Y-m-d H:i:s') . "' where id = '" . $results[0]['id'] . "' ";
-                $query_result       = $wpdb->query($sql);
-                sleep(1);
+            $sql = "update  $table set fetch_result='" . json_encode($json["result"]) . "', fetch_date='" . date('Y-m-d H:i:s') . "' where id = '" . $results[0]['id'] . "' ";
+            $query_result       = $wpdb->query($sql);
+            sleep(1);
             //}
-        }
-        else
-        {
+        } else {
             $sql1 = "update  $table set fetch_date=NULL where  fetch_result='null'";
             $query_result       = $wpdb->query($sql1);
         }

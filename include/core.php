@@ -242,6 +242,7 @@ class Admin_Woo_Invoice_Core
             $cols[] = ["title" => "price_text_mode", "field" => "price_text_mode"];
             $cols[] = ["title" => "shop_text", "field" => "shop_text"];
             $cols[] = ["title" => "random_key", "field" => "random_key"];
+            $cols[] = ["title" => "search_word_index", "field" => "search_word_index"];
             $cols[] = ["title" => "search_word", "field" => "search_word"];
             $cols[] = ["title" => "web_client_absolute_url", "field" => "web_client_absolute_url"];
             $cols[] = ["title" => "discount_info", "field" => "discount_info"];
@@ -254,7 +255,17 @@ class Admin_Woo_Invoice_Core
             if (count($results) > 0) {
                 $status = 1;
 
+                $search_word="";
+                $index=0;
                 foreach ($results as $item) {
+                    $index++;
+                  
+                    if($search_word != $item["search_word"])
+                    {
+                        $index=1;  
+                    }
+
+                    $search_word= $item["search_word"];
                     $row = [];
                     $row["word"] = $item["word_search"];
 
@@ -266,6 +277,7 @@ class Admin_Woo_Invoice_Core
                     $row["price_text_mode"] = $json["price_text_mode"];
                     $row["shop_text"] = json_decode('"' . str_replace("u", "\u", $json["shop_text"]) . '"');
                     $row["random_key"] = $json["random_key"];
+                    $row["search_word_index"] = $index;
                     $row["search_word"] = $item["search_word"];
                     $row["web_client_absolute_url"] ='https://torob.com'. $json["web_client_absolute_url"];
                     $row["discount_info"] = json_encode($json["discount_info"]);
@@ -283,6 +295,7 @@ class Admin_Woo_Invoice_Core
 
             $cols[] = ["title" => "name1", "field" => "name1"];
             $cols[] = ["title" => "name2", "field" => "name2"];
+            $cols[] = ["title" => "search_word_index", "field" => "search_word_index"];
             $cols[] = ["title" => "search_word", "field" => "search_word"];
             $cols[] = ["title" => "price", "field" => "price"];
             $cols[] = ["title" => "price_text", "field" => "price_text"];
@@ -322,7 +335,18 @@ class Admin_Woo_Invoice_Core
             if (count($results) > 0) {
                 $status = 1;
 
+                $search_word="";
+                $index=0;
                 foreach ($results as $item) {
+                    $index++;
+                  
+                    if($search_word != $item["search_word"])
+                    {
+                        $index=1;  
+                    }
+
+                    $search_word= $item["search_word"];
+
                     $row = [];
                     $row["word"] = $item["word_search"];
 
@@ -332,6 +356,7 @@ class Admin_Woo_Invoice_Core
 
                     $row["name1"] = $json["name1"];
                     $row["name2"] = $json["name2"];
+                    $row["search_word_index"] = $index;
                     $row["search_word"] = $item["search_word"];
                     $row["price"] = $json["price"];
                     $row["price_text"] = $json["price_text"];
