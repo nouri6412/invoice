@@ -635,7 +635,13 @@ jQuery(document).ready(function () {
 
     });
 
-
+    var my_table_api ;
+    document.getElementById("download-xlsx").addEventListener("click", function () {
+        my_table_api.download("xlsx", "data.xlsx", {
+            sheetName: "My Data"
+        });
+    });
+    
     jQuery("body").on("click", "#fetch_api_report", function () {
         console.log("click");
 
@@ -655,18 +661,14 @@ jQuery(document).ready(function () {
                 if (result.status == 1) {
 
                     var columns = result.cols;
-                    var my_table_api = new Tabulator("#api-torob-area", {
+                     my_table_api = new Tabulator("#api-torob-area", {
                         height: "400px",
                         data: result.data,
                         columns: columns,
                     });
 
                     //trigger download of data.xlsx file
-                    document.getElementById("download-xlsx").addEventListener("click", function () {
-                        my_table_api.download("xlsx", "data.xlsx", {
-                            sheetName: "My Data"
-                        });
-                    });
+
                 }
                 else
                 {
