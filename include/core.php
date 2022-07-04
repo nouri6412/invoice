@@ -283,6 +283,7 @@ class Admin_Woo_Invoice_Core
 
             $cols[] = ["title" => "name1", "field" => "name1"];
             $cols[] = ["title" => "name2", "field" => "name2"];
+            $cols[] = ["title" => "search_word", "field" => "search_word"];
             $cols[] = ["title" => "price", "field" => "price"];
             $cols[] = ["title" => "price_text", "field" => "price_text"];
             $cols[] = ["title" => "price_text_mode", "field" => "price_text_mode"];
@@ -331,6 +332,7 @@ class Admin_Woo_Invoice_Core
 
                     $row["name1"] = $json["name1"];
                     $row["name2"] = $json["name2"];
+                    $row["search_word"] = $item["search_word"];
                     $row["price"] = $json["price"];
                     $row["price_text"] = $json["price_text"];
                     $row["price_text_mode"] = $json["price_text_mode"];
