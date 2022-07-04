@@ -231,9 +231,9 @@ class Admin_Woo_Invoice_Core
         $cols = [];
 
         if ($type == "1") {
-            //$table = $wpdb->prefix . "search_word_torob";
+            $table1 = $wpdb->prefix . "search_word_torob";
             $table = $wpdb->prefix . "search_product_torob";
-            $sql = "SELECT * from $table   order by id";
+            $sql = "SELECT a1.*,a2.word_search as search_word  from $table as a1 join $table1 a2 on a1.word_id=a2.id   order by id";
 
             $cols[] = ["title" => "name1", "field" => "name1"];
             $cols[] = ["title" => "name2", "field" => "name2"];
@@ -242,6 +242,7 @@ class Admin_Woo_Invoice_Core
             $cols[] = ["title" => "price_text_mode", "field" => "price_text_mode"];
             $cols[] = ["title" => "shop_text", "field" => "shop_text"];
             $cols[] = ["title" => "random_key", "field" => "random_key"];
+            $cols[] = ["title" => "search_word", "field" => "search_word"];
             $cols[] = ["title" => "web_client_absolute_url", "field" => "web_client_absolute_url"];
             $cols[] = ["title" => "discount_info", "field" => "discount_info"];
             $cols[] = ["title" => "image_url", "field" => "image_url"];
@@ -265,14 +266,13 @@ class Admin_Woo_Invoice_Core
                     $row["price_text_mode"] = $json["price_text_mode"];
                     $row["shop_text"] = json_decode('"' . str_replace("u", "\u", $json["shop_text"]) . '"');
                     $row["random_key"] = $json["random_key"];
+                    $row["search_word"] = $item["search_word"];
                     $row["web_client_absolute_url"] ='https://torob.com'. $json["web_client_absolute_url"];
                     $row["discount_info"] = json_encode($json["discount_info"]);
                     $row["image_url"] = $json["image_url"];
                     $row["search_id"] = $item["search_id"];
                     $row["prk"] = $item["prk"];
 
-                    $url = 'https://one-api.ir/torob/?token=950071:62b828c9f410d7.97991171&action=get&search_id=' . $item["search_id"] . '&prk=' . $item["prk"];
-                  //  $row["url"] = $url;
                     $data[] = $row;
                 }
             }
