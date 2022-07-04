@@ -233,7 +233,7 @@ class Admin_Woo_Invoice_Core
         if ($type == "1") {
             $table1 = $wpdb->prefix . "search_word_torob";
             $table = $wpdb->prefix . "search_product_torob";
-            $sql = "SELECT a1.*,a2.word_search as search_word  from $table as a1 join $table1 a2 on a1.word_id=a2.id   order by id";
+            $sql = "SELECT a1.*,a2.word_search as search_word  from $table as a1 join $table1 a2 on a1.word_id=a2.id   order by a1.id";
 
             $cols[] = ["title" => "name1", "field" => "name1"];
             $cols[] = ["title" => "name2", "field" => "name2"];
@@ -277,8 +277,9 @@ class Admin_Woo_Invoice_Core
                 }
             }
         } else {
+            $table1 = $wpdb->prefix . "search_word_torob";
             $table = $wpdb->prefix . "search_product_torob";
-            $sql = "SELECT * from $table  where fetch_result is not null and fetch_result <> 'null' order by id";
+            $sql = "SELECT a1.*,a2.word_search as search_word  from $table as a1 join $table1 a2 on a1.word_id=a2.id  where a1.fetch_result is not null and a1.fetch_result <> 'null' order by a1.id";
 
             $cols[] = ["title" => "name1", "field" => "name1"];
             $cols[] = ["title" => "name2", "field" => "name2"];
