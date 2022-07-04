@@ -43,7 +43,7 @@ if ($type == "step1") {
         }
     }
 } else if ($type == "step2") {
-    for ($x = 0; $x < 5; $x++) {
+    for ($x = 0; $x < 20; $x++) {
         $word = '';
 
         $table = $wpdb->prefix . "search_product_torob";
@@ -59,15 +59,15 @@ if ($type == "step1") {
             $search_id = $results[0]['search_id'];
             $results[0]['word_search'];
             $query='https://one-api.ir/torob/?token=' . $token . '&action=get&search_id=' . $search_id . '&prk=' . $prk;
-        //  echo $query.'<br>';
+          echo $query.'<br>';
             $str_fetch = file_get_contents($query);
             $json = json_decode($str_fetch, true);
-//var_dump($json);
+         //var_dump($json);
            // if (is_array($json) && isset($json["status"]) && $json["status"] == 200) {
 
                 $sql = "update  $table set fetch_result='" . json_encode($json["result"]) . "', fetch_date='" . date('Y-m-d H:i:s') . "' where id = '" . $results[0]['id'] . "' ";
                 $query_result       = $wpdb->query($sql);
-                sleep(3);
+                sleep(1);
             //}
         }
         else

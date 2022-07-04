@@ -321,7 +321,7 @@ jQuery(document).ready(function () {
 
     cal_td_inputs_invoice(0);
 
-    if (jQuery('#acf-field_62a41417a2193') && jQuery('#acf-field_62a41417a2193').val().length == 0) {
+    if (jQuery('#acf-field_62a41417a2193') && jQuery('#acf-field_62a41417a2193').val() && jQuery('#acf-field_62a41417a2193').val().length == 0) {
         jQuery('#acf-field_62a41417a2193').val(getPersianDate("y/m/d"));
     }
 
@@ -629,6 +629,50 @@ jQuery(document).ready(function () {
                 jQuery([document.documentElement, document.body]).animate({
                     scrollTop: jQuery("#pwp-charts-" + uniqueid + "").offset().top - 350
                 }, 1000);
+            }
+        });
+
+
+    });
+
+
+    jQuery("body").on("click", "#fetch_api_report", function () {
+        console.log("click");
+
+        jQuery("#api-torob-area").append('<img style="position: relative;"  class="invoice-loader-img" src="' + admin_woo_object.invoice_assets_plugin_url + 'img/loader.gif" />');
+
+        jQuery.ajax({
+            url: admin_woo_object.ajaxurl,
+            data: {
+                action: 'admin_woo_get_report_api',
+                type: jQuery('#report-type').val()
+            },
+            dataType: 'json',
+            type: 'POST',
+            success: function (result) {
+                console.log(result);
+                jQuery('.invoice-loader-img').remove();
+                if (result.status == 1) {
+
+                    var columns = result.cols;
+                    var my_table_api = new Tabulator("#api-torob-area", {
+                        height: "400px",
+                        data: result.data,
+                        columns: columns,
+                    });
+
+                    //trigger download of data.xlsx file
+                    document.getElementById("download-xlsx").addEventListener("click", function () {
+                        my_table_api.download("xlsx", "data.xlsx", {
+                            sheetName: "My Data"
+                        });
+                    });
+                }
+                else
+                {
+                    alert("خطا در سرور دوباره امتحان فرمائید");
+                }
+
             }
         });
 

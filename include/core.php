@@ -149,7 +149,6 @@ class Admin_Woo_Invoice_Core
             'hierarchical' => false,
         );
         register_post_type('invoice-form-main', $args);
-
     }
 
     function menu()
@@ -157,7 +156,9 @@ class Admin_Woo_Invoice_Core
         add_menu_page('گزارشات  فاکتور', 'گزارشات  فاکتور', 'manage_options', 'invoice-report-dashboard', array($this, "dashboard"), 'dashicons-money-alt');
         add_submenu_page('invoice-report-dashboard', 'گزارش پیش فاکتور', 'گزارش پیش فاکتور', 'manage_options', 'invoice-report-form', array($this, "pre_invoice_report"));
         add_submenu_page('invoice-report-dashboard', 'گزارش  فاکتور', 'گزارش  فاکتور', 'manage_options', 'invoice-report-form-main', array($this, "invoice_report"));
-        add_submenu_page('invoice-report-dashboard', 'api', 'api', 'manage_options', 'invoice-fetch-totob', array($this, "fetch_torob"));
+        add_submenu_page('invoice-report-dashboard', 'گزارش api', 'گزارش api', 'manage_options', 'invoice-fetch-report', array($this, "fetch_torob"));
+
+
         add_submenu_page('invoice-convert-1', 'تبدیل فاکتور', 'تبدیل  فاکتور', 'manage_options', 'invoice-convert', array($this, "invoice_convert"));
     }
     function dashboard()
@@ -166,8 +167,7 @@ class Admin_Woo_Invoice_Core
     }
     function fetch_torob()
     {
-        $Admin_Woo_Invoice_Fetch = new Admin_Woo_Invoice_Fetch;
-        $Admin_Woo_Invoice_Fetch->torob();
+        include ADMIN_WOO_INVOICE_View . 'report-fetch.php';
     }
     function invoice_convert()
     {
@@ -218,9 +218,160 @@ class Admin_Woo_Invoice_Core
         if ($invoice_type == "invoice-form-main") {
             $title = "";
         }
-       include ADMIN_WOO_INVOICE_View . 'report.php';
+        include ADMIN_WOO_INVOICE_View . 'report.php';
     }
+    function get_report_api()
+    {
+        global $wpdb;
+        $table = "";
+        $type = $_POST["type"];
 
+        $status = 0;
+        $data = [];
+        $cols=[];
+
+        if ($type == "1") {
+            //$table = $wpdb->prefix . "search_word_torob";
+            $table = $wpdb->prefix . "search_product_torob";
+            $sql = "SELECT * from $table   order by id";
+
+            $cols[]=["title"=>"name1","field"=>"name1"];
+            $cols[]=["title"=>"name2","field"=>"name2"];
+            $cols[]=["title"=>"price","field"=>"price"];
+            $cols[]=["title"=>"price_text","field"=>"price_text"];
+            $cols[]=["title"=>"price_text_mode","field"=>"price_text_mode"];
+            $cols[]=["title"=>"shop_text","field"=>"shop_text"];
+            $cols[]=["title"=>"random_key","field"=>"random_key"];
+            $cols[]=["title"=>"web_client_absolute_url","field"=>"web_client_absolute_url"];
+            $cols[]=["title"=>"discount_info","field"=>"discount_info"];
+            $cols[]=["title"=>"image_url","field"=>"image_url"];
+            $cols[]=["title"=>"search_id","field"=>"search_id"];
+            $cols[]=["title"=>"prk","field"=>"prk"];
+
+            $results = $wpdb->get_results($sql, 'ARRAY_A');
+            if (count($results) > 0) {
+                $status = 1;
+
+                foreach ($results as $item) {
+                    $row = [];
+                    $row["word"] = $item["word_search"];
+                  
+                    $json = json_decode($item["result_search"],  true, 512, JSON_UNESCAPED_UNICODE);
+                    $row["name1"] =json_decode('"' . str_replace("u","\u",$json["name1"]) . '"') ;
+                    $row["name2"] =json_decode('"' . str_replace("u","\u",$json["name2"]) . '"');
+                    $row["price"] = $json["price"];
+                    $row["price_text"] =json_decode('"' . str_replace("u","\u",$json["price_text"]) . '"');
+                    $row["price_text_mode"] = $json["price_text_mode"];
+                    $row["shop_text"] =json_decode('"' . str_replace("u","\u",$json["shop_text"]) . '"');
+                    $row["random_key"] = $json["random_key"];
+                    $row["web_client_absolute_url"] = $json["web_client_absolute_url"];
+                    $row["discount_info"] = json_encode($json["discount_info"]);
+                    $row["image_url"] = $json["image_url"];
+                    $row["search_id"] = $item["search_id"];
+                    $row["prk"] = $item["prk"];
+                    $data[]=$row;
+                }
+            }
+        } else {
+            $table = $wpdb->prefix . "search_product_torob";
+            $sql = "SELECT * from $table  where fetch_result is not null and fetch_result <> 'null' order by id";
+
+            $cols[]=["title"=>"name1","field"=>"name1"];
+            $cols[]=["title"=>"name2","field"=>"name2"];
+            $cols[]=["title"=>"price","field"=>"price"];
+            $cols[]=["title"=>"price_text","field"=>"price_text"];
+            $cols[]=["title"=>"price_text_mode","field"=>"price_text_mode"];
+            $cols[]=["title"=>"shop_text","field"=>"shop_text"];
+            $cols[]=["title"=>"random_key","field"=>"random_key"];
+            $cols[]=["title"=>"web_client_absolute_url","field"=>"web_client_absolute_url"];
+            $cols[]=["title"=>"discount_info","field"=>"discount_info"];
+            $cols[]=["title"=>"image_url","field"=>"image_url"];
+
+            $cols[]=["title"=>"products_info","field"=>"products_info"];
+            $cols[]=["title"=>"products_info_filtered_by_city","field"=>"products_info_filtered_by_city"];
+            $cols[]=["title"=>"products_instore_info","field"=>"products_instore_info"];
+            $cols[]=["title"=>"is_city_filter_visible","field"=>"is_city_filter_visible"];
+            $cols[]=["title"=>"image_urls","field"=>"image_urls"];
+            $cols[]=["title"=>"buy_box_price_text","field"=>"buy_box_price_text"];
+            $cols[]=["title"=>"buy_box_button_text","field"=>"buy_box_button_text"];
+            $cols[]=["title"=>"min_price","field"=>"min_price"];
+            $cols[]=["title"=>"max_price","field"=>"max_price"];
+            $cols[]=["title"=>"variants","field"=>"variants"];
+            $cols[]=["title"=>"contents","field"=>"contents"];
+            $cols[]=["title"=>"breadcrumbs","field"=>"breadcrumbs"];
+            $cols[]=["title"=>"structural_specs","field"=>"structural_specs"];
+            $cols[]=["title"=>"slug_name","field"=>"slug_name"];
+            $cols[]=["title"=>"is_confirmed","field"=>"is_confirmed"];
+            $cols[]=["title"=>"is_accessible","field"=>"is_accessible"];
+            $cols[]=["title"=>"availability","field"=>"availability"];
+            $cols[]=["title"=>"similar_listing","field"=>"similar_listing"];
+            $cols[]=["title"=>"similar_products","field"=>"similar_products"];
+            $cols[]=["title"=>"torob_category","field"=>"torob_category"];
+            $cols[]=["title"=>"attributes","field"=>"attributes"];
+            $cols[]=["title"=>"no_index","field"=>"no_index"];
+            $cols[]=["title"=>"buy_box_button_link","field"=>"buy_box_button_link"];
+
+
+            $results = $wpdb->get_results($sql, 'ARRAY_A');
+            if (count($results) > 0) {
+                $status = 1;
+
+                foreach ($results as $item) {
+                    $row = [];
+                    $row["word"] = $item["word_search"];
+                  
+                    $res=str_replace("u0","\\u0",$item["fetch_result"]);
+                
+                    $json = json_decode($res,  true, 512, JSON_UNESCAPED_UNICODE);
+
+                    $row["name1"] =$json["name1"] ;
+                    $row["name2"] =$json["name2"];
+                    $row["price"] = $json["price"];
+                    $row["price_text"] =$json["price_text"];
+                    $row["price_text_mode"] = $json["price_text_mode"];
+                    $row["shop_text"] =$json["shop_text"];
+                    $row["random_key"] = $json["random_key"];
+                    $row["web_client_absolute_url"] = $json["web_client_absolute_url"];
+                    $row["discount_info"] = json_encode($json["discount_info"]);
+                    $row["image_url"] = $json["image_url"];
+                    $row["products_info"] = json_encode($json["products_info"],JSON_UNESCAPED_UNICODE);
+                    $row["products_info_filtered_by_city"] = json_encode($json["products_info_filtered_by_city"],JSON_UNESCAPED_UNICODE);
+                    $row["products_instore_info"] = json_encode($json["products_instore_info"],JSON_UNESCAPED_UNICODE);
+                    $row["is_city_filter_visible"] = $json["is_city_filter_visible"];
+                    $row["image_urls"] = json_encode($json["image_urls"],JSON_UNESCAPED_UNICODE);
+                    $row["buy_box_price_text"] = $json["buy_box_price_text"];
+                    $row["buy_box_button_text"] = $json["buy_box_button_text"];
+                    $row["min_price"] = $json["min_price"];
+                    $row["max_price"] = $json["max_price"];
+                    $row["variants"] = json_encode($json["variants"],JSON_UNESCAPED_UNICODE);
+                    $row["contents"] = json_encode($json["contents"],JSON_UNESCAPED_UNICODE);
+                    $row["breadcrumbs"] = json_encode($json["breadcrumbs"],JSON_UNESCAPED_UNICODE);
+                    $row["structural_specs"] = json_encode($json["structural_specs"],JSON_UNESCAPED_UNICODE);
+                    $row["slug_name"] = $json["slug_name"];
+                    $row["is_confirmed"] = $json["is_confirmed"];
+                    $row["is_accessible"] = $json["is_accessible"];
+                    $row["availability"] = $json["availability"];
+                    $row["similar_listing"] = $json["similar_listing"];
+                    $row["similar_products"] = $json["similar_products"];
+                    $row["torob_category"] = $json["torob_category"];
+                    $row["no_index"] = $json["no_index"];
+                    $row["max_price"] = $json["max_price"];
+                    $row["buy_box_button_link"] = json_encode($json["buy_box_button_link"],JSON_UNESCAPED_UNICODE);
+
+                    $data[]=$row;
+                }
+            }
+        }
+
+
+        echo json_encode([
+            'status'       => $status,
+            'cols'       => $cols,
+            'data'          => $data
+        ]);
+
+        die();
+    }
     function get_report()
     {
         $type = $_POST["type"];
@@ -328,7 +479,7 @@ class Admin_Woo_Invoice_Core
     }
     function script()
     {
-    ?>
+?>
         <div id="invoice-contact-modal" class="invoice-modal">
             <div class="modal-box">
                 <div class="modal-box-header">
@@ -368,8 +519,9 @@ class Admin_Woo_Invoice_Core
                 </div>
             </div>
         </div>
-    <?php
+<?php
     }
+
     function scripts()
     {
 
@@ -417,9 +569,50 @@ class Admin_Woo_Invoice_Core
             true
         );
 
+        if (isset($_GET["page"]) && $_GET["page"] == "invoice-fetch-report") {
+            wp_enqueue_style(
+                'tabulator_site_style',
+                ADMIN_WOO_INVOICE_URI . 'assets/css/tabulator_site.css'
+            );
+
+            wp_enqueue_script(
+                'admin_woo_script_xlsx',
+                ADMIN_WOO_INVOICE_URI . 'assets/js/xlsx.full.min.js',
+                array('jquery'),
+                1,
+                true
+            );
+
+            wp_enqueue_script(
+                'admin_woo_script_jspdf',
+                ADMIN_WOO_INVOICE_URI . 'assets/js/jspdf.umd.min.js',
+                array('jquery'),
+                1,
+                true
+            );
+
+            wp_enqueue_script(
+                'admin_woo_script_jspdf_plugin',
+                ADMIN_WOO_INVOICE_URI . 'assets/js/jspdf.plugin.autotable.min.js',
+                array('jquery'),
+                1,
+                true
+            );
+
+            wp_enqueue_script(
+                'admin_woo_script_jspdf_tabulator',
+                ADMIN_WOO_INVOICE_URI . 'assets/js/tabulator.min.js',
+                array('jquery'),
+                1,
+                true
+            );
+        }
+
+
+
         wp_enqueue_script(
             'admin_woo_ajax_script',
-            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v9.js',
+            ADMIN_WOO_INVOICE_URI . 'assets/js/admin-v10.js',
             array('jquery'),
             1,
             true
@@ -430,10 +623,13 @@ class Admin_Woo_Invoice_Core
             'invoice_assets_plugin_url' => ADMIN_WOO_INVOICE_URI . 'assets/'
         ));
     }
+
     function style()
     {
         include ADMIN_WOO_INVOICE_View . 'style.php';
     }
+
+
 
     function save_contact()
     {
@@ -652,6 +848,9 @@ add_action('wp_ajax_admin_woo_save_contact', array($Admin_Woo_Invoice_Core, 'sav
 add_action('wp_ajax_admin_woo_search_product', array($Admin_Woo_Invoice_Core, 'search_product'));
 add_action('wp_ajax_admin_woo_request_seller', array($Admin_Woo_Invoice_Core, 'request_seller'));
 add_action('wp_ajax_admin_woo_get_report', array($Admin_Woo_Invoice_Core, 'get_report'));
+
+add_action('wp_ajax_admin_woo_get_report_api', array($Admin_Woo_Invoice_Core, 'get_report_api'));
+
 
 
 
