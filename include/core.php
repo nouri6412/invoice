@@ -247,7 +247,7 @@ class Admin_Woo_Invoice_Core
             $cols[] = ["title" => "image_url", "field" => "image_url"];
             $cols[] = ["title" => "search_id", "field" => "search_id"];
             $cols[] = ["title" => "prk", "field" => "prk"];
-            $cols[] = ["title" => "url", "field" => "url"];
+         //   $cols[] = ["title" => "url", "field" => "url"];
 
             $results = $wpdb->get_results($sql, 'ARRAY_A');
             if (count($results) > 0) {
@@ -265,14 +265,14 @@ class Admin_Woo_Invoice_Core
                     $row["price_text_mode"] = $json["price_text_mode"];
                     $row["shop_text"] = json_decode('"' . str_replace("u", "\u", $json["shop_text"]) . '"');
                     $row["random_key"] = $json["random_key"];
-                    $row["web_client_absolute_url"] = $json["web_client_absolute_url"];
+                    $row["web_client_absolute_url"] ='https://torob.com'. $json["web_client_absolute_url"];
                     $row["discount_info"] = json_encode($json["discount_info"]);
                     $row["image_url"] = $json["image_url"];
                     $row["search_id"] = $item["search_id"];
                     $row["prk"] = $item["prk"];
 
                     $url = 'https://one-api.ir/torob/?token=950071:62b828c9f410d7.97991171&action=get&search_id=' . $item["search_id"] . '&prk=' . $item["prk"];
-                    $row["url"] = $url;
+                  //  $row["url"] = $url;
                     $data[] = $row;
                 }
             }
@@ -291,7 +291,7 @@ class Admin_Woo_Invoice_Core
             $cols[] = ["title" => "discount_info", "field" => "discount_info"];
             $cols[] = ["title" => "image_url", "field" => "image_url"];
 
-            $cols[] = ["title" => "products_info", "field" => "products_info"];
+           // $cols[] = ["title" => "products_info", "field" => "products_info"];
             $cols[] = ["title" => "products_info_filtered_by_city", "field" => "products_info_filtered_by_city"];
             $cols[] = ["title" => "products_instore_info", "field" => "products_instore_info"];
             $cols[] = ["title" => "is_city_filter_visible", "field" => "is_city_filter_visible"];
@@ -338,7 +338,7 @@ class Admin_Woo_Invoice_Core
                     $row["web_client_absolute_url"] = $json["web_client_absolute_url"];
                     $row["discount_info"] = json_encode($json["discount_info"]);
                     $row["image_url"] = $json["image_url"];
-                    $row["products_info"] = json_encode($json["products_info"], JSON_UNESCAPED_UNICODE);
+                  //  $row["products_info"] = json_encode($json["products_info"], JSON_UNESCAPED_UNICODE);
                     $row["products_info_filtered_by_city"] = json_encode($json["products_info_filtered_by_city"], JSON_UNESCAPED_UNICODE);
                     $row["products_instore_info"] = json_encode($json["products_instore_info"], JSON_UNESCAPED_UNICODE);
                     $row["is_city_filter_visible"] = $json["is_city_filter_visible"];
