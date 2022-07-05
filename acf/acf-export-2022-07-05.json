@@ -113,6 +113,31 @@
                 "placeholder": ""
             },
             {
+                "key": "field_62c3fe16acecb",
+                "label": "نوع فاکتور",
+                "name": "invoice_type",
+                "type": "select",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "رسمی": "رسمی",
+                    "غیر رسمی": "غیر رسمی"
+                },
+                "default_value": false,
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 0,
+                "return_format": "value",
+                "ajax": 0,
+                "placeholder": ""
+            },
+            {
                 "key": "field_62a81b5b2f159",
                 "label": "جستجوی کالا",
                 "name": "search_kala",
