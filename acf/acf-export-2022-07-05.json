@@ -397,6 +397,27 @@
                 "step": ""
             },
             {
+                "key": "field_62c3f9ac516bb",
+                "label": "مبلغ پرداخت شده",
+                "name": "pre_price",
+                "type": "number",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "min": 0,
+                "max": "",
+                "step": ""
+            },
+            {
                 "key": "field_62b153aecad89",
                 "label": "یادداشت",
                 "name": "note",
@@ -461,14 +482,14 @@
                 {
                     "param": "post_type",
                     "operator": "==",
-                    "value": "invoice-form"
+                    "value": "post"
                 }
             ],
             [
                 {
                     "param": "post_type",
                     "operator": "==",
-                    "value": "invoice-form-main"
+                    "value": "post"
                 }
             ]
         ],
