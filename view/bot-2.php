@@ -11,7 +11,7 @@ if ($ex1 == 0) {
     $myfile = fopen($filename, "w") or die("Unable to open file!");
     fwrite($myfile, '1');
     fclose($myfile);
-    $str = file_get_contents('https://hyperhse.com/job-fetch-torob?type=step2');
+    $str = file_get_contents('https://hyperhse.com/job-fetch-torob?type=step3');
     $myfile = fopen($filename, "w") or die("Unable to open file!");
     fwrite($myfile, '0');
     fclose($myfile);
