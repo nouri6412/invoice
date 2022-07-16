@@ -37,6 +37,7 @@ class Admin_Woo_Invoice_Core
             'rewrite' => array('slug' => 'invoice-contact'),
             'has_archive' => true,
             'hierarchical' => false,
+            'show_in_menu'=>false
         );
         register_post_type('invoice-contact', $args);
 
@@ -73,6 +74,7 @@ class Admin_Woo_Invoice_Core
             'rewrite' => array('slug' => 'invoice-seller'),
             'has_archive' => true,
             'hierarchical' => false,
+            'show_in_menu'=>false
         );
         register_post_type('invoice-seller', $args);
 
@@ -108,6 +110,7 @@ class Admin_Woo_Invoice_Core
             'rewrite' => array('slug' => 'invoice-form'),
             'has_archive' => true,
             'hierarchical' => false,
+            'show_in_menu'=>false
         );
         register_post_type('invoice-form', $args);
 
@@ -147,13 +150,23 @@ class Admin_Woo_Invoice_Core
             'rewrite' => array('slug' => 'invoice-form-main'),
             'has_archive' => true,
             'hierarchical' => false,
+            'show_in_menu'=>false
         );
         register_post_type('invoice-form-main', $args);
     }
 
     function menu()
     {
-        add_menu_page('گزارشات  فاکتور', 'گزارشات  فاکتور', 'manage_options', 'invoice-report-dashboard', array($this, "dashboard"), 'dashicons-money-alt');
+        add_menu_page('  فاکتور', '  فاکتور', 'manage_options', 'invoice-report-dashboard', array($this, "dashboard"), 'dashicons-money-alt');
+       
+        add_submenu_page( 'invoice-report-dashboard', 'خریدار', 'خریدار', 
+        'manage_options', 'edit.php?post_type=invoice-contact', NULL );
+        add_submenu_page( 'invoice-report-dashboard', 'فروشنده', 'فروشنده', 
+        'manage_options', 'edit.php?post_type=invoice-seller', NULL );
+        add_submenu_page( 'invoice-report-dashboard', 'پیش فاکتور', 'پیش فاکتور', 
+        'manage_options', 'edit.php?post_type=invoice-form', NULL );
+        add_submenu_page( 'invoice-report-dashboard', ' فاکتور فروش', ' فاکتور فروش', 
+        'manage_options', 'edit.php?post_type=invoice-form-main', NULL );
         add_submenu_page('invoice-report-dashboard', 'گزارش پیش فاکتور', 'گزارش پیش فاکتور', 'manage_options', 'invoice-report-form', array($this, "pre_invoice_report"));
         add_submenu_page('invoice-report-dashboard', 'گزارش  فاکتور', 'گزارش  فاکتور', 'manage_options', 'invoice-report-form-main', array($this, "invoice_report"));
         add_submenu_page('invoice-report-dashboard', 'گزارش api', 'گزارش api', 'manage_options', 'invoice-fetch-report', array($this, "fetch_torob"));
