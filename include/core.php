@@ -8,10 +8,10 @@ class Admin_Woo_Invoice_Core
     function init()
     {
         add_action('woocommerce_after_shop_loop_item',function(){
-            echo '<a href="https://hyperhse.com/%d8%ab%d8%a8%d8%aa-%d8%b3%d9%81%d8%a7%d8%b1%d8%b4-%d9%84%d9%88%d8%a7%d8%b2%d9%85-%d8%ad%d9%81%d8%a7%d8%b8%d8%aa-%d9%81%d8%b1%d8%af%db%8c/" class="button  add_to_cart_button">'.'ثبت سفارش و فرم استعلام قیمت'.'</a>';
+            echo '<a title="ثبت سفارش و فرم استعلام قیمت" href="https://hyperhse.com/%d8%ab%d8%a8%d8%aa-%d8%b3%d9%81%d8%a7%d8%b1%d8%b4-%d9%84%d9%88%d8%a7%d8%b2%d9%85-%d8%ad%d9%81%d8%a7%d8%b8%d8%aa-%d9%81%d8%b1%d8%af%db%8c/" class="button  add_to_cart_button">'.'ثبت سفارش و فرم استعلام قیمت'.'</a>';
         });
         add_action('woocommerce_single_product_summary',function(){
-            echo '<a href="https://hyperhse.com/%d8%ab%d8%a8%d8%aa-%d8%b3%d9%81%d8%a7%d8%b1%d8%b4-%d9%84%d9%88%d8%a7%d8%b2%d9%85-%d8%ad%d9%81%d8%a7%d8%b8%d8%aa-%d9%81%d8%b1%d8%af%db%8c/" class="button  add_to_cart_button">'.'ثبت سفارش و فرم استعلام قیمت'.'</a>';
+            echo '<a title="ثبت سفارش و فرم استعلام قیمت" href="https://hyperhse.com/%d8%ab%d8%a8%d8%aa-%d8%b3%d9%81%d8%a7%d8%b1%d8%b4-%d9%84%d9%88%d8%a7%d8%b2%d9%85-%d8%ad%d9%81%d8%a7%d8%b8%d8%aa-%d9%81%d8%b1%d8%af%db%8c/" class="button  add_to_cart_button">'.'ثبت سفارش و فرم استعلام قیمت'.'</a>';
         });
         remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');
         remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart');
